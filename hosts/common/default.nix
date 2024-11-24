@@ -1,13 +1,13 @@
 # Common configuration for all hosts
 
-{ lib, inputs, outputs, ... }: {
+{ lib, inputs, outputs, unstable, ... }: {
   imports = [
     ./users 
     inputs.home-manager.nixosModules.home-manager
   ];
   home-manager = {
     useUserPackages = true;
-    extraSpecialArgs = { inherit inputs outputs; };
+    extraSpecialArgs = { inherit inputs outputs unstable; };
   };
   nixpkgs = {
     # You can add overlays here
