@@ -36,6 +36,7 @@
   services.xserver.enable = true;
 
   services.spice-vdagentd.enable = true;
+  services.locate.enable = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -81,6 +82,7 @@
   #  vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
   #  wget
     unstable.oh-my-posh
+    findutils
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

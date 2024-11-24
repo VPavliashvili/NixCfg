@@ -46,6 +46,7 @@
     tree
     zellij
     unstable.neovim
+    firefox
     #unstable.oh-my-posh
   ];
 
