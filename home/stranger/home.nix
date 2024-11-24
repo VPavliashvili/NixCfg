@@ -21,7 +21,7 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
+  # home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     # pkgs.hello
@@ -39,16 +39,15 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
     #neovim
-    btop
-    git
-    wget
-    foot
-    tree
-    zellij
-    unstable.neovim
-    firefox
-    #unstable.oh-my-posh
-  ];
+    # btop
+    # git
+    # wget
+    # foot
+    # tree
+    # zellij
+    # unstable.neovim
+    # firefox
+  # ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -80,9 +79,9 @@
   #
   #  /etc/profiles/per-user/m3tam3re/etc/profile.d/hm-session-vars.sh
   #
-  home.sessionVariables = {
+  # home.sessionVariables = {
     # EDITOR = "emacs";
-  };
+  # };
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;

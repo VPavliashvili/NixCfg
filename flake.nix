@@ -11,16 +11,13 @@
   '';
 
   inputs = {
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
+    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       #url = "github:nix-community/home-manager";
       url = "github:nix-community/home-manager/release-24.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-24.05";
-    unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
-    #nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    #nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.05";
   };
 
   outputs = { self, home-manager, nixpkgs, ... }@inputs:
@@ -44,13 +41,21 @@
           specialArgs = { inherit inputs outputs unstable; };
           modules = [ ./hosts/virtnixos ];
         };
+        parthGalen = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs unstable; };
+          modules = [ ./hosts/parthGalen ];
+        };
       };
       homeConfigurations = {
         "stranger@virtnixos" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
-	  #unstable = inputs.unstable.legacyPackages."x86_64-linux";
           extraSpecialArgs = { inherit inputs outputs; };
           modules = [ ./home/stranger/virtnixos.nix ];
+        };
+        "stranger@parthGalen" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {inherit inputs outputs; };
+          modules = [ ./home/stranger/parthGalen.nix ];
         };
       };
     };
