@@ -3,6 +3,7 @@
   imports = [ 
     ../common 
     ../features/cli
+    ../features/misc
     ./home.nix
   ]; 
 
@@ -12,6 +13,9 @@
       bash.enable = true;
       zellij.enable = true;
       neovim.enable = true;
+    };
+    misc = {
+      fonts.enable = true;
     };
   };
 

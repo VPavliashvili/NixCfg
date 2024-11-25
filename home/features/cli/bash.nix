@@ -31,6 +31,11 @@ in {
         bind -m vi-command 'Control-l: clear-screen'
         bind -m vi-insert 'Control-l: clear-screen' 
       '';
+      profileExtra = ''
+        if [ "$(tty)" = "/dev/tty1" ];then
+          exec Hyprland
+        fi
+      '';
     };
   };
 }

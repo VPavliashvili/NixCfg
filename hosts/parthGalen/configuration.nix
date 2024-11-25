@@ -30,8 +30,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
   services.locate.package = pkgs.mlocate;
   services.locate.enable = true;
   services.locate.localuser = null;
@@ -79,19 +77,8 @@
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  fonts.packages = with pkgs; [                                                                          
-    noto-fonts                                                                                           
-    noto-fonts-cjk                                                                                       
-    noto-fonts-emoji                                                                                     
-    liberation_ttf
-    nerdfonts
-    roboto-mono
-    font-awesome
-  ];
-
   environment.systemPackages = [
     # stable packages
-    pkgs.home-manager
     pkgs.stow
     pkgs.gnumake
     pkgs.foot
@@ -104,6 +91,7 @@
     pkgs.brightnessctl
     pkgs.font-awesome
     pkgs.go
+    pkgs.python3
     pkgs.blueman
     pkgs.networkmanagerapplet
     pkgs.pavucontrol
