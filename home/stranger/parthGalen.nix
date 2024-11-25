@@ -1,7 +1,6 @@
 { config, pkgs, unstable, ... }: 
 { 
   imports = [ 
-    ./dotfiles
     ../common 
     ../features/cli
     ./home.nix
@@ -10,12 +9,14 @@
   features = {
     cli = {
       oh-my-posh.enable = true;
+      bash.enable = true;
+      zellij.enable = true;
+      neovim.enable = true;
     };
   };
 
   home.pointerCursor = {
     gtk.enable = true;
-    # x11.enable = true;
     package = pkgs.bibata-cursors;
     name = "Bibata-Modern-Classic";
     size = 24;

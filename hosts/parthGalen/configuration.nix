@@ -145,8 +145,6 @@
 
     # unstable packages
     unstable.qbittorrent
-    unstable.neovim
-    unstable.zed-editor
   ];
 
   programs.hyprland = {
