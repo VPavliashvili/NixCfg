@@ -1,4 +1,8 @@
-{pkgs, unstable, ...}: {
+{config, pkgs, unstable, ...}: {
+
+  imports = [
+    ./oh-my-posh.nix
+  ];
 
   home.packages = [
     pkgs.jq
@@ -23,13 +27,6 @@
           graph = "log --pretty='%C(yellow)%h %C(cyan)%cd %Cblue%aN%C(auto)%d %Creset%s' --all --graph --date=relative";
           lgraph = "log --pretty='%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s' --all --decorate --graph";
       };
-  };
-
-  programs.oh-my-posh = {
-    enable = true;
-    enableBashIntegration = true;
-    package = unstable.oh-my-posh;
-    # settings = builtins.fromJSON (builtins.unsafeDiscardStringContext (builtins.readFile ./dots/oh-my-posh/my-custom.omp.json));
   };
 
   programs.zellij = {

@@ -1,10 +1,17 @@
 { config, pkgs, unstable, ... }: 
 { 
   imports = [ 
-    ./home.nix
+    ./dotfiles
     ../common 
     ../features/cli
+    ./home.nix
   ]; 
+
+  features = {
+    cli = {
+      oh-my-posh.enable = true;
+    };
+  };
 
   home.pointerCursor = {
     gtk.enable = true;
