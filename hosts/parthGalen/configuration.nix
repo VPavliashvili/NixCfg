@@ -92,7 +92,6 @@
   environment.systemPackages = [
     # stable packages
     pkgs.home-manager
-    pkgs.tree
     pkgs.stow
     pkgs.gnumake
     pkgs.foot
@@ -105,7 +104,6 @@
     pkgs.brightnessctl
     pkgs.font-awesome
     pkgs.go
-    pkgs.btop
     pkgs.blueman
     pkgs.networkmanagerapplet
     pkgs.pavucontrol
@@ -122,21 +120,15 @@
     pkgs.libreoffice
     pkgs.chromium
     pkgs.evince
-    pkgs.unzip
-    pkgs.avrdude
-    pkgs.qmk
     pkgs.gcc
     pkgs.mpv
     pkgs.file
     pkgs.usbutils
     pkgs.wev
     pkgs.jqp
-    pkgs.ripgrep
     pkgs.bat
     pkgs.vesktop
     pkgs.wofi-emoji
-    pkgs.fastfetch
-    pkgs.ranger
     pkgs.hyprland-per-window-layout
     pkgs.cliphist
     pkgs.yad
@@ -149,10 +141,7 @@
     pkgs.slurp
     pkgs.nwg-look
     pkgs.nixd
-    pkgs.yazi
-    pkgs.jq
     pkgs.waybar
-    pkgs.fzf
 
     # unstable packages
     unstable.qbittorrent
