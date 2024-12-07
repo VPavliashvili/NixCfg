@@ -1,13 +1,15 @@
-{ config, pkgs, unstable, ... }: 
+{ lib, config, pkgs, unstable, ... }: 
 { 
   imports = [ 
     ../common 
     ../features/cli
     ../features/misc
+    ../features/wms/wayland
     ./home.nix
   ]; 
 
   features = {
+    wms.wayland.hyprland.enable = true;
     cli = {
       oh-my-posh.enable = true;
       bash.enable = true;
@@ -35,7 +37,7 @@
     };
 
     iconTheme = {
-      package = pkgs.gnome.adwaita-icon-theme;
+      package = pkgs.adwaita-icon-theme;
       name = "Adwaita";
     };
 

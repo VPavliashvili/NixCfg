@@ -38,6 +38,8 @@
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
 
+  services.dbus.enable = true;
+
   # Open ports in the firewall.
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
@@ -89,7 +91,6 @@
     pkgs.killall
     pkgs.inotify-tools
     pkgs.brightnessctl
-    pkgs.font-awesome
     pkgs.go
     pkgs.python3
     pkgs.blueman
@@ -135,12 +136,17 @@
     unstable.qbittorrent
   ];
 
-  programs.hyprland = {
-    enable = true;
-    package = pkgs.hyprland;
-    xwayland.enable = true;
+  powerManagement.powertop.enable = true;
+  programs = {
+    light.enable = true;
+    dconf.enable = true;
+    hyprland = {
+      enable = true;
+      package = pkgs.hyprland;
+      xwayland.enable = true;
+    };
   };
-
+ 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

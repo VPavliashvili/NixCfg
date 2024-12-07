@@ -11,9 +11,9 @@ in {
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      noto-fonts                                                                                           
-      noto-fonts-cjk                                                                                       
-      noto-fonts-emoji                                                                                     
+      noto-fonts
+      noto-fonts-cjk-sans
+      noto-fonts-emoji
       liberation_ttf
       nerdfonts
       roboto-mono
