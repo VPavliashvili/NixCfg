@@ -80,60 +80,21 @@
   nixpkgs.config.allowUnfree = true;
 
   environment.systemPackages = [
-    # stable packages
-    pkgs.stow
-    pkgs.gnumake
-    pkgs.foot
-    pkgs.brave
-    pkgs.ncdu
-    pkgs.findutils
-    pkgs.mlocate
-    pkgs.killall
-    pkgs.inotify-tools
-    pkgs.brightnessctl
     pkgs.go
     pkgs.python3
-    pkgs.blueman
-    pkgs.networkmanagerapplet
-    pkgs.pavucontrol
     pkgs.openssl
     pkgs.p11-kit
     pkgs.openconnect
     pkgs.vpnc-scripts
-    pkgs.wl-clipboard
     pkgs.libgcc
     pkgs.libclang
     pkgs.pulseaudio
     pkgs.libnotify
-    pkgs.vivaldi
-    pkgs.libreoffice
-    pkgs.chromium
-    pkgs.evince
     pkgs.gcc
     pkgs.mpv
     pkgs.file
-    pkgs.usbutils
-    pkgs.wev
-    pkgs.jqp
-    pkgs.bat
-    pkgs.vesktop
-    pkgs.wofi-emoji
-    pkgs.hyprland-per-window-layout
-    pkgs.cliphist
-    pkgs.yad
-    pkgs.remmina
-    pkgs.teams-for-linux
-    pkgs.dunst
-    pkgs.swappy
-    pkgs.grim
-    pkgs.fuzzel
-    pkgs.slurp
-    pkgs.nwg-look
     pkgs.nixd
     pkgs.waybar
-
-    # unstable packages
-    unstable.qbittorrent
   ];
 
   powerManagement.powertop.enable = true;

@@ -3,6 +3,7 @@
   imports = [ 
     ../common 
     ../features/cli
+    ../features/gui
     ../features/misc
     ../features/wms/wayland
     ./home.nix

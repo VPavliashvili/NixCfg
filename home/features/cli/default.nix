@@ -20,6 +20,19 @@
     pkgs.fzf
     pkgs.yazi
     pkgs.bat
+    pkgs.foot
+    pkgs.ncdu
+    pkgs.stow
+    pkgs.inotify-tools
+    pkgs.jqp
+    pkgs.usbutils
+    pkgs.bat
+    pkgs.dunst
+    pkgs.brightnessctl
+    pkgs.gnumake
+    pkgs.findutils
+    pkgs.mlocate
+    pkgs.killall
   ];
 
   programs.git = {

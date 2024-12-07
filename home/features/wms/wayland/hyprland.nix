@@ -17,5 +17,18 @@ in {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
     };
+
+    home.packages = [
+      pkgs.hyprland-per-window-layout
+      pkgs.swappy
+      pkgs.wofi-emoji
+      pkgs.yad
+      pkgs.fuzzel
+      pkgs.cliphist
+      pkgs.wl-clipboard
+      pkgs.grim
+      pkgs.slurp
+      pkgs.wev
+    ];
   };
 }
