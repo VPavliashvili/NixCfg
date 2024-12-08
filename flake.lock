@@ -41,7 +41,24 @@
       "inputs": {
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
+        "sriov-modules": "sriov-modules",
         "unstable": "unstable"
+      }
+    },
+    "sriov-modules": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1725366839,
+        "narHash": "sha256-w6Txt0vtnvsjRusFMPwFN3q4MPdBK34EFmZd3649XTg=",
+        "owner": "cyberus-technology",
+        "repo": "nixos-sriov",
+        "rev": "6bfcad7698afebbfead331826ee77f0b970603ed",
+        "type": "github"
+      },
+      "original": {
+        "owner": "cyberus-technology",
+        "repo": "nixos-sriov",
+        "type": "github"
       }
     },
     "unstable": {

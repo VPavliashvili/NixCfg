@@ -8,6 +8,7 @@
   ];
 
   home.packages = [
+    pkgs.hwloc
     pkgs.jq
     pkgs.btop
     pkgs.tree
