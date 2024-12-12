@@ -7,7 +7,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./modules/sriov.nix
+      ./virtualization.nix
     ];
 
   # Bootloader.
