@@ -51,6 +51,12 @@
             ./hosts/parthGalen 
           ];
         };
+        dorthonion = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs unstable; };
+          modules = [
+            ./hosts/dorthonion 
+          ];
+        };
       };
       homeConfigurations = {
         "stranger@virtnixos" = home-manager.lib.homeManagerConfiguration {
@@ -62,6 +68,11 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {inherit inputs outputs; };
           modules = [ ./home/stranger/parthGalen.nix ];
+        };
+        "stranger@dorthonion" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages."x86_64-linux";
+          extraSpecialArgs = {inherit inputs outputs; };
+          modules = [ ./home/stranger/dorthonion.nix ];
         };
       };
     };

@@ -14,5 +14,10 @@ in {
       enable = true;
       package = unstable.zellij;
     };
+
+    home.file.".config/zellij" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/zellij/.config/zellij";
+      recursive = true;
+    };
   };
 }
