@@ -5,12 +5,9 @@
   # This one contains whatever you want to overlay
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev:
-    {
-      # example = prev.example.overrideAttrs (oldAttrs: rec {
-      # ...
-      # });
-    };
+  modifications = final: prev: {
+      looking-glass-client = import ./mods/looking-glass-client-B6.nix {inherit prev;};
+  };
 
   stable-packages = final: _prev: {
     stable = import inputs.nixpkgs-stable {

@@ -67,6 +67,7 @@
     google-chrome
     waybar
     librewolf
+    looking-glass-client
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
