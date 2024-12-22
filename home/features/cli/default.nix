@@ -34,6 +34,7 @@
     pkgs.findutils
     pkgs.mlocate
     pkgs.killall
+    pkgs.playerctl
   ];
 
   programs.git = {

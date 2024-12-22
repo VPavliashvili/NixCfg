@@ -2,8 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, unstable, ... }:
-
+{ config, pkgs, unstable, lib, ... }:
 {
   imports =
     [
@@ -14,8 +13,6 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
-  boot.extraModprobeConfig = "options vfio-pci ids=10de:2486,10de:228b,10de:1287,10de:0e0f";
-  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
   networking.hostName = "dorthonion"; # Define your hostname.
   # Pick only one of the below networking options.
@@ -68,6 +65,9 @@
     waybar
     librewolf
     looking-glass-client
+    virt-manager
+    util-linux
+    libvirt-glib
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -132,4 +132,71 @@
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
 
+
+  # VIRTUALIZATION
+  
+  # libvirt.nix
+  virtualisation.libvirtd = {
+    enable = true;
+    onBoot = "ignore";
+    onShutdown = "shutdown";
+    qemu = {
+      package = pkgs.qemu_kvm;
+      ovmf = {
+        enable = true;
+        packages = [ pkgs.OVMFFull.fd ];
+      };
+      swtpm.enable = true;
+      runAsRoot = false;
+    };
+  };
+  
+  users.users."qemu-libvirtd" = {
+    # here was runAsRoot check but I am explicitly setting it to false
+    # so just adding to these two extra groups directly
+    extraGroups = [ "kvm" "input" ];
+    isSystemUser = true;
+  };
+
+  # vfio.nix
+  services.udev.extraRules = ''
+    SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
+  '';
+
+  boot.kernelParams = [
+    "intel_iommu=on"
+    "iommu=pt" 
+    # ids of rxt 3060Ti and gt 730
+    # passing through one for wokr vm and second for gaming
+    "vfio-pci.ids=10de:2486,10de:228b,10de:1287,10de:0e0f"
+  ];
+
+  boot.extraModulePackages = with config.boot.kernelPackages; [
+    (pkgs.callPackage ./kvmfr-git-package.nix { inherit kernel;})
+  ];
+
+  boot.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" ];
+  boot.initrd.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvmfr" ];
+
+  # not in particular but similar logic is in vfio.nix which i ignored cuz was not sure if it worked
+  boot.extraModprobeConfig = "options vfio-pci ids=10de:2486,10de:228b,10de:1287,10de:0e0f";
+  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
+
+  programs.dconf.enable = true;
+
+  # modules/virtualization.nix modified
+  # removed config absractions and directly asisgning values to shm tmpfile
+  systemd.tmpfiles.rules = [
+    "f /dev/shm/win10_work 660 stranger kvm -"
+    "f /dev/shm/win10_gaming 660 stranger kvm -"
+  ];
+
+  # notes here for looking-glass configuration
+  # win10_gaming -> /dev/shm/win10_gaming, spice port 5905, evdev alt-alt, shmem size 64MB
+  # win10_work -> /dev/shm/win10_work, spice port 5906, evdev ctrl-ctrl, shmem size 64MB
+
+  # not related to nixos but when setting up looking-glass on vm xml configuration
+  # if running intel's hybrid architecture cpu(e.g 12600k) do not forget to add
+  # '<maxphysaddr mode="passthrough" limit="39"/>' under <cpu> element
+  # otherwise it vm will always crash shortly after start
 }

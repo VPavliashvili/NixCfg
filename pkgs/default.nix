@@ -1,5 +1,5 @@
-{ pkgs, ... }:
+{ pkgs, kernel, ... }:
 {
-  # Define your custom packages here
-  #  my-package = pkgs.callPackage ./my-package {};
+  # need this for ivshmem kernel module
+  kvmfr = pkgs.callPackage ./kvmfr {inherit kernel;};
 }

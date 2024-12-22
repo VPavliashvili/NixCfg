@@ -36,9 +36,23 @@
       forAllSystems = nixpkgs.lib.genAttrs systems;
       unstable = inputs.unstable.legacyPackages."x86_64-linux";
       sriovModules = sriov-modules;
+      # kernel = nixpkgs.legacyPackages.x86_64-linux.linuxPackages.kernel;
     in {
-      packages =
-        forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      # packages = forAllSystems (system:
+      #   import ./pkgs {
+      #     inherit kernel;
+      #     pkgs = nixpkgs.legacyPackages.${system};
+      #   }
+      # );
+      packages = forAllSystems (system:
+        let
+          pkgs = import nixpkgs {
+            system = system;
+          };
+          kernel = pkgs.linuxPackages.kernel;
+        in
+        import ./pkgs { inherit pkgs kernel; }
+      );
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         virtnixos = nixpkgs.lib.nixosSystem {
