@@ -134,8 +134,6 @@
 
 
   # VIRTUALIZATION
-  
-  # libvirt.nix
   virtualisation.libvirtd = {
     enable = true;
     onBoot = "ignore";
@@ -158,7 +156,6 @@
     isSystemUser = true;
   };
 
-  # vfio.nix
   services.udev.extraRules = ''
     SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
   '';
@@ -166,26 +163,17 @@
   boot.kernelParams = [
     "intel_iommu=on"
     "iommu=pt" 
-    # ids of rxt 3060Ti and gt 730
-    # passing through one for wokr vm and second for gaming
     "vfio-pci.ids=10de:2486,10de:228b,10de:1287,10de:0e0f"
   ];
 
-  boot.extraModulePackages = with config.boot.kernelPackages; [
-    (pkgs.callPackage ./kvmfr-git-package.nix { inherit kernel;})
-  ];
-
   boot.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" ];
-  boot.initrd.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvmfr" ];
+  boot.initrd.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" ];
 
-  # not in particular but similar logic is in vfio.nix which i ignored cuz was not sure if it worked
   boot.extraModprobeConfig = "options vfio-pci ids=10de:2486,10de:228b,10de:1287,10de:0e0f";
   boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
 
   programs.dconf.enable = true;
 
-  # modules/virtualization.nix modified
-  # removed config absractions and directly asisgning values to shm tmpfile
   systemd.tmpfiles.rules = [
     "f /dev/shm/win10_work 660 stranger kvm -"
     "f /dev/shm/win10_gaming 660 stranger kvm -"

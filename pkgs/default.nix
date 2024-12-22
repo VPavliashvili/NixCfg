@@ -1,5 +1,4 @@
-{ pkgs, kernel, ... }:
+{ pkgs, ... }:
 {
   # need this for ivshmem kernel module
-  kvmfr = pkgs.callPackage ./kvmfr {inherit kernel;};
 }
