@@ -35,6 +35,8 @@
     pkgs.mlocate
     pkgs.killall
     pkgs.playerctl
+    pkgs.onefetch
+    pkgs.parted
   ];
 
   programs.git = {

@@ -29,6 +29,7 @@ in {
       pkgs.grim
       pkgs.slurp
       pkgs.wev
+      pkgs.swaylock-effects
     ];
   };
 }
