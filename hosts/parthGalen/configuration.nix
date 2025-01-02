@@ -7,7 +7,7 @@
   imports =
     [
       ./hardware-configuration.nix
-      ./virtualization.nix
+      ./virt.nix
     ];
 
   # Bootloader.
@@ -76,9 +76,6 @@
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
 
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
   environment.systemPackages = [
     pkgs.go
     pkgs.python3
@@ -95,6 +92,9 @@
     pkgs.file
     pkgs.nixd
     pkgs.waybar
+    pkgs.virt-manager
+    pkgs.util-linux
+    pkgs.looking-glass-client
   ];
 
   powerManagement.powertop.enable = true;
