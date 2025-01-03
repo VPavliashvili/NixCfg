@@ -6,6 +6,7 @@
 {
   imports =
     [
+      ./modules/docker
       ./hardware-configuration.nix
       ./virt.nix
     ];
@@ -95,6 +96,7 @@
     pkgs.virt-manager
     pkgs.util-linux
     pkgs.looking-glass-client
+    pkgs.docker-compose 
   ];
 
   powerManagement.powertop.enable = true;
