@@ -2,8 +2,6 @@
 
   home.packages = [
     pkgs.spotify
-    pkgs.remmina
-    pkgs.teams-for-linux
     pkgs.vesktop
     pkgs.chromium
     pkgs.libreoffice

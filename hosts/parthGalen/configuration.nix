@@ -8,6 +8,7 @@
     [
       ./hardware-configuration.nix
       ./virtualisation.nix
+      ./work.nix
     ];
 
   # Bootloader.
@@ -57,15 +58,6 @@
     #jack.enable = true;
   };
 
-  security.polkit.enable = true;
-  security.pki.certificateFiles = [
-    "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
-  ];
-  security.pki.certificates = [
-    "/home/stranger/certs/Vakhtang-Pavliashvili.pem"
-    "/home/stranger/certs/Vakhtang-Pavliashvili.crt"
-  ];
-
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.keyboard.qmk.enable = true;
@@ -79,10 +71,6 @@
   environment.systemPackages = [
     pkgs.go
     pkgs.python3
-    pkgs.openssl
-    pkgs.p11-kit
-    pkgs.openconnect
-    pkgs.vpnc-scripts
     pkgs.libgcc
     pkgs.libclang
     pkgs.pulseaudio
