@@ -6,9 +6,9 @@
 {
   imports =
     [
-      ./modules/docker
+      ../common/modules/docker
       ./hardware-configuration.nix
-      ./virt.nix
+      ./virtualisation.nix
     ];
 
   # Bootloader.

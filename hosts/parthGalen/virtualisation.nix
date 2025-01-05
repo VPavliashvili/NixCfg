@@ -1,9 +1,9 @@
 { pkgs, config, sriovModules, ... }: {
   imports = [
-    ./modules/libvirt
-    ./modules/vfio
-    ./modules/looking-glass
-    ./modules/sriov
+    ../common/modules/libvirt
+    ../common/modules/vfio
+    ../common/modules/looking-glass
+    ../common/modules/sriov
   ];
 
   virtualisation = {
