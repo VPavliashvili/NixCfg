@@ -19,19 +19,21 @@ in {
   };
 
   config = lib.mkIf cfg.enable {
-    
+    # kvmfr stuff
     boot.extraModulePackages = optionals cfg.kvmfr.enable (with config.boot.kernelPackages; [
       (pkgs.callPackage ./kvmfr-git-package.nix { inherit kernel;})
     ]);
-
     boot.initrd.kernelModules = optionals cfg.kvmfr.enable ([ "kvmfr" ]);
-
     boot.kernelParams = optionals cfg.kvmfr.enable ([
       "kvmfr.static_size_mb=${toString cfg.kvmfr.size}"
     ]);
-
     services.udev.extraRules = optionalString cfg.kvmfr.enable ''
       SUBSYSTEM=="kvmfr", OWNER="stranger", GROUP="qemu-libvirtd", MODE="0666"
     '';
+
+    #related packages
+    environment.systemPackages = [
+      pkgs.looking-glass-client
+    ];
   };
 }

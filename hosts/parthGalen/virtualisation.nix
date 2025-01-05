@@ -1,12 +1,14 @@
 { pkgs, config, sriovModules, ... }: {
   imports = [
-    ../common/modules/libvirt
-    ../common/modules/vfio
-    ../common/modules/looking-glass
-    ../common/modules/sriov
+    ../common/modules/virtualisation/libvirt
+    ../common/modules/virtualisation/vfio
+    ../common/modules/virtualisation/looking-glass
+    ../common/modules/virtualisation/sriov
+    ../common/modules/virtualisation/docker
   ];
 
   virtualisation = {
+    addDocker = true;
     libvirtd = {
       deviceACL = [
         "/dev/ptmx"

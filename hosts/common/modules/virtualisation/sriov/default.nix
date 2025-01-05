@@ -12,7 +12,7 @@ in {
     enable = mkEnableOption "enable sriov support for igpu and add boot option with specific kernel";
   };
 
-  config.specialisation = lib.mkIf cfg.enable {
+  config.specialisation = mkIf cfg.enable {
     "SR-IOV".configuration = {
       config.system.nixos.tags = [ "SR-IOV" ];
 

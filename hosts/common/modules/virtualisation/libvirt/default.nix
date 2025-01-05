@@ -40,4 +40,8 @@ in {
       '';
     };
   };
+
+  config.environment.systemPackages = [
+    pkgs.virt-manager
+  ];
 }
