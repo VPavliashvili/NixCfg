@@ -1,5 +1,19 @@
 { lib, pkgs, config, ... }:
-{
+with lib;
+let 
+    cfg = config.virtualisation.libvirtd;
+    aclString = with lib.strings;
+        concatMapStringsSep ''
+          ,
+            '' escapeNixString cfg.deviceACL;
+in {
+  options.virtualisation.libvirtd = {
+    deviceACL = mkOption {
+      type = types.listOf types.str;
+      default = [ ];
+    };
+  };
+
   config.users.users."qemu-libvirtd" = {
     group = "qemu-libvirtd";
     extraGroups =  [ "kvm" "input" ];
@@ -21,11 +35,7 @@
       verbatimConfig = ''
         clear_emulation_capabilities = 0
         cgroup_device_acl = [
-          "/dev/ptmx",
-          "/dev/kvm",
-          "/dev/kvmfr0",
-          "/dev/vfio/vfio",
-          "/dev/vfio/30"
+          ${aclString}
         ]
       '';
     };
