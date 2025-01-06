@@ -40,10 +40,6 @@
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
-        virtnixos = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; };
-          modules = [ ./hosts/virtnixos ];
-        };
         parthGalen = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs unstable sriovModules; };
           modules = [
@@ -58,11 +54,6 @@
         };
       };
       homeConfigurations = {
-        "stranger@virtnixos" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = { inherit inputs outputs; };
-          modules = [ ./home/stranger/virtnixos.nix ];
-        };
         "stranger@parthGalen" = home-manager.lib.homeManagerConfiguration {
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {inherit inputs outputs; };
