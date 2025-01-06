@@ -32,11 +32,14 @@ in {
       };
       swtpm.enable = true;
       runAsRoot = false;
-      verbatimConfig = ''
+      verbatimConfig = if builtins.length cfg.deviceACL > 0 then ''
         clear_emulation_capabilities = 0
         cgroup_device_acl = [
           ${aclString}
         ]
+      ''
+      else ''
+          clear_emulation_capabilities = 0
       '';
     };
   };

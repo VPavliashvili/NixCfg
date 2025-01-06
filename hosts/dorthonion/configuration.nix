@@ -7,6 +7,7 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./virtualisation.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -43,14 +44,6 @@
     pulse.enable = true;
   };
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.stranger = {
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "audio" "video" "plugged" "input" ]; # Enable ‘sudo’ for the user.
-  };
-
-  programs.firefox.enable = true;
-
   environment.systemPackages = with pkgs; [
     pulseaudio
     go
@@ -64,10 +57,10 @@
     google-chrome
     waybar
     librewolf
-    looking-glass-client
-    virt-manager
     util-linux
-    libvirt-glib
+    ventoy-full
+    udisks
+    teams-for-linux
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -81,6 +74,8 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
   
   programs = {
+    firefox.enable = true;
+    dconf.enable = true;
     hyprland = {
       enable = true;
       package = pkgs.hyprland;
@@ -131,60 +126,4 @@
   #
   # For more information, see `man configuration.nix` or https://nixos.org/manual/nixos/stable/options#opt-system.stateVersion .
   system.stateVersion = "24.11"; # Did you read the comment?
-
-
-  # VIRTUALIZATION
-  virtualisation.libvirtd = {
-    enable = true;
-    onBoot = "ignore";
-    onShutdown = "shutdown";
-    qemu = {
-      package = pkgs.qemu_kvm;
-      ovmf = {
-        enable = true;
-        packages = [ pkgs.OVMFFull.fd ];
-      };
-      swtpm.enable = true;
-      runAsRoot = false;
-    };
-  };
-  
-  users.users."qemu-libvirtd" = {
-    # here was runAsRoot check but I am explicitly setting it to false
-    # so just adding to these two extra groups directly
-    extraGroups = [ "kvm" "input" ];
-    isSystemUser = true;
-  };
-
-  services.udev.extraRules = ''
-    SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
-  '';
-
-  boot.kernelParams = [
-    "intel_iommu=on"
-    "iommu=pt" 
-    "vfio-pci.ids=10de:2486,10de:228b,10de:1287,10de:0e0f"
-  ];
-
-  boot.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" ];
-  boot.initrd.kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" ];
-
-  boot.extraModprobeConfig = "options vfio-pci ids=10de:2486,10de:228b,10de:1287,10de:0e0f";
-  boot.blacklistedKernelModules = [ "nvidia" "nouveau" ];
-
-  programs.dconf.enable = true;
-
-  systemd.tmpfiles.rules = [
-    "f /dev/shm/win10_work 660 stranger kvm -"
-    "f /dev/shm/win10_gaming 660 stranger kvm -"
-  ];
-
-  # notes here for looking-glass configuration
-  # win10_gaming -> /dev/shm/win10_gaming, spice port 5905, evdev alt-alt, shmem size 64MB
-  # win10_work -> /dev/shm/win10_work, spice port 5906, evdev ctrl-ctrl, shmem size 64MB
-
-  # not related to nixos but when setting up looking-glass on vm xml configuration
-  # if running intel's hybrid architecture cpu(e.g 12600k) do not forget to add
-  # '<maxphysaddr mode="passthrough" limit="39"/>' under <cpu> element
-  # otherwise it vm will always crash shortly after start
 }
