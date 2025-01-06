@@ -1,6 +1,4 @@
 # this settings are not taking amd options into consideration, only intel
-
-# TODO: disabling target pci devices to passthrough them later(no needed for my igpu laptop, but for dorthonion pc)
 { lib, pkgs, config, ... }:
 with lib;
 let
@@ -14,13 +12,24 @@ in {
     };
     kernelModules = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "e.g. vfio_pci vfio_iommu_type1 vfio";
     };
     initrdModules = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "e.g. vfio_pci vfio_iommu_type1 vfio";
+    };
+    devices = mkOption {
+      type = types.listOf (types.strMatching "[0-9a-f]{4}:[0-9a-f]{4}");
+      default = [ ];
+      example = [ "10de:2486" "10de:228b" ];
+      description = "PCI IDs of devices to bind to vfio-pci";
+    };
+    blacklistNvidia = mkOption {
+      type = types.bool;
+      default = false;
+      description = "Add Nvidia GPU modules to blacklist";
     };
   };
 
@@ -29,8 +38,19 @@ in {
       SUBSYSTEM=="vfio", OWNER="root", GROUP="kvm"
     '';
 
-    boot.kernelParams = cfg.kernelParams;
+    boot.kernelParams = cfg.kernelParams ++ (optional (builtins.length cfg.devices > 0)
+      ("vfio-pci.ids=" + builtins.concatStringsSep "," cfg.devices));
     boot.kernelModules = cfg.kernelModules;
     boot.initrd.kernelModules = cfg.initrdModules;
+
+    boot.extraModprobeConfig = optionalString (builtins.length cfg.devices > 0)
+      ("options vfio-pci ids=" + builtins.concatStringsSep "," cfg.devices);
+    boot.blacklistedKernelModules = optionals cfg.blacklistNvidia [ "nvidia" "nouveau" ];
+
+
+    # add this environment variable to avoid using sudo every time when writing virsh command
+    environment.variables = {
+      LIBVIRT_DEFAULT_URI = "qemu:///system";
+    };
   };
 }
