@@ -47,4 +47,9 @@ in {
   config.environment.systemPackages = [
     pkgs.virt-manager
   ];
+
+  # add this environment variable to avoid using sudo every time when writing virsh command
+  config.environment.variables = {
+    LIBVIRT_DEFAULT_URI = "qemu:///system";
+  };
 }

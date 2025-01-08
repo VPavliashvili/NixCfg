@@ -8,6 +8,7 @@
     [
       ./hardware-configuration.nix
       ./virtualisation.nix
+      ./work.nix
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -60,7 +61,8 @@
     util-linux
     ventoy-full
     udisks
-    teams-for-linux
+    nvtopPackages.full
+    smartmontools
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth

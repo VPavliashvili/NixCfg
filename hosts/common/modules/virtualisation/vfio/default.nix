@@ -46,11 +46,5 @@ in {
     boot.extraModprobeConfig = optionalString (builtins.length cfg.devices > 0)
       ("options vfio-pci ids=" + builtins.concatStringsSep "," cfg.devices);
     boot.blacklistedKernelModules = optionals cfg.blacklistNvidia [ "nvidia" "nouveau" ];
-
-
-    # add this environment variable to avoid using sudo every time when writing virsh command
-    environment.variables = {
-      LIBVIRT_DEFAULT_URI = "qemu:///system";
-    };
   };
 }
