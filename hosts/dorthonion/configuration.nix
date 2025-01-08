@@ -8,6 +8,7 @@
     [
       ./hardware-configuration.nix
       ./virtualisation.nix
+      ./features.nix
       ./work.nix
     ];
 
@@ -78,11 +79,11 @@
   programs = {
     firefox.enable = true;
     dconf.enable = true;
-    hyprland = {
-      enable = true;
-      package = pkgs.hyprland;
-      xwayland.enable = true;
-    };
+    # hyprland = {
+    #   enable = true;
+    #   package = pkgs.hyprland;
+    #   xwayland.enable = true;
+    # };
     coolercontrol.enable = true;
   };
 
