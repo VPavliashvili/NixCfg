@@ -18,7 +18,5 @@
       "kvm"
       "qemu-libvirtd"
     ];
-    packages = [ inputs.home-manager.packages.${pkgs.system}.default ];
   };
-  home-manager.users.stranger = import ../../../home/stranger/${config.networking.hostName}.nix;
 }

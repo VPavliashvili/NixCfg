@@ -50,6 +50,17 @@
           specialArgs = { inherit inputs outputs unstable; };
           modules = [
             ./hosts/dorthonion 
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.stranger = import ./home/stranger/dorthonion.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                outputs = outputs;
+              };
+            }
           ];
         };
       };
@@ -58,11 +69,6 @@
           pkgs = nixpkgs.legacyPackages."x86_64-linux";
           extraSpecialArgs = {inherit inputs outputs; };
           modules = [ ./home/stranger/parthGalen.nix ];
-        };
-        "stranger@dorthonion" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = {inherit inputs outputs; };
-          modules = [ ./home/stranger/dorthonion.nix ];
         };
       };
     };
