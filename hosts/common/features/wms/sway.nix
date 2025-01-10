@@ -16,5 +16,20 @@ in
       wlr.enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
     };
+    environment.systemPackages = [
+      pkgs.swaykbdd
+      pkgs.swaybg
+      pkgs.swappy
+      pkgs.wofi-emoji
+      pkgs.yad
+      pkgs.fuzzel
+      pkgs.cliphist
+      pkgs.wl-clipboard
+      pkgs.grim
+      pkgs.slurp
+      pkgs.wev
+      pkgs.swaylock-effects
+      pkgs.waybar
+    ];
   };
 }

@@ -7,6 +7,8 @@
 }:
 let
   cfg = config.features.cli.bash;
+  launchWindowManager = with lib.strings;
+    concatMapStringsSep "\n" (x: x) config.features.wms.wayland.launchParams;
 in {
   options.features.cli.bash.enable = lib.mkEnableOption "enable bash";
 
@@ -33,7 +35,7 @@ in {
       '';
       profileExtra = ''
         if [ "$(tty)" = "/dev/tty1" ];then
-          exec Hyprland
+          ${launchWindowManager}
         fi
       '';
     };

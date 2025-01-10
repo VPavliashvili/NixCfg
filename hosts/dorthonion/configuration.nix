@@ -57,7 +57,6 @@
     kitty
     mpv
     google-chrome
-    waybar
     librewolf
     util-linux
     ventoy-full

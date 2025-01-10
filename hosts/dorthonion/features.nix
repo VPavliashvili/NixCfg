@@ -4,5 +4,5 @@
     ../common/features
   ];
 
-  features.wms.wm = "hyprland";
+  features.wms.wm = "sway";
 }

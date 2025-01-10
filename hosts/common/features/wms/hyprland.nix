@@ -12,5 +12,19 @@ in
       package = pkgs.hyprland;
       xwayland.enable = true;
     };
+    environment.systemPackages = [
+      pkgs.hyprland-per-window-layout
+      pkgs.swappy
+      pkgs.wofi-emoji
+      pkgs.yad
+      pkgs.fuzzel
+      pkgs.cliphist
+      pkgs.wl-clipboard
+      pkgs.grim
+      pkgs.slurp
+      pkgs.wev
+      pkgs.swaylock-effects
+      pkgs.waybar
+    ];
   };
 }
