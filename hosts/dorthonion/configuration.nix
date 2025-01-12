@@ -63,15 +63,40 @@
     udisks
     nvtopPackages.full
     smartmontools
+    hwloc
+    jq
+    btop
+    tree
+    unzip
+    avrdude
+    qmk
+    fastfetch
+    ranger
+    fzf
+    yazi
+    bat
+    foot
+    ncdu
+    stow
+    inotify-tools
+    jqp
+    usbutils
+    bat
+    dunst
+    brightnessctl
+    gnumake
+    findutils
+    mlocate
+    killall
+    playerctl
+    onefetch
+    parted
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.keyboard.qmk.enable = true;
 
-  environment.variables = {
-    EDITOR = "nvim";
-  };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
   

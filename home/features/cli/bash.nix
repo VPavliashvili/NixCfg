@@ -34,6 +34,7 @@ in {
         bind -m vi-insert 'Control-l: clear-screen' 
       '';
       profileExtra = ''
+        export TERMINAl=foot
         if [ "$(tty)" = "/dev/tty1" ];then
           ${launchWindowManager}
         fi

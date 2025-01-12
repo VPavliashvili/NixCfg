@@ -5,4 +5,5 @@
   ];
 
   features.wms.wm = "sway";
+  features.cli.neovim.enable = true;
 }
