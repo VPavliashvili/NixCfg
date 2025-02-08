@@ -8,6 +8,7 @@
     [
       ./hardware-configuration.nix
       ./virtualisation.nix
+      ./containerisation.nix
       ./features.nix
       ./work.nix
     ];

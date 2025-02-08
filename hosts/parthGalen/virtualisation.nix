@@ -4,11 +4,14 @@
     ../common/modules/virtualisation/vfio
     ../common/modules/virtualisation/looking-glass
     ../common/modules/virtualisation/sriov
-    ../common/modules/virtualisation/docker
+    ../common/modules/containerisation/docker
   ];
 
+  containerisation = {
+    docker = true;
+  };
+
   virtualisation = {
-    addDocker = true;
     libvirtd = {
       deviceACL = [
         "/dev/ptmx"

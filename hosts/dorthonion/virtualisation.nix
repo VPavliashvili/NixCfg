@@ -1,17 +1,19 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ../common/modules/virtualisation/libvirt
     ../common/modules/virtualisation/vfio
     ../common/modules/virtualisation/looking-glass
-    ../common/modules/virtualisation/docker
   ];
 
   virtualisation = {
-    addDocker = true;
     vfio = {
-      kernelParams = [ "intel_iommu=on" "iommu=pt" ];
-      kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" ];
-      initrdModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" ];
+      kernelParams = ["intel_iommu=on" "iommu=pt"];
+      kernelModules = ["vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel"];
+      initrdModules = ["vfio_pci" "vfio_iommu_type1" "vfio"];
       devices = [
         "10de:2486" # rtx 3060Ti graphics
         "10de:228b" # rtx 3060Ti audio
@@ -39,5 +41,3 @@
   # '<maxphysaddr mode="passthrough" limit="39"/>' under <cpu> element
   # otherwise it vm will always crash shortly after start
 }
-
-    

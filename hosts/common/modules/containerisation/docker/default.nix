@@ -1,25 +1,28 @@
-{ lib, pkgs, config, ... }:
-with lib;
-let
-  cfg = config.virtualisation;
-
+{
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.containerisation;
 in {
-  options.virtualisation = {
-    addDocker = mkOption {
+  options.containerisation = {
+    docker = mkOption {
       type = types.bool;
       default = false;
       description = "enable docker on system";
     };
   };
 
-  config = mkIf cfg.addDocker {
+  config = mkIf cfg.docker {
     virtualisation.docker = {
       enable = true;
       storageDriver = "overlay2";
     };
 
     users.users."stranger" = {
-      extraGroups =  [ "docker" ];
+      extraGroups = ["docker"];
     };
 
     environment.systemPackages = [
