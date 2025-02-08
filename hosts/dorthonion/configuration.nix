@@ -49,12 +49,8 @@
 
   environment.systemPackages = with pkgs; [
     pulseaudio
-    go
-    gcc
-    python3
     wget
     ntfs3g
-    git
     kitty
     mpv
     google-chrome
@@ -85,13 +81,17 @@
     bat
     dunst
     brightnessctl
-    gnumake
     findutils
     mlocate
     killall
     playerctl
     onefetch
     parted
+    lsof
+    file
+    dos2unix
+    audacious
+    iotop
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth

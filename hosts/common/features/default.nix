@@ -3,5 +3,6 @@
   imports = [
     ./wms
     ./cli
+    ./dev
   ];
 }
