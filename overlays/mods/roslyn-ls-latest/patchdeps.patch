@@ -1,0 +1,13 @@
+diff --git a/eng/Directory.Packages.props b/eng/Directory.Packages.props
+index e28bb02f..da1e1af7 100644
+--- a/eng/Directory.Packages.props
++++ b/eng/Directory.Packages.props
+@@ -144,7 +144,7 @@
+     <PackageVersion Include="NuGet.ProjectModel" Version="6.8.0-rc.112" />
+     <PackageVersion Include="Microsoft.TestPlatform.TranslationLayer" Version="$(_MicrosoftTestPlatformVersion)" />
+     <PackageVersion Include="Microsoft.TestPlatform.ObjectModel" Version="$(_MicrosoftTestPlatformVersion)" />
+-    <PackageVersion Include="Microsoft.AspNetCore.Razor.ExternalAccess.RoslynWorkspace" Version="9.0.0-preview.25064.4" />
++    <PackageVersion Include="Microsoft.AspNetCore.Razor.ExternalAccess.RoslynWorkspace" Version="9.0.0-preview.24555.12" />
+ 
+     <!--
+       Analyzers
