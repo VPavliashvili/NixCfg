@@ -4,12 +4,7 @@
     ../common/modules/virtualisation/vfio
     ../common/modules/virtualisation/looking-glass
     ../common/modules/virtualisation/sriov
-    ../common/modules/containerisation/docker
   ];
-
-  containerisation = {
-    docker = true;
-  };
 
   virtualisation = {
     libvirtd = {

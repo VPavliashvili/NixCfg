@@ -13,7 +13,7 @@
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
     looking-glass-client = import ./mods/looking-glass-client-B6.nix {inherit prev;};
-    roslyn-ls = import ./mods/roslyn-ls-latest {inherit prev;};
+    # roslyn-ls = import ./mods/roslyn-ls-latest {inherit prev;};
   };
 
   stable-packages = final: _prev: {

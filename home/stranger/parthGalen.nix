@@ -10,12 +10,10 @@
   ]; 
 
   features = {
-    wms.wayland.hyprland.enable = true;
     cli = {
       oh-my-posh.enable = true;
       bash.enable = true;
       zellij.enable = true;
-      neovim.enable = true;
     };
     misc = {
       fonts.enable = true;

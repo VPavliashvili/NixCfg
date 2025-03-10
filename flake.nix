@@ -44,6 +44,17 @@
           specialArgs = { inherit inputs outputs unstable sriovModules; };
           modules = [
             ./hosts/parthGalen 
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.stranger = import ./home/stranger/parthGalen.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                outputs = outputs;
+              };
+            }
           ];
         };
         dorthonion = nixpkgs.lib.nixosSystem {
@@ -62,13 +73,6 @@
               };
             }
           ];
-        };
-      };
-      homeConfigurations = {
-        "stranger@parthGalen" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages."x86_64-linux";
-          extraSpecialArgs = {inherit inputs outputs; };
-          modules = [ ./home/stranger/parthGalen.nix ];
         };
       };
     };

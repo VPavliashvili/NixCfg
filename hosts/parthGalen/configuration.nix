@@ -8,6 +8,8 @@
     [
       ./hardware-configuration.nix
       ./virtualisation.nix
+      ./containerisation.nix
+      ./features.nix
       ./work.nix
     ];
 
@@ -62,36 +64,60 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.keyboard.qmk.enable = true;
 
-  environment.variables = {
-    EDITOR = "nvim";
-  };
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   environment.systemPackages = [
-    pkgs.go
-    pkgs.python3
-    pkgs.libgcc
-    pkgs.libclang
-    pkgs.pulseaudio
-    pkgs.libnotify
-    pkgs.gcc
-    pkgs.mpv
+    pkgs.audacious
+    pkgs.bat
+    pkgs.brightnessctl
+    pkgs.btop
+    pkgs.dos2unix
+    pkgs.dunst
+    pkgs.fastfetch
     pkgs.file
-    pkgs.nixd
-    pkgs.waybar
+    pkgs.findutils
+    pkgs.foot
+    pkgs.fzf
+    pkgs.ghostty
+    pkgs.hwloc
+    pkgs.inotify-tools
+    pkgs.iotop
+    pkgs.jq
+    pkgs.jqp
+    pkgs.killall
+    pkgs.kitty
+    pkgs.libclang
+    pkgs.libgcc
+    pkgs.libnotify
+    pkgs.librewolf
+    pkgs.lsof
+    pkgs.mlocate
+    pkgs.mpv
+    pkgs.ncdu
+    pkgs.ntfs3g
+    pkgs.obs-studio
+    pkgs.onefetch
+    pkgs.parted
+    pkgs.playerctl
+    pkgs.pulseaudio
+    pkgs.ranger
+    pkgs.smartmontools
+    pkgs.stow
+    pkgs.tree
+    pkgs.udisks
+    pkgs.unzip
+    pkgs.usbutils
     pkgs.util-linux
+    pkgs.ventoy-full
+    pkgs.wget
+    pkgs.yazi
   ];
 
   powerManagement.powertop.enable = true;
   programs = {
     light.enable = true;
     dconf.enable = true;
-    hyprland = {
-      enable = true;
-      package = pkgs.hyprland;
-      xwayland.enable = true;
-    };
   };
  
   # This value determines the NixOS release from which the default
