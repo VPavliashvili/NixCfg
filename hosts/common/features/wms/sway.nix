@@ -20,7 +20,7 @@ in
       pkgs.swaykbdd
       pkgs.swaybg
       pkgs.swappy
-      pkgs.wofi-emoji
+      pkgs.bemoji
       pkgs.yad
       pkgs.fuzzel
       pkgs.cliphist
