@@ -67,6 +67,7 @@ in {
       ++ (optionals cfg.lua [
         pkgs.lua-language-server
         pkgs.stylua
+        pkgs.lua
       ])
       ++ (optionals cfg.c_lang [
         pkgs.clang-tools

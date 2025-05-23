@@ -17,8 +17,6 @@
       devices = [
         "10de:2486" # rtx 3060Ti graphics
         "10de:228b" # rtx 3060Ti audio
-        "10de:1287" # gt 730 graphics
-        "10de:0e0f" # gt 730 audio
       ];
       blacklistNvidia = true;
     };

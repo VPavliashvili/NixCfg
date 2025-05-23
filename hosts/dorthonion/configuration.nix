@@ -92,11 +92,15 @@
     dos2unix
     audacious
     iotop
+    keymapp
+    pciutils
+    pinta
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.keyboard.qmk.enable = true;
+  hardware.keyboard.zsa.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
