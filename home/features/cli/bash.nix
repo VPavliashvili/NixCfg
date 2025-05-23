@@ -20,6 +20,8 @@ in {
         neofetch = "fastfetch";
       };
       initExtra = ''
+        export MANPAGER='nvim +Man!'
+
         alias luamake="$HOME/lua-language-server/3rd/luamake/luamake"
         export LUA_CPATH="/usr/share/lua/5.4/?.so;"
         export PATH="$HOME/bin:$PATH"

@@ -112,6 +112,8 @@
     pkgs.ventoy-full
     pkgs.wget
     pkgs.yazi
+    pkgs.android-tools
+    pkgs.qmk
   ];
 
   powerManagement.powertop.enable = true;

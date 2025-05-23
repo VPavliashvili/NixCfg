@@ -7,6 +7,8 @@
   ];
 
   virtualisation = {
+    waydroid.enable = true;
+    lxd.enable = true;
     libvirtd = {
       deviceACL = [
         "/dev/ptmx"

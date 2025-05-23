@@ -15,7 +15,6 @@ in
     environment.systemPackages = [
       pkgs.hyprland-per-window-layout
       pkgs.swappy
-      pkgs.wofi-emoji
       pkgs.yad
       pkgs.fuzzel
       pkgs.cliphist
@@ -25,6 +24,7 @@ in
       pkgs.wev
       pkgs.swaylock-effects
       pkgs.waybar
+      pkgs.bemoji
     ];
   };
 }
