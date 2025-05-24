@@ -35,10 +35,9 @@
 
   services.locate.package = pkgs.mlocate;
   services.locate.enable = true;
-  services.locate.localuser = null;
   services.dbus.enable = true;
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -46,6 +45,10 @@
     alsa.support32Bit = true;
     pulse.enable = true;
   };
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-1.1.05"
+  ];
 
   environment.systemPackages = with pkgs; [
     pulseaudio
