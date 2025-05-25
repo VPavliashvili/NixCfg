@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstable, sriovModules, ... }:
+{ config, pkgs, unstable, ... }:
 {
   imports =
     [
@@ -35,7 +35,6 @@
 
   services.locate.package = pkgs.mlocate;
   services.locate.enable = true;
-  services.locate.localuser = null;
   services.logind.lidSwitch = "ignore";
 
   services.openssh.enable = true;
@@ -49,7 +48,7 @@
   # networking.firewall.enable = false;
 
   # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
     enable = true;
@@ -66,6 +65,10 @@
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
+
+  nixpkgs.config.permittedInsecurePackages = [
+    "ventoy-1.1.05"
+  ];
 
   environment.systemPackages = [
     pkgs.audacious

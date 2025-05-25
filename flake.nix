@@ -17,13 +17,9 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    sriov-modules = {
-      url = "github:cyberus-technology/nixos-sriov";
-      flake = false;
-    };
   };
 
-  outputs = { self, home-manager, nixpkgs, sriov-modules, ... }@inputs:
+  outputs = { self, home-manager, nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
       systems = [
@@ -35,13 +31,12 @@
       ];
       forAllSystems = nixpkgs.lib.genAttrs systems;
       unstable = inputs.unstable.legacyPackages."x86_64-linux";
-      sriovModules = sriov-modules;
     in {
       packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         parthGalen = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable sriovModules; };
+          specialArgs = { inherit inputs outputs unstable; };
           modules = [
             ./hosts/parthGalen 
 

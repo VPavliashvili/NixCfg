@@ -1,4 +1,4 @@
-{ pkgs, config, sriovModules, ... }: {
+{ pkgs, config, ... }: {
   imports = [
     ../common/modules/virtualisation/libvirt
     ../common/modules/virtualisation/vfio
@@ -8,7 +8,6 @@
 
   virtualisation = {
     waydroid.enable = true;
-    lxd.enable = true;
     libvirtd = {
       deviceACL = [
         "/dev/ptmx"
