@@ -20,6 +20,44 @@ in {
         neofetch = "fastfetch";
       };
       initExtra = ''
+        jump_dir() {
+          local p
+          if [[ -n "$1" ]]; then
+              p="$1"
+          else
+              p='.'
+          fi
+
+          local selected_dir
+          selected_dir=$(fd -H -t d . "$p" | fzf +m --height 50% --preview 'tree -C {}')
+          cd "$selected_dir"
+        }
+        inspect_dir() {
+          local p
+          if [[ -n "$1" ]]; then
+              p="$1"
+          else
+              p='.'
+          fi
+
+          local selected_dir
+          selected_dir=$(fd -H -t d . "$p" | fzf +m --height 50% --preview 'tree -C {}')
+          yazi "$selected_dir"
+        }
+        play() {
+          local p
+          if [[ -n "$1" ]]; then
+              p="$1"
+          else
+              p='.'
+          fi
+
+          local selected_file
+          selected_file=$(fd -H -t f . "$p" | fzf +m --height 50% --preview 'tree -C {}')
+          echo "$selected_file"
+          mpv "$selected_file"
+        }
+
         export MANPAGER='nvim +Man!'
 
         alias luamake="$HOME/lua-language-server/3rd/luamake/luamake"
