@@ -44,6 +44,20 @@ in {
           selected_dir=$(fd -H -t d . "$p" | fzf +m --height 50% --preview 'tree -C {}')
           yazi "$selected_dir"
         }
+        edit() {
+          local p
+          if [[ -n "$1" ]]; then
+              p="$1"
+          else
+              p='.'
+          fi
+
+          local selected_file
+          selected_file=$(fd -t f -H -E .git | fzf +m --height 50% \
+            --preview 'file --mime-type {} | grep -q "text/" && bat --color=always --style=header,grid --line-range :50 {} || echo "Binary file: $(file {})"' \
+            --bind 'enter:become(echo {})')
+          [[ -n "$selected_file" ]] && nvim "$selected_file"
+        }
         play() {
           local p
           if [[ -n "$1" ]]; then
