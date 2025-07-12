@@ -69,6 +69,10 @@
             }
           ];
         };
+        helcaraxe = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs unstable; };
+          modules = [ ./hosts/helcaraxe ];
+        };
       };
     };
 }
