@@ -65,6 +65,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 outputs = outputs;
+                sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
               };
             }
           ];
