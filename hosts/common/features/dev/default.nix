@@ -45,6 +45,11 @@ in {
         };
       };
     };
+    frontend = mkOption {
+      type = types.bool;
+      default = true;
+      description = "enable tools related to front-end development";
+    };
   };
 
   config = {
@@ -86,6 +91,16 @@ in {
       ])
       ++ (optionals cfg.database.dbms.dbeaver.enable [
         pkgs.dbeaver-bin
+      ])
+      ++ (optionals cfg.frontend [
+        pkgs.vscode-langservers-extracted
+        pkgs.emmet-language-server
+        pkgs.nodePackages.prettier
+        pkgs.nodejs_24
+        pkgs.stylelint-lsp
+        pkgs.nodePackages.live-server
+        pkgs.typescript-language-server
+        pkgs.typescript
       ]);
   };
 }
