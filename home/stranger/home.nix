@@ -85,4 +85,15 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
+
+  # My custom options 
+  # Settings from this location
+  # After separating for different user names
+  # I might override these options per host bases later
+  features.cli.git = {
+    name = "VPavliashvili";
+    email = "v_pavliashvili@yahoo.com";
+    useSshSign = true;
+  };
 }
