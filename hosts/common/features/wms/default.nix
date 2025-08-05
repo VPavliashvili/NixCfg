@@ -11,8 +11,8 @@ in
 
   options.features.wms = {
     wm = mkOption {
-      type = types.enum [ "hyprland" "sway" ];
-      default = "hyprland";
+      type = types.enum [ "hyprland" "sway" "none"];
+      default = "none";
       description = "choose window manager for system to use";
     };
   };
@@ -24,5 +24,6 @@ in
     (mkIf (cfg.wm == "sway") {
       features.wms.sway.enable = true;
     })
+    (mkIf (cfg.wm == "none") {})
   ];
 }
