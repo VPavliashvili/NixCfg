@@ -1,11 +1,10 @@
 { lib, config, pkgs, unstable, ... }: 
 { 
   imports = [ 
-    ../common 
-    ../features/cli
-    ../features/gui
-    ../features/misc
-    ../features/wms/wayland
+    ../../features/cli
+    ../../features/gui
+    ../../features/misc
+    ../../features/wms/wayland
     ./home.nix
   ]; 
 

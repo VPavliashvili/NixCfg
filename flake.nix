@@ -45,7 +45,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.stranger = import ./home/stranger/parthGalen.nix;
+              home-manager.users.stranger = import ./home/users/stranger/parthGalen.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 outputs = outputs;
@@ -63,7 +63,7 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.users.stranger = import ./home/stranger/dorthonion.nix;
+              home-manager.users.stranger = import ./home/users/stranger/dorthonion.nix;
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 outputs = outputs;
@@ -77,16 +77,15 @@
           modules = [ ./hosts/helcaraxe ];
         };
         himring = nixpkgs.lib.nixosSystem {
-	  system = "x86_64-linux";
+	      system = "x86_64-linux";
           specialArgs = { inherit inputs outputs unstable; };
           modules = [ 
-	    inputs.nixos-wsl.nixosModules.default
-	    {
-	      # system.stateVersion = "24.11";
-	      wsl.enable = true;
-	    }
-	    ./hosts/himring 
-	  ];
+	        inputs.nixos-wsl.nixosModules.default
+	        {
+	          wsl.enable = true;
+	        }
+	        ./hosts/himring 
+	      ];
         };
       };
     };
