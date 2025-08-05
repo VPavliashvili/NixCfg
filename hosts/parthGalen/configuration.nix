@@ -117,13 +117,22 @@
     pkgs.yazi
     pkgs.android-tools
     pkgs.qmk
+    pkgs.krita
+    pkgs.mangohud
+    pkgs.protonup
+    pkgs.lutris
   ];
+
 
   powerManagement.powertop.enable = true;
   programs = {
     light.enable = true;
     dconf.enable = true;
+    steam.enable = true;
+    gamemode.enable = true;
   };
+
+  environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/stranger/.steam/root/compatibilitytools.d";
  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

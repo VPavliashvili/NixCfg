@@ -48,6 +48,7 @@
               home-manager.extraSpecialArgs = {
                 inherit inputs;
                 outputs = outputs;
+                sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
               };
             }
           ];
