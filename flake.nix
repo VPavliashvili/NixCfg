@@ -37,7 +37,7 @@
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         parthGalen = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; };
+          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
           modules = [
             ./hosts/parthGalen 
 
@@ -55,7 +55,7 @@
           ];
         };
         dorthonion = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; };
+          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
           modules = [
             ./hosts/dorthonion 
 
@@ -73,18 +73,30 @@
           ];
         };
         helcaraxe = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; };
+          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
           modules = [ ./hosts/helcaraxe ];
         };
         himring = nixpkgs.lib.nixosSystem {
 	      system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs unstable; };
+          specialArgs = { inherit inputs outputs unstable; mainUser = "vpavliashvili"; };
           modules = [ 
 	        inputs.nixos-wsl.nixosModules.default
 	        {
 	          wsl.enable = true;
 	        }
 	        ./hosts/himring 
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.vpavliashvili = import ./home/users/vpavliashvili/himring.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                outputs = outputs;
+                sshpub = "unset";
+              };
+            }
 	      ];
         };
       };

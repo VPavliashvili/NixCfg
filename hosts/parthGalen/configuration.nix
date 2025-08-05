@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstable, ... }:
+{ config, pkgs, unstable, mainUser, ... }:
 {
   imports =
     [
@@ -132,7 +132,7 @@
     gamemode.enable = true;
   };
 
-  environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/stranger/.steam/root/compatibilitytools.d";
+  environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${mainUser}/.steam/root/compatibilitytools.d";
  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

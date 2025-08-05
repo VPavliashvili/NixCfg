@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  mainUser,
   ...
 }: {
   imports = [
@@ -16,7 +17,7 @@
 
   security.sudo.extraRules = [
     {
-      users = ["stranger"];
+      users = [mainUser];
       commands = [
         {
           command = "${pkgs.openconnect}/bin/openconnect";

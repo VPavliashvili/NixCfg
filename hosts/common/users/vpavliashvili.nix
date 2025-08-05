@@ -4,9 +4,9 @@
   inputs,
   ...
 } : {
-  users.users.stranger = {
+  users.users.vpavliashvili = {
     isNormalUser = true;
-    description = "stranger";
+    description = "vpavliashvili";
     extraGroups = [
       "networkmanager" 
       "wheel"

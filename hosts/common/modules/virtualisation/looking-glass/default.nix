@@ -1,7 +1,7 @@
 # this module installs kvmfr(kvm frame relay) kernle module
 # from looking-glass source code and adds necessary kernel params and udev rules
 # needed only for igpu sriov laptop
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, mainUser, ... }:
 with lib;
 let
   cfg = config.virtualisation.looking-glass;
@@ -28,7 +28,7 @@ in {
       "kvmfr.static_size_mb=${toString cfg.kvmfr.size}"
     ]);
     services.udev.extraRules = optionalString cfg.kvmfr.enable ''
-      SUBSYSTEM=="kvmfr", OWNER="stranger", GROUP="qemu-libvirtd", MODE="0666"
+      SUBSYSTEM=="kvmfr", OWNER="${mainUser}}", GROUP="qemu-libvirtd", MODE="0666"
     '';
 
     #related packages

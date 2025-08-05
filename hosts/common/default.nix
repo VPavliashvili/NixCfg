@@ -1,6 +1,6 @@
 # Common configuration for all hosts
 
-{ lib, inputs, outputs, unstable, ... }: {
+{ lib, inputs, outputs, unstable, mainUser, ... }: {
   imports = [
     ./users 
     inputs.home-manager.nixosModules.home-manager
@@ -39,7 +39,7 @@
       experimental-features = "nix-command flakes";
       trusted-users = [
         "root"
-        "stranger"
+        mainUser
       ]; # Set users that are allowed to use the flake command
     };
     gc = {

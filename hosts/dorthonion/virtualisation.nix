@@ -1,6 +1,7 @@
 {
   pkgs,
   config,
+  mainUser,
   ...
 }: {
   imports = [
@@ -26,8 +27,8 @@
   };
 
   systemd.tmpfiles.rules = [
-    "f /dev/shm/win10_work 660 stranger kvm -"
-    "f /dev/shm/win10_gaming 660 stranger kvm -"
+    "f /dev/shm/win10_work 660 ${mainUser} kvm -"
+    "f /dev/shm/win10_gaming 660 ${mainUser} kvm -"
   ];
 
   # notes here for looking-glass configuration

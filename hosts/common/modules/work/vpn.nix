@@ -1,4 +1,4 @@
-{lib, config, pkgs, ...}:
+{lib, config, pkgs, mainUser, ...}:
 with lib;
 let
   cfg = config.modules.work;
@@ -16,8 +16,8 @@ in
       "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt"
     ];
     security.pki.certificates = [
-      "/home/stranger/certs/Vakhtang-Pavliashvili.pem"
-      "/home/stranger/certs/Vakhtang-Pavliashvili.crt"
+      "/home/${mainUser}/certs/Vakhtang-Pavliashvili.pem"
+      "/home/${mainUser}/certs/Vakhtang-Pavliashvili.crt"
     ];
 
     environment.systemPackages = [

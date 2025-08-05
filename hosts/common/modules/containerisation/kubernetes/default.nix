@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  mainUser,
   ...
 }:
 with lib; let
@@ -21,7 +22,7 @@ in {
       storageDriver = "overlay2";
     };
 
-    users.users."stranger" = {
+    users.users.${mainUser} = {
       extraGroups = ["docker"];
     };
 
