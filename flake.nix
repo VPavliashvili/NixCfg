@@ -13,6 +13,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.05";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -74,6 +75,18 @@
         helcaraxe = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs unstable; };
           modules = [ ./hosts/helcaraxe ];
+        };
+        himring = nixpkgs.lib.nixosSystem {
+	  system = "x86_64-linux";
+          specialArgs = { inherit inputs outputs unstable; };
+          modules = [ 
+	    inputs.nixos-wsl.nixosModules.default
+	    {
+	      # system.stateVersion = "24.11";
+	      wsl.enable = true;
+	    }
+	    ./hosts/himring 
+	  ];
         };
       };
     };
