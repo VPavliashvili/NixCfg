@@ -5,7 +5,9 @@
 { config, pkgs, ... }:
 
 {
-  imports = [ ];
+  imports = [
+    ../common/features
+  ];
 
   networking.hostName = "himring"; # Define your hostname.
 
@@ -78,14 +80,7 @@
     stow
   ];
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    package = pkgs.neovim-unwrapped;
-  };
-  programs.git = {
-    enable = true;
-  };
+  features.cli.neovim.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

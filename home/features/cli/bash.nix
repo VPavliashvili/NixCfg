@@ -8,7 +8,7 @@
 let
   cfg = config.features.cli.bash;
   launchWindowManager = with lib.strings;
-    concatMapStringsSep "\n" (x: x) config.features.wms.wayland.launchParams;
+    concatMapStringsSep "\n" (x: x) (config.features.wms.wayland.launchParams or []);
 in {
   options.features.cli.bash.enable = lib.mkEnableOption "enable bash";
 
@@ -89,9 +89,11 @@ in {
       '';
       profileExtra = ''
         export TERMINAl=foot
-        if [ "$(tty)" = "/dev/tty1" ];then
-          ${launchWindowManager}
-        fi
+        ${lib.optionalString (launchWindowManager != "") ''
+          if [ "$(tty)" = "/dev/tty1" ];then
+            ${launchWindowManager}
+          fi
+        ''}
       '';
     };
   };

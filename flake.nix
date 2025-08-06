@@ -83,6 +83,7 @@
 	        inputs.nixos-wsl.nixosModules.default
 	        {
 	          wsl.enable = true;
+	          wsl.defaultUser = "vpavliashvili";
 	        }
 	        ./hosts/himring 
 
@@ -97,7 +98,7 @@
                 sshpub = "unset";
               };
             }
-	      ];
+          ];
         };
       };
     };
