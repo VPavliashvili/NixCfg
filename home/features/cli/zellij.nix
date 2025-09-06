@@ -1,4 +1,5 @@
 {
+  pkgs,
   config,
   lib,
   unstable,
@@ -14,6 +15,10 @@ in {
       enable = true;
       package = unstable.zellij;
     };
+    
+    home.packages = [
+      pkgs.zellij-switch
+    ];
 
     home.file.".config/zellij" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/zellij/.config/zellij";

@@ -7,6 +7,9 @@ with lib;
       recursive = true;
     };
     features.wms.wayland.launchParams = [
+      # to be able to share ~/bin/ dir when running swaymsg exec
+      "export PATH=\"$HOME/bin:$PATH\""
+
       # setting bemoji picker to fuzzel
       # in case of hyprland its getting set from hyprland conf
       # but sway does not have such capability

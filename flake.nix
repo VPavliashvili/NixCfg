@@ -18,6 +18,7 @@
       url = "github:nix-community/home-manager/release-25.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zellij-switch.url = "github:mostafaqanbaryan/zellij-switch";
   };
 
   outputs = { self, home-manager, nixpkgs, ... }@inputs:

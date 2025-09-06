@@ -21,6 +21,8 @@
     # requires dotnet_9, I am willing to stay on dotnet 8 before 10 cames out
     # so gotta install this overlay to make roslyn-ls compatible to dotnet 8
     roslyn-ls = import ./mods/roslyn-ls-net8-compatible {inherit prev;};
+
+    zellij-switch = (inputs.zellij-switch.overlays.default final prev).zellij-switch;
   };
 
   stable-packages = final: _prev: {
