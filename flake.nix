@@ -73,6 +73,24 @@
             }
           ];
         };
+        doriath = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs outputs unstable; mainUser = "vpavliashvili"; };
+          modules = [
+            ./hosts/doriath
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.stranger = import ./home/users/vpavliashvili/doriath.nix;
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                outputs = outputs;
+                sshpub = "tbd";
+              };
+            }
+          ];
+        };
         helcaraxe = nixpkgs.lib.nixosSystem {
           specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
           modules = [ ./hosts/helcaraxe ];
