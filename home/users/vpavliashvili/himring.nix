@@ -12,8 +12,8 @@
       bash.enable = true;
       zellij.enable = true;
       git = {
-        name = "VPavliashvili";
-        email = "v.pavliashvili.lb.ge";
+        name = "Vakhtang Pavliashvili";
+        email = "v.pavliashvili@lb.ge";
         useSshSign = false;
       };
     };
