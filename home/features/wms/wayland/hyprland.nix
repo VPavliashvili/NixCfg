@@ -14,6 +14,11 @@ with lib;
       recursive = true;
     };
 
-    features.wms.wayland.launchParams = [ "exec Hyprland" ];
+    features.wms.wayland.launchParams = [
+      # to be able to share ~/bin/ dir to be able to run sessions script
+      "export PATH=\"$HOME/bin:$PATH\""
+
+      "exec Hyprland" 
+    ];
   };
 }

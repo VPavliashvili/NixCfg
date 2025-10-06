@@ -8,7 +8,7 @@
     ../common/features
   ];
 
-  features.wms.wm = "sway";
+  features.wms.wm = "hyprland";
   features.cli.neovim.enable = true;
   features.dev.database.dbms.dbeaver.enable = true;
 }

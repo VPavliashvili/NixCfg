@@ -99,7 +99,27 @@
     pciutils
     pinta
     speedtest-cli
+    libnotify
+    f3d
+    lact
+
+    # jellyfin
+    # jellyfin-web
+    # jellyfin-ffmpeg
+    # intel-ocl
+    amdgpu_top
+    nethogs
   ];
+
+  systemd.services.lact = {
+    description = "AMDGPU Control Daemon";
+    after = ["multi-user.target"];
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      ExecStart = "${pkgs.lact}/bin/lact daemon";
+    };
+    enable = true;
+  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -119,6 +139,21 @@
     # };
     coolercontrol.enable = true;
   };
+
+  services.jellyfin = {
+    enable = true;
+    openFirewall = true;
+  };
+
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      mesa
+    ];
+  };
+
+  # Add jellyfin user to render group for hardware access
+  users.users.jellyfin.extraGroups = [ "render" "video" ];
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
