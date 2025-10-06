@@ -5,6 +5,7 @@ let
 in
 {
   options.features.wms.hyprland.enable = mkEnableOption "enable hyprland wm";
+  options.features.wms.hyprland.hy3.enable = mkEnableOption "use hy3 plugin for i3/sway like window management instead of builtin one";
 
   config = mkIf cfg.enable {
     programs.hyprland = {
@@ -25,6 +26,8 @@ in
       pkgs.swaylock-effects
       pkgs.waybar
       pkgs.bemoji
-    ];
+    ] ++ (optionals cfg.hy3.enable [
+      pkgs.hyprlandPlugins.hy3
+    ]);
   };
 }

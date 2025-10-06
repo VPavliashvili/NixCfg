@@ -1,4 +1,4 @@
-{ config, osConfig, lib, ... }:
+{ pkgs, config, osConfig, lib, ... }:
 with lib;
 {
   config = mkIf (osConfig.features.wms.wm == "hyprland") {
@@ -9,10 +9,22 @@ with lib;
       $DRY_RUN_CMD rm -rf $VERBOSE_ARG ~/.config/hypr
     '';
 
+
     home.file.".config/hypr" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
     };
+
+    # pick whether to use hy3 plugin layout or builtin dwindle
+    home.file.".config/hypr-nix-additions.conf".text = ''
+      # === Home-manager additions ===
+    '' + (if osConfig.features.wms.hyprland.hy3.enable then ''
+      plugin = ${pkgs.hyprlandPlugins.hy3}/lib/libhy3.so
+      source = ~/.config/hypr/hy3.conf
+    '' else ''
+      source = ~/.config/hypr/dwindle.conf
+    '');
+
 
     features.wms.wayland.launchParams = [
       # to be able to share ~/bin/ dir to be able to run sessions script
