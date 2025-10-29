@@ -102,13 +102,16 @@
     libnotify
     f3d
     lact
+    lm_sensors
 
-    # jellyfin
-    # jellyfin-web
-    # jellyfin-ffmpeg
-    # intel-ocl
     amdgpu_top
     nethogs
+
+    usbutils
+    glib
+    jmtpfs
+    tree
+    virt-viewer
   ];
 
   systemd.services.lact = {
@@ -140,6 +143,9 @@
     coolercontrol.enable = true;
   };
 
+  systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
+  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+
   services.jellyfin = {
     enable = true;
     openFirewall = true;
@@ -148,12 +154,20 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      mesa
+      intel-ocl
+      intel-media-driver
+      intel-vaapi-driver
+      libva-vdpau-driver
+      intel-compute-runtime
+      vpl-gpu-rt
     ];
   };
 
   # Add jellyfin user to render group for hardware access
   users.users.jellyfin.extraGroups = [ "render" "video" ];
+
+
+  services.gvfs.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
