@@ -81,7 +81,6 @@
     pkgs.file
     pkgs.findutils
     pkgs.foot
-    pkgs.fzf
     pkgs.ghostty
     pkgs.hwloc
     pkgs.inotify-tools
@@ -122,11 +121,6 @@
     pkgs.protonup
     pkgs.lutris
   ];
-
-  programs.fzf = {
-    keybindings = true;
-    fuzzyCompletion = true;
-  };
 
   powerManagement.powertop.enable = true;
   programs = {

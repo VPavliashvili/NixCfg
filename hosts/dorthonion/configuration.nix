@@ -18,6 +18,22 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
+
+  # two expressions below is for hdmi sound problem
+  # after switching to igpu
+  # this fix does not fully work but feels like 
+  # it this bug occures after longer time boot sessions
+  boot.extraModprobeConfig = ''
+    # Disable power saving - this is the main fix
+    options snd_hda_intel power_save=0 power_save_controller=N
+    
+    # Additional stability options for Intel audio
+    options snd_hda_intel beep_mode=0
+  '';
+  boot.kernelParams = [ 
+    "i915.enable_guc=3"  # Enables GuC firmware for better iGPU stability
+  ];
+
   networking.hostName = "dorthonion"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -72,7 +88,6 @@
     qmk
     fastfetch
     ranger
-    fzf
     yazi
     bat
     foot
@@ -112,7 +127,15 @@
     jmtpfs
     tree
     virt-viewer
+
+    dmidecode
+    lshw
+    i2c-tools
+
+    mullvad-vpn
   ];
+  services.mullvad-vpn.enable = true;
+  networking.iproute2.enable = true;
 
   systemd.services.lact = {
     description = "AMDGPU Control Daemon";

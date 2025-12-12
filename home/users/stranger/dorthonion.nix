@@ -11,7 +11,10 @@
   features = {
     cli = {
       oh-my-posh.enable = true;
-      bash.enable = true;
+      bash = {
+        enable = true;
+        fzf.enable = true;
+      };
       zellij.enable = true;
     };
     misc = {
