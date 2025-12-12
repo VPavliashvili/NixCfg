@@ -123,6 +123,10 @@
     pkgs.lutris
   ];
 
+  programs.fzf = {
+    keybindings = true;
+    fuzzyCompletion = true;
+  };
 
   powerManagement.powertop.enable = true;
   programs = {
