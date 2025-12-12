@@ -19,7 +19,9 @@ with lib;
     home.file.".config/hypr-nix-additions.conf".text = ''
       # === Home-manager additions ===
     '' + (if osConfig.features.wms.hyprland.hy3.enable then ''
-      plugin = ${pkgs.hyprlandPlugins.hy3}/lib/libhy3.so
+      plugin {
+        plugin = ${pkgs.hyprlandPlugins.hy3}/lib/libhy3.so
+      }
       source = ~/.config/hypr/hy3.conf
     '' else ''
       source = ~/.config/hypr/dwindle.conf

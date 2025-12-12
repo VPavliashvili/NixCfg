@@ -63,7 +63,7 @@
   };
 
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.05"
+    "ventoy-1.1.07"
   ];
 
   environment.systemPackages = with pkgs; [
@@ -116,7 +116,6 @@
     speedtest-cli
     libnotify
     f3d
-    lact
     lm_sensors
 
     amdgpu_top
@@ -131,21 +130,7 @@
     dmidecode
     lshw
     i2c-tools
-
-    mullvad-vpn
   ];
-  services.mullvad-vpn.enable = true;
-  networking.iproute2.enable = true;
-
-  systemd.services.lact = {
-    description = "AMDGPU Control Daemon";
-    after = ["multi-user.target"];
-    wantedBy = ["multi-user.target"];
-    serviceConfig = {
-      ExecStart = "${pkgs.lact}/bin/lact daemon";
-    };
-    enable = true;
-  };
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot

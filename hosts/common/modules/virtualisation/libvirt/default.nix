@@ -26,10 +26,6 @@ in {
     onShutdown = "shutdown";
     qemu = {
       package = pkgs.qemu_kvm;
-      ovmf = {
-        enable = true;
-        packages = [ pkgs.OVMFFull.fd ];
-      };
       swtpm.enable = true;
       runAsRoot = false;
       verbatimConfig = if builtins.length cfg.deviceACL > 0 then ''

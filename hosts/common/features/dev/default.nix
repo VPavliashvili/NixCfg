@@ -98,7 +98,6 @@ in {
         pkgs.nodePackages.prettier
         pkgs.nodejs_24
         pkgs.stylelint-lsp
-        pkgs.nodePackages.live-server
         pkgs.typescript-language-server
         pkgs.typescript
       ]);
