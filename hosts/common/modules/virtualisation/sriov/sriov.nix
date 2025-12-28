@@ -20,15 +20,21 @@ let
     ";
   };
 
-  intel-sriov-kernel = pkgs.linux_6_12.override {
+  intel-sriov-kernel = (pkgs.linux_6_12.override {
       argsOverride = rec {
       src = pkgs.fetchgit {
         url = "https://github.com/intel/linux-intel-lts.git";
-        rev = "lts-v6.12.28-linux-250521T070434Z";
-        hash = "sha256-Tw4QHxHxSrS76aisr+s0tTCLyE5ahKI1TDQNbYkMNiI=";
+        rev = "lts-v6.12.61-linux-251210T000847Z";
+        hash = "sha256-zUyxp7WZqqzP3JoXjGndmx4ks4hDdMBUAVaSKWc9f1M=";
       };
-      version = "6.12.28";
-      modDirVersion = "6.12.28";
+      version = "6.12.61";
+      modDirVersion = "6.12.61";
+    };
+  }).override {
+    structuredExtraConfig = with lib.kernel; {
+      # Disable options that NixOS 25.11 tries to enable but don't exist in Intel's tree
+      VFIO_DEVICE_CDEV = lib.mkForce unset;
+      VFIO_NOIOMMU = lib.mkForce unset;
     };
   };
 
@@ -66,9 +72,9 @@ in
       {
         name = "SR-IOV config";
         patch = null;
-        extraConfig = ''
-          PCI_IOV y
-        '';
+        structuredExtraConfig = with lib.kernel; {
+          PCI_IOV = yes;
+        };
       }
     ];
 

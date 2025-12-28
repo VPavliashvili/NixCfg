@@ -67,7 +67,7 @@
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.05"
+    "ventoy-1.1.07"
   ];
 
   environment.systemPackages = [

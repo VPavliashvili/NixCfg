@@ -28,7 +28,7 @@ in {
       "kvmfr.static_size_mb=${toString cfg.kvmfr.size}"
     ]);
     services.udev.extraRules = optionalString cfg.kvmfr.enable ''
-      SUBSYSTEM=="kvmfr", OWNER="${mainUser}}", GROUP="qemu-libvirtd", MODE="0666"
+      SUBSYSTEM=="kvmfr", OWNER="${mainUser}", GROUP="qemu-libvirtd", MODE="0666"
     '';
 
     #related packages

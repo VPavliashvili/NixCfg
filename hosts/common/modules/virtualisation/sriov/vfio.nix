@@ -9,7 +9,7 @@ in {
     boot.kernelPatches = [{
       name = "VFIO config";
       patch = null;
-      extraStructuredConfig = with lib.kernel;
+      structuredExtraConfig = with lib.kernel;
         with config.boot.kernelPackages;
         {
           VFIO = yes;
