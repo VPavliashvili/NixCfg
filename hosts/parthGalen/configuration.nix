@@ -33,14 +33,10 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.locate.package = pkgs.mlocate;
-  services.locate.enable = true;
   services.logind.lidSwitch = "ignore";
 
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
-
-  services.dbus.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -61,7 +57,6 @@
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  hardware.keyboard.qmk.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
@@ -79,7 +74,6 @@
     pkgs.dunst
     pkgs.fastfetch
     pkgs.file
-    pkgs.findutils
     pkgs.foot
     pkgs.ghostty
     pkgs.hwloc
@@ -94,11 +88,8 @@
     pkgs.libnotify
     pkgs.librewolf
     pkgs.lsof
-    pkgs.mlocate
-    pkgs.mpv
     pkgs.ncdu
     pkgs.ntfs3g
-    pkgs.obs-studio
     pkgs.onefetch
     pkgs.parted
     pkgs.playerctl
@@ -115,22 +106,15 @@
     pkgs.wget
     pkgs.yazi
     pkgs.android-tools
-    pkgs.qmk
     pkgs.krita
-    pkgs.mangohud
-    pkgs.protonup
-    pkgs.lutris
   ];
 
   powerManagement.powertop.enable = true;
   programs = {
     light.enable = true;
     dconf.enable = true;
-    steam.enable = true;
-    gamemode.enable = true;
   };
 
-  environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${mainUser}/.steam/root/compatibilitytools.d";
  
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions

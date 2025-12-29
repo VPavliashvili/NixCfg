@@ -4,5 +4,6 @@
     ./wms
     ./cli
     ./dev
+    ./gui
   ];
 }
