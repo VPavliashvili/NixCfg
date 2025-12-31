@@ -26,6 +26,7 @@ in
       pkgs.swaylock-effects
       pkgs.waybar
       pkgs.bemoji
+      pkgs.hyprpaper
     ] ++ (optionals cfg.hy3.enable [
       pkgs.hyprlandPlugins.hy3
     ]);

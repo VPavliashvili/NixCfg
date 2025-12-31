@@ -30,14 +30,17 @@ in {
 
     programs.git = {
       enable = true;
-      userName = cfg.name;
-      userEmail = cfg.email;
-      aliases = {
-        graph = "log --pretty='%C(yellow)%h %C(cyan)%cd %Cblue%aN%C(auto)%d %Creset%s' --all --graph --date=relative";
-        lgraph = "log --pretty='%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s' --all --decorate --graph";
-      };
-      extraConfig = lib.mkMerge [
-        { }
+      settings = lib.mkMerge [
+        {
+          user = {
+            name = cfg.name;
+            email = cfg.email;
+          };
+          alias = {
+            graph = "log --pretty='%C(yellow)%h %C(cyan)%cd %Cblue%aN%C(auto)%d %Creset%s' --all --graph --date=relative";
+            lgraph = "log --pretty='%C(yellow)%h %Cblue%>(12)%ad %Cgreen%<(7)%aN%Cred%d %Creset%s' --all --decorate --graph";
+          };
+        }
         (lib.mkIf cfg.useSshSign {
           gpg = {
             format = "ssh";

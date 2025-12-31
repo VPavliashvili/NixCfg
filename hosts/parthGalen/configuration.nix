@@ -33,7 +33,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.logind.lidSwitch = "ignore";
+  services.logind.settings.Login.HandleLidSwitch = "ignore";
 
   services.openssh.enable = true;
   networking.firewall.allowedTCPPorts = [ 22 ];
@@ -107,7 +107,11 @@
     pkgs.yazi
     pkgs.android-tools
     pkgs.krita
+
+    pkgs.jmtpfs
   ];
+
+  services.gvfs.enable = true;
 
   powerManagement.powertop.enable = true;
   programs = {

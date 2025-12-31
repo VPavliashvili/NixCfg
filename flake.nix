@@ -24,17 +24,9 @@
   outputs = { self, home-manager, nixpkgs, ... }@inputs:
     let
       inherit (self) outputs;
-      systems = [
-        "aarch64-linux"
-        "i686-linux"
-        "x86_64-linux"
-        "aarch64-darwin"
-        "x86_64-darwin"
-      ];
-      forAllSystems = nixpkgs.lib.genAttrs systems;
       unstable = inputs.unstable.legacyPackages."x86_64-linux";
     in {
-      packages = forAllSystems (system: import ./pkgs nixpkgs.legacyPackages.${system});
+      packages.x86_64-linux = import ./pkgs nixpkgs.legacyPackages.x86_64-linux;
       overlays = import ./overlays { inherit inputs; };
       nixosConfigurations = {
         parthGalen = nixpkgs.lib.nixosSystem {
