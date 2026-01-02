@@ -74,7 +74,6 @@
     pkgs.dunst
     pkgs.fastfetch
     pkgs.file
-    pkgs.foot
     pkgs.ghostty
     pkgs.hwloc
     pkgs.inotify-tools
@@ -88,7 +87,6 @@
     pkgs.libnotify
     pkgs.librewolf
     pkgs.lsof
-    pkgs.ncdu
     pkgs.ntfs3g
     pkgs.onefetch
     pkgs.parted

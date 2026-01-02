@@ -3,6 +3,7 @@
 {
   config,
   lib,
+  osConfig,
   ...
 }:
 let
@@ -102,7 +103,7 @@ in {
       bind -m vi-insert 'Control-l: clear-screen' 
     '';
     profileExtra = ''
-      export TERMINAl=foot
+      export TERMINAL=${osConfig.features.wms.terminals.defaultTerm}
       ${lib.optionalString (launchWindowManager != "") ''
         if [ "$(tty)" = "/dev/tty1" ];then
           ${launchWindowManager}

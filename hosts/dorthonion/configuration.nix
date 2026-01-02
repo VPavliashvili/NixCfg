@@ -90,8 +90,6 @@
     ranger
     yazi
     bat
-    foot
-    ncdu
     stow
     inotify-tools
     jqp

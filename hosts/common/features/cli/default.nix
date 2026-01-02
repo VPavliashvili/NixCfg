@@ -50,6 +50,7 @@ in
       environment.systemPackages = [
         pkgs.mlocate
         pkgs.findutils
+        pkgs.ncdu
       ];
     }
   ];
