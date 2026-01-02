@@ -69,9 +69,7 @@
     pkgs.audacious
     pkgs.bat
     pkgs.brightnessctl
-    pkgs.btop
     pkgs.dos2unix
-    pkgs.dunst
     pkgs.fastfetch
     pkgs.file
     pkgs.ghostty
@@ -102,7 +100,6 @@
     pkgs.util-linux
     pkgs.ventoy-full
     pkgs.wget
-    pkgs.yazi
     pkgs.android-tools
     pkgs.krita
 

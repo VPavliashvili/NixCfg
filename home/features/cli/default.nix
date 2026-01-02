@@ -6,6 +6,7 @@
     ./zellij.nix
     ./git.nix
     ./terminal.nix
+    ./misc.nix
   ];
 
   home.file.".config/nvim" = lib.mkIf osConfig.features.cli.neovim.enable {

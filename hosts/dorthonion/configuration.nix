@@ -81,21 +81,18 @@
     smartmontools
     hwloc
     jq
-    btop
     tree
     unzip
     avrdude
     qmk
     fastfetch
     ranger
-    yazi
     bat
     stow
     inotify-tools
     jqp
     usbutils
     bat
-    dunst
     brightnessctl
     findutils
     mlocate

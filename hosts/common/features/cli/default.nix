@@ -1,9 +1,13 @@
-{ lib, pkgs, unstable, config, ... }:
-with lib;
-let
-  cfg = config.features.cli;
-in
 {
+  lib,
+  pkgs,
+  unstable,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.features.cli;
+in {
   options.features.cli = {
     neovim = {
       enable = mkEnableOption "install neovim";
@@ -15,6 +19,16 @@ in
     };
     qmk = {
       enable = mkEnableOption "systemwide capability to compile/flash qmk firmware";
+    };
+    btop = mkOption {
+      type = types.bool;
+      default = true;
+      description = "install btop";
+    };
+    yazi = mkOption {
+      type = types.bool;
+      default = true;
+      description = "install yazi";
     };
   };
 
@@ -35,6 +49,13 @@ in
       };
     })
 
+    (mkIf cfg.btop {
+      environment.systemPackages = [pkgs.btop];
+    })
+    (mkIf cfg.yazi {
+      environment.systemPackages = [pkgs.yazi];
+    })
+
     (mkIf cfg.qmk.enable {
       environment.systemPackages = [
         pkgs.pkgsCross.avr.buildPackages.gcc
@@ -44,7 +65,8 @@ in
       hardware.keyboard.qmk.enable = true;
     })
 
-    { # core
+    {
+      # core
       services.locate.package = pkgs.mlocate;
       services.locate.enable = true;
       environment.systemPackages = [

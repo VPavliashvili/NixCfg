@@ -9,6 +9,8 @@
   ];
 
   features.wms.wm = "hyprland";
+  features.wms.notifications.useDunst = true;
+
   features.cli.neovim.enable = true;
   features.cli.qmk.enable = true;
 

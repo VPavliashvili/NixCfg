@@ -6,6 +6,10 @@ with lib;
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
     };
+    home.file.".config/waybar" = {
+      source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/waybar";
+      recursive = true;
+    };
 
     # pick whether to use hy3 plugin layout or builtin dwindle
     home.file.".config/hypr-nix-additions.conf".text = ''
