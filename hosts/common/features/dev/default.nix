@@ -65,6 +65,8 @@ in {
       ])
       ++ (optionals cfg.python [
         pkgs.python3
+        pkgs.ruff
+        pkgs.basedpyright
       ])
       ++ (optionals cfg.nix [
         pkgs.alejandra
