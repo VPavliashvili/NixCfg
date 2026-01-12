@@ -33,6 +33,10 @@ in {
         source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/swappy/.config/swappy";
         recursive = true;
       };
+      home.file.".wallpapers" = {
+        source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/wallpapers";
+        recursive = true;
+      };
     }
   ];
 }

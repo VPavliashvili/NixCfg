@@ -49,10 +49,6 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
-  services.locate.package = pkgs.mlocate;
-  services.locate.enable = true;
-  services.dbus.enable = true;
-
   services.pulseaudio.enable = false;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -71,8 +67,6 @@
     wget
     ntfs3g
     kitty
-    mpv
-    google-chrome
     librewolf
     util-linux
     ventoy-full
@@ -83,8 +77,6 @@
     jq
     tree
     unzip
-    avrdude
-    qmk
     fastfetch
     ranger
     bat
@@ -94,8 +86,6 @@
     usbutils
     bat
     brightnessctl
-    findutils
-    mlocate
     killall
     playerctl
     onefetch
@@ -129,8 +119,6 @@
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
-  hardware.keyboard.qmk.enable = true;
-  hardware.keyboard.zsa.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
