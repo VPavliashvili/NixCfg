@@ -12,7 +12,7 @@
   # You can change versions, add patches, set compilation flags, anything really.
   # https://nixos.wiki/wiki/Overlays
   modifications = final: prev: {
-    # installing looking glass from overlay 
+    # installing looking glass from overlay
     # because I don't want this updated automatically
     # without my manual intervention
     looking-glass-client = import ./mods/looking-glass-client-B7.nix {inherit prev;};
@@ -23,6 +23,7 @@
     roslyn-ls = import ./mods/roslyn-ls-net8-compatible {inherit prev;};
 
     zellij-switch = (inputs.zellij-switch.overlays.default final prev).zellij-switch;
+    zjstatus = inputs.zjstatus.packages.${prev.system}.default;
   };
 
   stable-packages = final: _prev: {

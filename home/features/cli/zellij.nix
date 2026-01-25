@@ -18,6 +18,7 @@ in {
     
     home.packages = [
       pkgs.zellij-switch
+      pkgs.zjstatus
     ];
 
     home.file.".config/zellij" = {
@@ -29,6 +30,8 @@ in {
     home.activation.copyZellijPlugin = lib.hm.dag.entryAfter ["writeBoundary"] ''
       $DRY_RUN_CMD mkdir -p $HOME/.config/zellij/plugins
       $DRY_RUN_CMD ln -sf ${pkgs.zellij-switch}/bin/zellij-switch.wasm $HOME/.config/zellij/plugins/zellij-switch.wasm
+
+      $DRY_RUN_CMD ln -sf ${pkgs.zjstatus}/bin/zjstatus.wasm $HOME/.config/zellij/plugins/zjstatus.wasm
     '';
   };
 }

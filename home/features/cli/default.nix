@@ -1,5 +1,10 @@
-{ config, osConfig, lib, sshpub, ... }: {
-
+{
+  config,
+  osConfig,
+  lib,
+  sshpub,
+  ...
+}: {
   imports = [
     ./oh-my-posh.nix
     ./bash.nix
@@ -14,5 +19,12 @@
     # and named .dotfiles on home dir (in my case https://github.com/VPavliashvili/.dotfiles)
     source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/nvim/.config/nvim";
     recursive = true;
+  };
+
+  home.file."bin" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/bin/bin";
+  };
+  home.file."scripts" = {
+    source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/scripts/scripts";
   };
 }

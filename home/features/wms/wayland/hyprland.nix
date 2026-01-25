@@ -49,8 +49,9 @@ with lib; {
       );
 
     features.wms.wayland.launchParams = [
-      # to be able to share ~/bin/ dir to run sessions script
+      # to be able to share ~/bin/ or ~/scripts dir to run sessions script
       "export PATH=\"$HOME/bin:$PATH\""
+      "export PATH=\"$HOME/scripts:$PATH\""
 
       "exec Hyprland"
     ];

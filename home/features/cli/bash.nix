@@ -94,6 +94,7 @@ in {
       export PATH="$HOME/bin:$PATH"
       export PATH="$HOME/.local/share/nvim/mason/bin:$PATH"
       export PATH="$HOME/go/bin:$PATH"
+      export PATH="$HOME/scripts:$PATH"
       export GPG_TTY=$(tty)
       export XDG_SCREENSHOTS_DIR=$HOME/Pictures/Screenshots
       export GRIM_DEFAULT_DIR=$HOME/Pictures/Screenshots

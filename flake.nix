@@ -18,6 +18,7 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    zjstatus.url = "github:dj95/zjstatus";
     zellij-switch.url = "github:mostafaqanbaryan/zellij-switch";
   };
 
