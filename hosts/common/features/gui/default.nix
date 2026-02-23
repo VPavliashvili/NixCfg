@@ -49,6 +49,7 @@ in {
         pkgs.mpv
         pkgs.xfce.ristretto
         pkgs.xfce.tumbler
+        pkgs.evince
       ];
     }
   ];

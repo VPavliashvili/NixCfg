@@ -16,4 +16,6 @@
   features.cli.qmk.enable = true;
 
   features.dev.database.dbms.dbeaver.enable = true;
+
+  features.gui.gaming.enable = true;
 }

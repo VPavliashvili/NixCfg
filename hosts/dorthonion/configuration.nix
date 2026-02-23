@@ -18,22 +18,6 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.supportedFilesystems = [ "ntfs" ];
 
-
-  # two expressions below is for hdmi sound problem
-  # after switching to igpu
-  # this fix does not fully work but feels like 
-  # it this bug occures after longer time boot sessions
-  boot.extraModprobeConfig = ''
-    # Disable power saving - this is the main fix
-    options snd_hda_intel power_save=0 power_save_controller=N
-    
-    # Additional stability options for Intel audio
-    options snd_hda_intel beep_mode=0
-  '';
-  boot.kernelParams = [ 
-    "i915.enable_guc=3"  # Enables GuC firmware for better iGPU stability
-  ];
-
   networking.hostName = "dorthonion"; # Define your hostname.
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -126,16 +110,14 @@
   programs = {
     firefox.enable = true;
     dconf.enable = true;
-    # hyprland = {
-    #   enable = true;
-    #   package = pkgs.hyprland;
-    #   xwayland.enable = true;
-    # };
     coolercontrol.enable = true;
+    corectrl.enable = true;
   };
+  boot.kernelModules = [ "nct6775" "coretemp" ]; # this for coolercontrol
 
-  systemd.services.jellyfin.environment.LIBVA_DRIVER_NAME = "iHD";
-  environment.sessionVariables = { LIBVA_DRIVER_NAME = "iHD"; };
+  boot.kernelParams = [ 
+    "amdgpu.ppfeaturemask=0xffffffff" # for corectrl
+  ];
 
   services.jellyfin = {
     enable = true;
@@ -145,18 +127,12 @@
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
-      intel-ocl
-      intel-media-driver
-      intel-vaapi-driver
-      libva-vdpau-driver
-      intel-compute-runtime
-      vpl-gpu-rt
+      mesa
     ];
   };
 
   # Add jellyfin user to render group for hardware access
   users.users.jellyfin.extraGroups = [ "render" "video" ];
-
 
   services.gvfs.enable = true;
 

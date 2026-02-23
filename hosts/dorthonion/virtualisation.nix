@@ -19,11 +19,11 @@
         "10de:2486" # rtx 3060Ti graphics
         "10de:228b" # rtx 3060Ti audio
 
-        "1002:73ff" # rx 6600 graphics
-        "1002:ab28" # rx 6600 audio
+        # "1002:73ff" # rx 6600 graphics
+        # "1002:ab28" # rx 6600 audio
 
-        # "8086:4680" # igpu
-        # "8086:7ad0" # igpu audio
+        "8086:4680" # igpu
+        "8086:7ad0" # igpu audio
       ];
       blacklistNvidia = true;
     };
@@ -35,6 +35,7 @@
   systemd.tmpfiles.rules = [
     "f /dev/shm/win10_work 660 ${mainUser} kvm -"
     "f /dev/shm/win10_gaming 660 ${mainUser} kvm -"
+    "f /dev/shm/win10_work_igpu 660 ${mainUser} kvm -"
   ];
 
   # notes here for looking-glass configuration

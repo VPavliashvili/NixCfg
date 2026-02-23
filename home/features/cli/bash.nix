@@ -82,7 +82,7 @@ in {
         fi
 
         local selected_file
-        selected_file=$(fd -H -t f . "$p" | fzf +m --height 50% --preview 'tree -C {}')
+        selected_file=$(fd -H -t f -e mp4 -e mkv -e avi -e mov -e webm -e flv -e wmv -e m4v -e mpg -e mpeg . "$p" | fzf +m --height 50% --preview 'tree -C {}')
         echo "$selected_file"
         mpv "$selected_file"
       }
