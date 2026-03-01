@@ -13,6 +13,10 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    agenix = {
+        url = "github:ryantm/agenix";
+        inputs.darwin.follows = "";
+    };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -51,6 +55,7 @@
           specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
           modules = [
             ./hosts/dorthonion 
+            inputs.agenix.nixosModules.default
 
             home-manager.nixosModules.home-manager
             {
