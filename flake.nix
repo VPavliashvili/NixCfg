@@ -13,7 +13,6 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-wsl.url = "github:nix-community/NixOS-WSL/main";
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -80,34 +79,6 @@
                 inherit inputs;
                 outputs = outputs;
                 sshpub = "tbd";
-              };
-            }
-          ];
-        };
-        helcaraxe = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
-          modules = [ ./hosts/helcaraxe ];
-        };
-        himring = nixpkgs.lib.nixosSystem {
-	      system = "x86_64-linux";
-          specialArgs = { inherit inputs outputs unstable; mainUser = "vpavliashvili"; };
-          modules = [ 
-	        inputs.nixos-wsl.nixosModules.default
-	        {
-	          wsl.enable = true;
-	          wsl.defaultUser = "vpavliashvili";
-	        }
-	        ./hosts/himring 
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.vpavliashvili = import ./home/users/vpavliashvili/himring.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                outputs = outputs;
-                sshpub = "unset";
               };
             }
           ];
