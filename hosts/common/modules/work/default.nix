@@ -1,9 +1,13 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let
-  cfg = config.modules.work;
-in 
 {
+  lib,
+  config,
+  pkgs,
+  mainUser,
+  ...
+}:
+with lib; let
+  cfg = config.modules.work;
+in {
   imports = [
     ./vpn.nix
   ];
@@ -21,7 +25,8 @@ in
     };
   };
 
-  config.environment.systemPackages = []
+  config.environment.systemPackages =
+    []
     ++ (optional (cfg.addRemmina) (pkgs.remmina))
     ++ (optional (cfg.addTeams) (pkgs.teams-for-linux));
 }

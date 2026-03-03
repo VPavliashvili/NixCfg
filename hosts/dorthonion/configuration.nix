@@ -13,11 +13,6 @@
       ./work.nix
     ];
 
-
-  age.secrets.liberty-password = {
-    file = ../../secrets/liberty-password.age;
-  };
-
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
