@@ -17,11 +17,6 @@ in {
         default = true;
         description = "install and configure steam";
       };
-      lutris = mkOption {
-        type = types.bool;
-        default = true;
-        description = "install and configure lutris";
-      };
     };
   };
 
@@ -33,8 +28,8 @@ in {
       };
       environment.systemPackages = [
         pkgs.mangohud
-        pkgs.protonup-ng
         pkgs.lutris
+        pkgs.protonplus
       ];
       environment.sessionVariables.STEAM_EXTRA_COMPAT_TOOLS_PATHS = "/home/${mainUser}/.steam/root/compatibilitytools.d";
     })

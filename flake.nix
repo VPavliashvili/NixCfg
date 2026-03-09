@@ -14,8 +14,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-25.11";
     unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     agenix = {
-        url = "github:ryantm/agenix";
-        inputs.darwin.follows = "";
+      url = "github:ryantm/agenix";
+      inputs.darwin.follows = "";
     };
     home-manager = {
       url = "github:nix-community/home-manager/release-25.11";
@@ -25,69 +25,82 @@
     zellij-switch.url = "github:mostafaqanbaryan/zellij-switch";
   };
 
-  outputs = { self, home-manager, nixpkgs, ... }@inputs:
-    let
-      inherit (self) outputs;
-      unstable = inputs.unstable.legacyPackages."x86_64-linux";
-    in {
-      packages.x86_64-linux = import ./pkgs nixpkgs.legacyPackages.x86_64-linux;
-      overlays = import ./overlays { inherit inputs; };
-      nixosConfigurations = {
-        parthGalen = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
-          modules = [
-            ./hosts/parthGalen 
-
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.stranger = import ./home/users/stranger/parthGalen.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                outputs = outputs;
-                sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
-              };
-            }
-          ];
+  outputs = {
+    self,
+    home-manager,
+    nixpkgs,
+    ...
+  } @ inputs: let
+    inherit (self) outputs;
+    unstable = inputs.unstable.legacyPackages."x86_64-linux";
+  in {
+    packages.x86_64-linux = import ./pkgs nixpkgs.legacyPackages.x86_64-linux;
+    overlays = import ./overlays {inherit inputs;};
+    nixosConfigurations = {
+      parthGalen = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable;
+          mainUser = "stranger";
         };
-        dorthonion = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; mainUser = "stranger"; };
-          modules = [
-            ./hosts/dorthonion 
-            inputs.agenix.nixosModules.default
+        modules = [
+          ./hosts/parthGalen
 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.stranger = import ./home/users/stranger/dorthonion.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                outputs = outputs;
-                sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
-              };
-            }
-          ];
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.stranger = import ./home/users/stranger/parthGalen.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              outputs = outputs;
+              sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
+            };
+          }
+        ];
+      };
+      dorthonion = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable;
+          mainUser = "stranger";
         };
-        doriath = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs outputs unstable; mainUser = "vpavliashvili"; };
-          modules = [
-            ./hosts/doriath
+        modules = [
+          ./hosts/dorthonion
+          inputs.agenix.nixosModules.default
 
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.users.stranger = import ./home/users/vpavliashvili/doriath.nix;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                outputs = outputs;
-                sshpub = "tbd";
-              };
-            }
-          ];
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.stranger = import ./home/users/stranger/dorthonion.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              outputs = outputs;
+              sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
+            };
+          }
+        ];
+      };
+      doriath = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable;
+          mainUser = "vpavliashvili";
         };
+        modules = [
+          ./hosts/doriath
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.vpavliashvili = import ./home/users/vpavliashvili/doriath.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              outputs = outputs;
+              sshpub = "tbd";
+            };
+          }
+        ];
       };
     };
+  };
 }
