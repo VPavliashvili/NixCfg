@@ -9,7 +9,7 @@
   ];
 
   features.wms.wm = "hyprland";
-  features.wms.hyprland.hy3.enable = true;
+  features.wms.hyprland.hy3.enable = false;
   features.wms.notifications.useDunst = true;
 
   features.cli.neovim.enable = true;

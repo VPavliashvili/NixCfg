@@ -24,6 +24,27 @@
 
     zellij-switch = (inputs.zellij-switch.overlays.default final prev).zellij-switch;
     zjstatus = inputs.zjstatus.packages.${prev.system}.default;
+
+    hyprland =
+      (import inputs.unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = prev.config.allowUnfree or false;
+      }).hyprland;
+    hyprlandPlugins =
+      (import inputs.unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = prev.config.allowUnfree or false;
+      }).hyprlandPlugins;
+    hyprpaper =
+      (import inputs.unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = prev.config.allowUnfree or false;
+      }).hyprpaper;
+    hyprpolkitagent =
+      (import inputs.unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = prev.config.allowUnfree or false;
+      }).hyprpolkitagent;
   };
 
   stable-packages = final: _prev: {

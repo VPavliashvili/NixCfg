@@ -53,7 +53,7 @@ with lib; {
       "export PATH=\"$HOME/bin:$PATH\""
       "export PATH=\"$HOME/scripts:$PATH\""
 
-      "exec Hyprland"
+      "exec start-hyprland"
     ];
   };
 }
