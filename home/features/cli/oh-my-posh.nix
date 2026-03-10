@@ -66,8 +66,14 @@ in {
                 {
                   "foreground": "#7eb8da",
                   "style": "plain",
-                  "template": "└ ",
+                  "template": "└",
                   "type": "text"
+                },
+                {
+                  "foreground": "#7eb8da",
+                  "style": "plain",
+                  "template": "<#ABB2BF> </>{{ .CurrentDate | date \"15:04\" }}<#ABB2BF> \u279c</>",
+                  "type": "time"
                 }
               ],
               "type": "prompt"
