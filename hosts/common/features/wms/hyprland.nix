@@ -27,7 +27,7 @@ in {
         pkgs.grim
         pkgs.slurp
         pkgs.wev
-        pkgs.swaylock-effects
+        pkgs.hyprlock
         pkgs.waybar
         pkgs.bemoji
         pkgs.hyprpaper

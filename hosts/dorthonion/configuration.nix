@@ -100,6 +100,8 @@
     dmidecode
     lshw
     i2c-tools
+
+    furmark
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth

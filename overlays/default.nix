@@ -45,6 +45,11 @@
         system = prev.stdenv.hostPlatform.system;
         config.allowUnfree = prev.config.allowUnfree or false;
       }).hyprpolkitagent;
+    hyprlock =
+      (import inputs.unstable {
+        system = prev.stdenv.hostPlatform.system;
+        config.allowUnfree = prev.config.allowUnfree or false;
+      }).hyprlock;
   };
 
   stable-packages = final: _prev: {
