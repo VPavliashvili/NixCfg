@@ -102,6 +102,7 @@
     i2c-tools
 
     furmark
+    zrok
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
