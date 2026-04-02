@@ -17,12 +17,6 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
-  fileSystems."/hddStorage" = {
-    device = "/dev/disk/by-uuid/EEF071DFF071AE89";
-    fsType = "ntfs-3g";
-    options = ["rw" "uid=1000"];
-  };
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/586fd7ea-2aa1-48b9-863b-bba2856af1ed";
     fsType = "ext4";
@@ -32,10 +26,11 @@
     device = "/dev/disk/by-uuid/ba52545e-d1a4-4031-a9f9-99d546005244";
     fsType = "ext4";
   };
-  # this will make `/games` directory usable by another users/processes without getting permission error
-  systemd.tmpfiles.rules = [
-    "d /games 0777 stranger root -"
-  ];
+
+  fileSystems."/storage" = {
+    device = "/dev/disk/by-uuid/949b0e86-7ffe-48dd-8190-73731c4d4e68";
+    fsType = "ext4";
+  };
 
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/314A-F819";
@@ -45,6 +40,12 @@
 
   swapDevices = [
     {device = "/dev/disk/by-uuid/a4c0f883-0652-4423-a4ee-557eede61fcc";}
+  ];
+
+  # this will make below directories usable by another users/processes without getting permission error
+  systemd.tmpfiles.rules = [
+    "d /games 0777 stranger root -"
+    "d /storage 0777 stranger root -"
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
