@@ -108,7 +108,28 @@
 
   services.gvfs.enable = true;
 
-  powerManagement.powertop.enable = true;
+  # set power profile to performance if ac plugged
+  # or set power profile to powersave if on battery
+  # this only checks at boot time, its not smart enough
+  # to detect plugging/unplugging at system runtime
+  systemd.services.boot-power-profile = {
+    description = "Set power profile based on AC state at boot";
+    wantedBy = [ "multi-user.target" ];
+    after = [ "multi-user.target" ];
+    path = [ pkgs.kmod ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = "yes";
+    };
+    script = ''
+      if cat /sys/class/power_supply/AC0/online | grep -q "1"; then
+        echo performance | tee /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+      else
+        ${pkgs.powertop}/bin/powertop --auto-tune
+      fi
+    '';
+  };
+
   programs = {
     light.enable = true;
     dconf.enable = true;

@@ -1,4 +1,8 @@
-{ pkgs, config, ... }: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   imports = [
     ../common/modules/virtualisation/libvirt
     ../common/modules/virtualisation/vfio
@@ -18,11 +22,12 @@
       ];
     };
     vfio = {
-      kernelParams = [ "intel_iommu=on" "iommu=pt" "i915.enable_guc=3" "i915.max_vfs=7" ];
-      kernelModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" "vhost_vsock" ];
-      initrdModules = [ "vfio_pci" "vfio_iommu_type1" "vfio" ];
+      kernelParams = [
+        "iommu=pt"
+      ];
+      kernelModules = ["vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" "vhost_vsock"];
+      initrdModules = ["vfio_pci" "vfio_iommu_type1" "vfio"];
     };
-    sriov.enable = true;
     looking-glass = {
       enable = true;
       kvmfr = {

@@ -37,7 +37,7 @@ in {
       programs.neovim = {
         enable = true;
         defaultEditor = cfg.neovim.defaultEditor;
-        package = unstable.neovim-unwrapped;
+        package = pkgs.neovim-unwrapped;
       };
       environment.systemPackages = [
         pkgs.fd

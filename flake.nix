@@ -23,6 +23,10 @@
     };
     zjstatus.url = "github:dj95/zjstatus";
     zellij-switch.url = "github:mostafaqanbaryan/zellij-switch";
+    i915-sriov-dkms = {
+      url = "github:strongtz/i915-sriov-dkms";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -44,6 +48,8 @@
         };
         modules = [
           ./hosts/parthGalen
+          inputs.agenix.nixosModules.default
+          inputs.i915-sriov-dkms.nixosModules.default
 
           home-manager.nixosModules.home-manager
           {
