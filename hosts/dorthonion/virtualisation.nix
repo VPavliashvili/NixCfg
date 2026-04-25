@@ -8,34 +8,44 @@
     ../common/modules/virtualisation/libvirt
     ../common/modules/virtualisation/vfio
     ../common/modules/virtualisation/looking-glass
+    ../common/modules/virtualisation/sriov
   ];
 
   virtualisation = {
+    libvirtd = {
+      deviceACL = [
+        "/dev/ptmx"
+        "/dev/kvm"
+        "/dev/kvmfr0"
+        "/dev/vfio/vfio"
+        "/dev/vfio/30"
+      ];
+    };
     vfio = {
       kernelParams = ["intel_iommu=on" "iommu=pt"];
-      kernelModules = ["vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel"];
+      kernelModules = ["vfio_pci" "vfio_iommu_type1" "vfio" "kvm_intel" "vhost_vsock"];
       initrdModules = ["vfio_pci" "vfio_iommu_type1" "vfio"];
       devices = [
         "10de:2486" # rtx 3060Ti graphics
         "10de:228b" # rtx 3060Ti audio
 
-        # "1002:73ff" # rx 6600 graphics
-        # "1002:ab28" # rx 6600 audio
-
-        "8086:4680" # igpu
-        "8086:7ad0" # igpu audio
+        # "8086:4680" # igpu
+        # "8086:7ad0" # igpu audio
       ];
       blacklistNvidia = true;
     };
     looking-glass = {
       enable = true;
+      kvmfr = {
+        enable = true;
+        size = 64;
+      };
     };
   };
 
   systemd.tmpfiles.rules = [
     "f /dev/shm/win10_work 660 ${mainUser} kvm -"
     "f /dev/shm/win10_gaming 660 ${mainUser} kvm -"
-    "f /dev/shm/win10_work_igpu 660 ${mainUser} kvm -"
   ];
 
   # notes here for looking-glass configuration

@@ -72,6 +72,7 @@
         modules = [
           ./hosts/dorthonion
           inputs.agenix.nixosModules.default
+          inputs.i915-sriov-dkms.nixosModules.default
 
           home-manager.nixosModules.home-manager
           {
