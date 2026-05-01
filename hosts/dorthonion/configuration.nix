@@ -122,20 +122,12 @@
     "amdgpu.ppfeaturemask=0xffffffff" # for corectrl
   ];
 
-  services.jellyfin = {
-    enable = true;
-    openFirewall = true;
-  };
-
   hardware.graphics = {
     enable = true;
     extraPackages = with pkgs; [
       mesa
     ];
   };
-
-  # Add jellyfin user to render group for hardware access
-  users.users.jellyfin.extraGroups = [ "render" "video" ];
 
   services.gvfs.enable = true;
 

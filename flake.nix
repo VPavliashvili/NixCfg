@@ -37,6 +37,11 @@
   } @ inputs: let
     inherit (self) outputs;
     unstable = inputs.unstable.legacyPackages."x86_64-linux";
+
+    sshKeys = {
+      dorthonion = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
+      parthGalen = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
+    };
   in {
     packages.x86_64-linux = import ./pkgs nixpkgs.legacyPackages.x86_64-linux;
     overlays = import ./overlays {inherit inputs;};
@@ -59,7 +64,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
               outputs = outputs;
-              sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
+              sshpub = sshKeys.parthGalen;
             };
           }
         ];
@@ -82,9 +87,19 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
               outputs = outputs;
-              sshpub = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
+              sshpub = sshKeys.dorthonion;
             };
           }
+        ];
+      };
+      rivendell = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable sshKeys;
+          mainUser = "stranger";
+        };
+        modules = [
+          ./hosts/rivendell
+          inputs.agenix.nixosModules.default
         ];
       };
       doriath = nixpkgs.lib.nixosSystem {
