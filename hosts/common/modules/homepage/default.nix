@@ -40,9 +40,9 @@
             };
           }
           {
-            Jellyseerr = {
+            Seerr = {
               href = "http://192.168.1.240:5055";
-              icon = "jellyseerr.png";
+              icon = "seerr.png";
             };
           }
         ];
@@ -50,9 +50,9 @@
       {
         Downloads = [
           {
-            Deluge = {
-              href = "http://192.168.1.240:8112";
-              icon = "deluge.png";
+            Qbittorrent = {
+              href = "http://192.168.1.240:8080";
+              icon = "qbittorrent.png";
             };
           }
           {

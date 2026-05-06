@@ -1,18 +1,16 @@
 {
   config,
   pkgs,
+  unstable,
+  inputs,
   ...
 }: {
-  users.groups.media = {};
+  # seerr is not available in stable yet, will remove this after 26.05 relese
+  imports = [
+    "${inputs.unstable}/nixos/modules/services/misc/seerr.nix"
+  ];
 
-  services.deluge = {
-    enable = true;
-    group = "media";
-    web = {
-      enable = true;
-      openFirewall = true;
-    };
-  };
+  users.groups.media = {};
 
   services.sonarr = {
     enable = true;
@@ -37,9 +35,10 @@
     group = "media";
   };
 
-  services.jellyseerr = {
+  services.seerr = {
     enable = true;
     openFirewall = true;
+    package = unstable.seerr;
   };
 
   services.flaresolverr = {
