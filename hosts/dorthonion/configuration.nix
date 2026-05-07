@@ -2,7 +2,7 @@
 # your system. Help is available in the configuration.nix(5) man page, on
 # https://search.nixos.org/options and in the NixOS manual (`nixos-help`).
 
-{ config, pkgs, unstable, lib, ... }:
+{ config, pkgs, unstable, lib, mainUser, allowedHosts, ... }:
 {
   imports =
     [
@@ -142,13 +142,15 @@
   # List services that you want to enable:
 
   services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    PermitRootLogin = "no";
+  };
   networking.firewall.allowedTCPPorts = [ 22 ];
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
+  users.users.${mainUser} = {
+    openssh.authorizedKeys.keys = allowedHosts;
+  };
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you

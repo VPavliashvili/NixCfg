@@ -2,7 +2,7 @@
   config,
   pkgs,
   mainUser,
-  sshKeys,
+  allowedHosts,
   lib,
   ...
 }: {
@@ -133,10 +133,7 @@
   # networking.firewall.enable = false;
 
   users.users.${mainUser} = {
-    openssh.authorizedKeys.keys = [
-      sshKeys.dorthonion
-      sshKeys.parthGalen
-    ];
+    openssh.authorizedKeys.keys = allowedHosts;
   };
 
   # This value determines the NixOS release from which the default

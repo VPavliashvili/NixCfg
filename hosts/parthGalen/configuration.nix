@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, unstable, mainUser, ... }:
+{ config, pkgs, unstable, mainUser, allowedHosts, ... }:
 {
   imports =
     [
@@ -36,7 +36,15 @@
   services.logind.settings.Login.HandleLidSwitch = "ignore";
 
   services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    PermitRootLogin = "no";
+  };
   networking.firewall.allowedTCPPorts = [ 22 ];
+
+  users.users.${mainUser} = {
+    openssh.authorizedKeys.keys = allowedHosts;
+  };
 
   # Open ports in the firewall.
   # networking.firewall.allowedUDPPorts = [ ... ];

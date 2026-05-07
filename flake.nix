@@ -38,10 +38,7 @@
     inherit (self) outputs;
     unstable = inputs.unstable.legacyPackages."x86_64-linux";
 
-    sshKeys = {
-      dorthonion = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK4ZfV5TFJndan43XMw2J0VWimaWSIt2+GMAtRdq+cml stranger-key-dorthonion";
-      parthGalen = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINTpUGhWJtqnQ6xgdgIdVrm++gFlwrtCIORH4PvZ7gD8 stranger-key-parthGalen";
-    };
+    sshKeys = import ./keys.nix;
   in {
     packages.x86_64-linux = import ./pkgs nixpkgs.legacyPackages.x86_64-linux;
     overlays = import ./overlays {inherit inputs;};
@@ -49,6 +46,7 @@
       parthGalen = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs unstable;
+          allowedHosts = [sshKeys.users.stranger.dorthonion];
           mainUser = "stranger";
         };
         modules = [
@@ -64,7 +62,7 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
               outputs = outputs;
-              sshpub = sshKeys.parthGalen;
+              sshpub = sshKeys.users.stranger.parthGalen;
             };
           }
         ];
@@ -72,6 +70,7 @@
       dorthonion = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs unstable;
+          allowedHosts = [sshKeys.users.stranger.parthGalen];
           mainUser = "stranger";
         };
         modules = [
@@ -87,14 +86,15 @@
             home-manager.extraSpecialArgs = {
               inherit inputs;
               outputs = outputs;
-              sshpub = sshKeys.dorthonion;
+              sshpub = sshKeys.users.stranger.dorthonion;
             };
           }
         ];
       };
       rivendell = nixpkgs.lib.nixosSystem {
         specialArgs = {
-          inherit inputs outputs unstable sshKeys;
+          inherit inputs outputs unstable;
+          allowedHosts = builtins.attrValues sshKeys.users.stranger;
           mainUser = "stranger";
         };
         modules = [
