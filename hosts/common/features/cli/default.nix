@@ -3,6 +3,7 @@
   pkgs,
   unstable,
   config,
+  mainUser,
   ...
 }:
 with lib; let
@@ -29,6 +30,11 @@ in {
       type = types.bool;
       default = true;
       description = "install yazi";
+    };
+    fancontrol = mkOption {
+      type = types.bool;
+      default = false;
+      description = "activates my custom fan control script and system configuration";
     };
   };
 
@@ -63,6 +69,16 @@ in {
         pkgs.qmk
       ];
       hardware.keyboard.qmk.enable = true;
+    })
+
+    (mkIf cfg.fancontrol {
+      services.udev.extraRules = ''
+        # Allow fans group to control nct6798 PWM fans
+        SUBSYSTEM=="hwmon", DRIVERS=="nct6775", RUN+="/bin/sh -c 'chgrp fans /sys/class/hwmon/%k/pwm[1-7] /sys/class/hwmon/%k/pwm[1-7]_enable 2>/dev/null; chmod g+w /sys/class/hwmon/%k/pwm[1-7] /sys/class/hwmon/%k/pwm[1-7]_enable 2>/dev/null'"
+      '';
+
+      users.groups.fans = {};
+      users.users.${mainUser}.extraGroups = ["fans"];
     })
 
     {

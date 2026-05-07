@@ -36,7 +36,7 @@
 
   services.qbittorrent = {
     enable = true;
-    user = "stranger";
+    user = mainUser;
     group = "users";
     webuiPort = 8080;
     openFirewall = true; # opens webuiPort
@@ -132,7 +132,7 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  users.users.stranger = {
+  users.users.${mainUser} = {
     openssh.authorizedKeys.keys = [
       sshKeys.dorthonion
       sshKeys.parthGalen

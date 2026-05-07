@@ -14,6 +14,7 @@
 
   features.cli.neovim.enable = true;
   features.cli.qmk.enable = true;
+  features.cli.fancontrol = true;
 
   features.dev.database.dbms.dbeaver.enable = true;
 
