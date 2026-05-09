@@ -11,37 +11,9 @@
     ../common/modules/jellyfin
     ../common/modules/arr
     ../common/modules/homepage
+    ../common/modules/calibre-web
+    ../common/modules/networking
   ];
-
-  services.caddy = {
-    enable = true;
-    package = pkgs.caddy.withPlugins {
-      plugins = ["github.com/caddy-dns/duckdns@v0.5.0"];
-      hash = "sha256-MYE+VBEZ93QmpyT4RcH4hY+G7y1IwBWwcZ1J/4XrZK4=";
-    };
-    virtualHosts."esgalmar.duckdns.org" = {
-      extraConfig = ''
-        tls {
-          dns duckdns {env.DUCKDNS_TOKEN}
-        }
-        reverse_proxy localhost:8096
-      '';
-    };
-  };
-  systemd.services.caddy.serviceConfig.EnvironmentFile = config.age.secrets.duckdns.path;
-  age.secrets.duckdns = {
-    file = ../../secrets/duckdns-token.age;
-    owner = "caddy";
-  };
-
-  services.qbittorrent = {
-    enable = true;
-    user = mainUser;
-    group = "users";
-    webuiPort = 8080;
-    openFirewall = true; # opens webuiPort
-    torrentingPort = 6881; # opens TCP+UDP for this automatically
-  };
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
@@ -126,8 +98,7 @@
   # security.sudo.wheelNeedsPassword = false;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [22 6881 80 443];
-  networking.firewall.allowedUDPPorts = [6881];
+  networking.firewall.allowedTCPPorts = [22];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;

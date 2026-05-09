@@ -3,6 +3,7 @@
   pkgs,
   unstable,
   inputs,
+  mainUser,
   ...
 }: {
   # seerr is not available in stable yet, will remove this after 26.05 relese
@@ -44,5 +45,14 @@
   services.flaresolverr = {
     enable = true;
     openFirewall = true;
+  };
+
+  services.qbittorrent = {
+    enable = true;
+    user = mainUser;
+    group = "users";
+    webuiPort = 8080;
+    openFirewall = true; # opens webuiPort
+    torrentingPort = 6881; # opens TCP+UDP for this automatically
   };
 }
