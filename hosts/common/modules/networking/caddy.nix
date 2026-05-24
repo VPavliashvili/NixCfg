@@ -10,20 +10,29 @@
     services.caddy = {
       enable = true;
       package = pkgs.caddy.withPlugins {
-        plugins = ["github.com/caddy-dns/duckdns@v0.5.0"];
-        hash = "sha256-MYE+VBEZ93QmpyT4RcH4hY+G7y1IwBWwcZ1J/4XrZK4=";
+        plugins = [
+          "github.com/caddy-dns/cloudflare@v0.2.4"
+        ];
+        hash = "sha256-4WF7tIx8d6O/Bd0q9GhMch8lS3nlR5N3Zg4ApA3hrKw=";
       };
-      virtualHosts."esgalmar.duckdns.org" = {
+      virtualHosts."jellyfin.esgalmar.net" = {
         extraConfig = ''
           tls {
-            dns duckdns {env.DUCKDNS_TOKEN}
+            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
           }
           reverse_proxy localhost:8096
         '';
       };
     };
 
-    systemd.services.caddy.serviceConfig.EnvironmentFile = config.age.secrets.duckdns.path;
+    age.secrets.cloudflare = {
+      file = ../../../../secrets/cloudflare-token.age;
+      owner = "caddy";
+    };
+
+    systemd.services.caddy.serviceConfig.EnvironmentFile = [
+      config.age.secrets.cloudflare.path
+    ];
 
     networking.firewall.allowedTCPPorts = [80 443];
   };

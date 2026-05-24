@@ -8,6 +8,5 @@
 }: {
   imports = [
     ../networking/caddy.nix
-    ../networking/duckdns.nix
   ];
 }

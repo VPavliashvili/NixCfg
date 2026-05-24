@@ -7,4 +7,5 @@ in {
   "liberty-cert-pwd.age".publicKeys = hostkeys;
   "liberty-cert-pfx.age".publicKeys = hostkeys;
   "duckdns-token.age".publicKeys = hostkeys;
+  "cloudflare-token.age".publicKeys = hostkeys;
 }
