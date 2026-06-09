@@ -8,4 +8,6 @@ in {
   "liberty-cert-pfx.age".publicKeys = hostkeys;
   "duckdns-token.age".publicKeys = hostkeys;
   "cloudflare-token.age".publicKeys = hostkeys;
+  "wg-dorthonion-private.age".publicKeys = [keys.hosts.dorthonion];
+  "wg-parthgalen-private.age".publicKeys = [keys.hosts.parthgalen];
 }

@@ -27,6 +27,25 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  age.secrets.wg-private = {
+    file = ../../secrets/wg-parthgalen-private.age;
+  };
+
+  networking.wg-quick.interfaces.wg0 = {
+    address = [ "10.0.0.3/24" ]; # address is defined inside opnsense wireguard peers
+    privateKeyFile = config.age.secrets.wg-private.path;
+    autostart = false;
+    
+    peers = [
+      {
+        publicKey = "QQ3LpJXa3C0FhAIit1BH0vtfRs4QKJVzNQ+cQ9oCOHk=";
+        allowedIPs = [ "192.168.1.0/24" "10.0.0.0/24" ];
+        endpoint = "vpn.esgalmar.net:51820";
+        persistentKeepalive = 25;
+      }
+    ];
+  };
+
   # Set your time zone.
   time.timeZone = "Asia/Tbilisi";
 
