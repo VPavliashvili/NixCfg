@@ -11,6 +11,7 @@
       ./containerisation.nix
       ./features.nix
       ./work.nix
+      ../common/modules/networking
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -22,6 +23,8 @@
   # Pick only one of the below networking options.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
   networking.networkmanager.enable = true;  # Easiest to use and most distros use this by default.
+
+  modules.networking.testingTools = true;
 
   age.secrets.wg-private = {
     file = ../../secrets/wg-dorthonion-private.age;
@@ -62,7 +65,7 @@
   };
 
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.10"
+    "ventoy-1.1.12"
   ];
 
   environment.systemPackages = with pkgs; [

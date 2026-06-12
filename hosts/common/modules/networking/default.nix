@@ -8,5 +8,6 @@
 }: {
   imports = [
     ../networking/caddy.nix
+    ../networking/testing.nix
   ];
 }

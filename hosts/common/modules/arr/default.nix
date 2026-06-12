@@ -7,9 +7,9 @@
   ...
 }: {
   # seerr is not available in stable yet, will remove this after 26.05 relese
-  imports = [
-    "${inputs.unstable}/nixos/modules/services/misc/seerr.nix"
-  ];
+  # imports = [
+  #   "${inputs.unstable}/nixos/modules/services/misc/seerr.nix"
+  # ];
 
   users.groups.media = {};
 

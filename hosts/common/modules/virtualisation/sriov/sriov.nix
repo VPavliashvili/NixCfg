@@ -41,7 +41,15 @@ in {
       "iommu=pt"
       "split_lock_detect=off"
     ];
-    boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_19;
+
+    # this module requires linux 6.19 or later
+    # so setting it to latest if ltc is below 6.19
+    boot.kernelPackages =
+      lib.mkIf (
+        lib.versionOlder pkgs.linuxPackages.kernel.version "6.19"
+      )
+      pkgs.linuxPackages_latest;
+
     boot.extraModulePackages = [pkgs.i915-sriov];
 
     virtualisation.sriov.vfio.enable = true;

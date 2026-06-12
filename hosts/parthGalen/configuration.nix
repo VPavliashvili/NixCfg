@@ -84,12 +84,13 @@
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.acpilight.enable = true;
 
   environment.sessionVariables.NIXOS_OZONE_WL = "1";
   environment.pathsToLink = [ "/share/bash-completion" ];
 
   nixpkgs.config.permittedInsecurePackages = [
-    "ventoy-1.1.10"
+    "ventoy-1.1.12"
   ];
 
   environment.systemPackages = [
@@ -158,7 +159,6 @@
   };
 
   programs = {
-    light.enable = true;
     dconf.enable = true;
   };
 

@@ -1,12 +1,17 @@
-{ lib, config, pkgs, unstable, ... }: 
-{ 
-  imports = [ 
+{
+  lib,
+  config,
+  pkgs,
+  unstable,
+  ...
+}: {
+  imports = [
     ../../features/cli
     ../../features/gui
     ../../features/misc
     ../../features/wms/wayland
     ./home.nix
-  ]; 
+  ];
 
   features = {
     cli = {
@@ -32,6 +37,8 @@
   gtk = {
     enable = true;
 
+    gtk4.theme = config.gtk.theme;
+
     theme = {
       package = pkgs.flat-remix-gtk;
       name = "Flat-Remix-GTK-Blue-Dark";
@@ -51,6 +58,6 @@
     "org/virt-manager/virt-manager/connections" = {
       autoconnect = ["qemu:///system"];
       uris = ["qemu:///system"];
+    };
   };
-};
 }

@@ -97,7 +97,7 @@ in {
       ++ (optionals cfg.frontend [
         pkgs.vscode-langservers-extracted
         pkgs.emmet-language-server
-        pkgs.nodePackages.prettier
+        pkgs.prettier
         pkgs.nodejs_24
         pkgs.stylelint-lsp
         pkgs.typescript-language-server

@@ -57,8 +57,8 @@ in {
       environment.systemPackages = [
         pkgs.obs-studio
         pkgs.mpv
-        pkgs.xfce.ristretto
-        pkgs.xfce.tumbler
+        pkgs.ristretto
+        pkgs.tumbler
         pkgs.evince
       ];
     }

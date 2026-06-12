@@ -1,12 +1,18 @@
-{ lib, config, pkgs, unstable, osConfig, ... }: 
-{ 
-  imports = [ 
+{
+  lib,
+  config,
+  pkgs,
+  unstable,
+  osConfig,
+  ...
+}: {
+  imports = [
     ../../features/cli
     ../../features/gui
     ../../features/misc
     ../../features/wms/wayland
     ./home.nix
-  ]; 
+  ];
 
   features = {
     cli = {
@@ -31,6 +37,8 @@
 
   gtk = {
     enable = true;
+
+    gtk4.theme = config.gtk.theme;
 
     theme = {
       package = pkgs.flat-remix-gtk;
