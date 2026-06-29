@@ -68,7 +68,6 @@
     powertop
     fastfetch
     tmux
-    zrok
   ];
 
   programs.neovim = {

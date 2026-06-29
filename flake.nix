@@ -102,6 +102,17 @@
           inputs.agenix.nixosModules.default
         ];
       };
+      moria = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable;
+          allowedHosts = builtins.attrValues sshKeys.users.stranger;
+          mainUser = "stranger";
+        };
+        modules = [
+          ./hosts/moria
+          inputs.agenix.nixosModules.default
+        ];
+      };
       doriath = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs unstable;
