@@ -8,7 +8,14 @@
 }:
 with lib; let
   gaming = osConfig.features.gui.gaming;
+  work = osConfig.modules.work;
 in {
+  xdg.configFile."teams-for-linux/config.json" = mkIf work.addTeams {
+    text = builtins.toJSON {
+      followSystemTheme = false;
+    };
+  };
+
   home.file.".config/MangoHud/MangoHud.conf" = mkIf gaming.useMangohud {
     text = ''
       no_display

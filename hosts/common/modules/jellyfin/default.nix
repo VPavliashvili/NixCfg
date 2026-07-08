@@ -11,8 +11,8 @@
       openFirewall = true;
     };
 
-    # Add jellyfin user to render group for hardware access
-    users.users.jellyfin.extraGroups = ["render" "video"];
+    # add jellyfin user to render group for hardware and media library access
+    users.users.jellyfin.extraGroups = ["render" "video" "media"];
 
     hardware.graphics = {
       enable = true;

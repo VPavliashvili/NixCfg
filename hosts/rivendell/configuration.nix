@@ -109,6 +109,20 @@
     openssh.authorizedKeys.keys = allowedHosts;
   };
 
+  # mount moria's zfs 'nas' dataset
+  # as media partition for arr stack and jellyfin
+  fileSystems."/mnt/nas/media" = {
+    device = "192.168.1.241:/nas/shares/media";
+    fsType = "nfs";
+    options = [
+      "nfsvers=4.2" # newest protocol; supports server-side copy, sparse files
+      "x-systemd.automount" # mount on first access, not at boot
+      "noauto" # don't mount at boot (pairs with automount)
+      "_netdev" # network filesystem — wait for network-online
+      "x-systemd.mount-timeout=10s" # if moria is down, fail fast instead of hanging apps
+    ];
+  };
+
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
   # on your system were taken. It‘s perfectly fine and recommended to leave

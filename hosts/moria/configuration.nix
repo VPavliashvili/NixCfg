@@ -89,10 +89,73 @@
   networking.firewall.allowedTCPPorts = [
     22
     11987 # coolercontrol port
+    2049 # nfs port
   ];
 
   users.users.${mainUser} = {
     openssh.authorizedKeys.keys = allowedHosts;
+  };
+
+  # zfs stuff start
+
+  # head -c 8 /etc/machine-id
+  networking.hostId = "d2d86180";
+
+  boot.supportedFilesystems = ["zfs"];
+  boot.zfs.forceImportRoot = false;
+  boot.zfs.extraPools = ["nas"];
+
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "monthly";
+    pools = ["nas"]; # omit for all pools(rn only having nas)
+  };
+
+  services.zfs.autoSnapshot = {
+    enable = true;
+    frequent = 0;
+    hourly = 0;
+    daily = 7;
+    weekly = 4;
+    monthly = 3;
+  };
+  # zfs stuff end
+
+  # pin 'media' group gid to 992 same as rivendell
+  users.groups.media.gid = 992;
+
+  # file sharing and zfs structure related
+  # done declaratively instead of manually doing multiple mkdir -p
+  # also this will run on every activation and boot but won't touch existing files inside
+  systemd.tmpfiles.rules = [
+    # d means create directory if missing and enforce mode/owner/group on it
+    # and - means nevel clean up
+    # order is:  d path mode user group age
+    "d /nas/shares/media                          2775 root media -"
+    "d /nas/shares/media/downloads                2775 root media -"
+    "d /nas/shares/media/downloads/complete       2775 root media -"
+    "d /nas/shares/media/downloads/complete/movies   2775 root media -"
+    "d /nas/shares/media/downloads/complete/prowlarr 2775 root media -"
+    "d /nas/shares/media/downloads/complete/tv       2775 root media -"
+    "d /nas/shares/media/downloads/incomplete        2775 root media -"
+    "d /nas/shares/media/downloads/incomplete/prowlarr  2775 root media -"
+    "d /nas/shares/media/downloads/incomplete/radarr    2775 root media -"
+    "d /nas/shares/media/downloads/incomplete/tv-sonarr 2775 root media -"
+    "d /nas/shares/media/media                    2775 root media -"
+    "d /nas/shares/media/media/books              2775 root media -"
+    "d /nas/shares/media/media/Movies             2775 root media -"
+    "d /nas/shares/media/media/Tv_Shows           2775 root media -"
+  ];
+
+  # share media subdir for rivendell and its arr stack
+  services.nfs.server = {
+    enable = true;
+    # given ip is statically assigned to rivendell
+    # on the router(opnsense) level but eventually gotta refactor
+    # this(and such cases) out into internal dns names
+    exports = ''
+      /nas/shares/media 192.168.1.240(rw,sync,no_subtree_check)
+    '';
   };
 
   system.stateVersion = "25.05";

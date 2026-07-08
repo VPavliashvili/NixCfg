@@ -6,12 +6,8 @@
   mainUser,
   ...
 }: {
-  # seerr is not available in stable yet, will remove this after 26.05 relese
-  # imports = [
-  #   "${inputs.unstable}/nixos/modules/services/misc/seerr.nix"
-  # ];
-
-  users.groups.media = {};
+  users.groups.media.gid = 992; # 'media' auto assigned gid 992 and now pinning to it
+  users.users.${mainUser}.extraGroups = ["media"];
 
   services.sonarr = {
     enable = true;
@@ -50,7 +46,7 @@
   services.qbittorrent = {
     enable = true;
     user = mainUser;
-    group = "users";
+    group = "media";
     webuiPort = 8080;
     openFirewall = true; # opens webuiPort
     torrentingPort = 6881; # opens TCP+UDP for this automatically
