@@ -33,6 +33,10 @@ with lib; {
         then ''
           source = ~/.config/hypr/device/pc.conf
         ''
+        else if osConfig.networking.hostName == "numenor"
+        then ''
+          source = ~/.config/hypr/device/numenor.conf
+        ''
         else ""
       )
       + (

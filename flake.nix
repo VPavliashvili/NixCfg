@@ -91,6 +91,30 @@
           }
         ];
       };
+      numenor = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit inputs outputs unstable;
+          allowedHosts = [sshKeys.users.stranger.parthGalen sshKeys.users.stranger.dorthonion];
+          mainUser = "stranger";
+        };
+        modules = [
+          ./hosts/numenor
+          inputs.agenix.nixosModules.default
+          inputs.i915-sriov-dkms.nixosModules.default
+
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.users.stranger = import ./home/users/stranger/numenor.nix;
+            home-manager.extraSpecialArgs = {
+              inherit inputs;
+              outputs = outputs;
+              sshpub = sshKeys.users.stranger.numenor;
+            };
+          }
+        ];
+      };
       rivendell = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit inputs outputs unstable;

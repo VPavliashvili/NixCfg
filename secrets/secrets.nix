@@ -10,4 +10,5 @@ in {
   "cloudflare-token.age".publicKeys = hostkeys;
   "wg-dorthonion-private.age".publicKeys = [keys.hosts.dorthonion];
   "wg-parthgalen-private.age".publicKeys = [keys.hosts.parthgalen];
+  "wg-numenor-private.age".publicKeys = [keys.hosts.numenor];
 }
