@@ -5,8 +5,15 @@
   allowedHosts,
   lib,
   ...
-}: {
-  config = {
+}:
+with lib; let
+  cfg = config.modules.networking;
+in {
+  options.modules.networking = {
+    enableCaddy = mkEnableOption "enable caddy for this host(usage only expected by rivendell)";
+  };
+
+  config = mkIf cfg.enableCaddy {
     services.caddy = {
       enable = true;
       package = pkgs.caddy.withPlugins {
@@ -21,6 +28,29 @@
             dns cloudflare {env.CLOUDFLARE_API_TOKEN}
           }
           reverse_proxy localhost:8096
+        '';
+      };
+
+      # localhost:9091 is authelia
+      virtualHosts."auth.esgalmar.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+          }
+          reverse_proxy localhost:9091
+        '';
+      };
+
+      virtualHosts."seerr.esgalmar.net" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+          }
+          forward_auth localhost:9091 {
+            uri /api/authz/forward-auth
+            copy_headers Remote-User Remote-Groups Remote-Name Remote-Email
+          }
+          reverse_proxy localhost:5055
         '';
       };
     };

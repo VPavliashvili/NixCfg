@@ -6,9 +6,18 @@ in {
   "liberty-password.age".publicKeys = hostkeys;
   "liberty-cert-pwd.age".publicKeys = hostkeys;
   "liberty-cert-pfx.age".publicKeys = hostkeys;
+
   "duckdns-token.age".publicKeys = hostkeys;
   "cloudflare-token.age".publicKeys = hostkeys;
+
   "wg-dorthonion-private.age".publicKeys = [keys.hosts.dorthonion];
   "wg-parthgalen-private.age".publicKeys = [keys.hosts.parthgalen];
   "wg-numenor-private.age".publicKeys = [keys.hosts.numenor];
+
+  "lldap-jwt.age".publicKeys = [keys.hosts.rivendell];
+  "lldap-admin-pass.age".publicKeys = [keys.hosts.rivendell];
+
+  "authelia-jwt.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-session.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-storage.age".publicKeys = [keys.hosts.rivendell];
 }

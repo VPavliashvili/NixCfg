@@ -48,4 +48,17 @@ in {
   config.environment.variables = {
     LIBVIRT_DEFAULT_URI = "qemu:///system";
   };
+
+  # this should solve `network 'default' is not active` error
+  config.systemd.services.libvirt-default-network-autostart = {
+    description = "Set libvirt 'default' network to autostart";
+    after = [ "libvirtd.service" ];
+    wants = [ "libvirtd.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+      ExecStart = "${pkgs.libvirt}/bin/virsh net-autostart default";
+    };
+  };
 }

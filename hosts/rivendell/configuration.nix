@@ -13,24 +13,23 @@
     ../common/modules/homepage
     ../common/modules/calibre-web
     ../common/modules/networking
+    ../common/modules/auth
   ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "rivendell"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
+  networking.hostName = "rivendell";
 
   # Enable networking
   networking.networkmanager.enable = true;
 
   # my custom option
   modules.networking.testingTools = true;
+  modules.networking.enableCaddy = true;
+  modules.auth.enableLldap = true;
+  modules.auth.enableAuthelia = true;
 
   # Set your time zone.
   time.timeZone = "Asia/Tbilisi";
