@@ -116,6 +116,26 @@
         "type": "github"
       }
     },
+    "midscroll": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1786667163,
+        "narHash": "sha256-spdSf0Fkk2zy8h9tQ1oub6KR3C7MLlVRw4zQAHnTBgc=",
+        "owner": "VPavliashvili",
+        "repo": "midscroll-flake",
+        "rev": "9ba801c510eb0cff81d9270d63cd21c0a654c190",
+        "type": "github"
+      },
+      "original": {
+        "owner": "VPavliashvili",
+        "repo": "midscroll-flake",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1754028485,
@@ -197,6 +217,7 @@
         "agenix": "agenix",
         "home-manager": "home-manager_2",
         "i915-sriov-dkms": "i915-sriov-dkms",
+        "midscroll": "midscroll",
         "nixpkgs": "nixpkgs_2",
         "unstable": "unstable",
         "zellij-switch": "zellij-switch",

@@ -27,6 +27,10 @@
       url = "github:strongtz/i915-sriov-dkms";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    midscroll = {
+      url = "github:VPavliashvili/midscroll-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -101,6 +105,7 @@
           ./hosts/numenor
           inputs.agenix.nixosModules.default
           inputs.i915-sriov-dkms.nixosModules.default
+          inputs.midscroll.nixosModules.default
 
           home-manager.nixosModules.home-manager
           {
@@ -112,6 +117,11 @@
               outputs = outputs;
               sshpub = sshKeys.users.stranger.numenor;
             };
+          }
+
+          {
+            services.midscroll.enable = true;
+            services.midscroll.overlay.enable = false;
           }
         ];
       };
