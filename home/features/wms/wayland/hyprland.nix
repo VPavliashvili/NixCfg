@@ -6,7 +6,7 @@
   ...
 }:
 with lib; {
-  config = mkIf (osConfig.features.wms.wm == "hyprland") {
+  config = mkIf (elem "hyprland" osConfig.features.wms.enabled) {
     home.file.".config/hypr" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
@@ -52,7 +52,7 @@ with lib; {
         ''
       );
 
-    features.wms.wayland.launchParams = [
+    features.wms.wayland.launchParams.hyprland = [
       # to be able to share ~/bin/ or ~/scripts dir to run sessions script
       "export PATH=\"$HOME/bin:$PATH\""
       "export PATH=\"$HOME/scripts:$PATH\""

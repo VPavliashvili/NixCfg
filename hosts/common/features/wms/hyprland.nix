@@ -5,12 +5,11 @@
   ...
 }:
 with lib; let
-  cfg = config.features.wms.hyprland;
+  cfg = config.features.wms;
 in {
-  options.features.wms.hyprland.enable = mkEnableOption "enable hyprland wm";
   options.features.wms.hyprland.hy3.enable = mkEnableOption "use hy3 plugin for i3/sway like window management instead of builtin one";
 
-  config = mkIf cfg.enable {
+  config = mkIf (elem "hyprland" cfg.enabled) {
     programs.hyprland = {
       enable = true;
       package = pkgs.hyprland;
@@ -33,7 +32,7 @@ in {
         pkgs.hyprpaper
         pkgs.hyprpolkitagent
       ]
-      ++ (optionals cfg.hy3.enable [
+      ++ (optionals cfg.hyprland.hy3.enable [
         pkgs.hyprlandPlugins.hy3
       ]);
   };

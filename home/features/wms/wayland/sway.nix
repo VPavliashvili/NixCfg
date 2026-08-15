@@ -1,12 +1,16 @@
-{ lib, config, osConfig, ... }:
-with lib;
 {
-  config = mkIf (osConfig.features.wms.wm == "sway") {
+  lib,
+  config,
+  osConfig,
+  ...
+}:
+with lib; {
+  config = mkIf (elem "sway" osConfig.features.wms.enabled) {
     home.file.".config/sway" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/sway/.config/sway";
       recursive = true;
     };
-    features.wms.wayland.launchParams = [
+    features.wms.wayland.launchParams.sway = [
       # to be able to share ~/bin/ dir when running swaymsg exec
       "export PATH=\"$HOME/bin:$PATH\""
 

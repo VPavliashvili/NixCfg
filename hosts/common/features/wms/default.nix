@@ -13,10 +13,12 @@ in {
   ];
 
   options.features.wms = {
-    wm = mkOption {
-      type = types.enum ["hyprland" "sway" "none"];
-      default = "none";
-      description = "choose window manager for system to use";
+    enabled = mkOption {
+      # these enum values should be bash identifier friendly
+      # no hyphens or any other weird stuff here
+      type = types.listOf (types.enum ["none" "hyprland" "sway"]);
+      default = ["none"];
+      description = "window managers to install and make available for selection at login";
     };
     terminals = {
       packages = mkOption {
@@ -36,18 +38,7 @@ in {
   };
 
   config = mkMerge [
-    (mkIf (cfg.wm == "hyprland") {
-      features.wms.hyprland.enable = true;
-    })
-    (mkIf (cfg.wm == "sway") {
-      features.wms.sway.enable = true;
-    })
-    (mkIf (cfg.wm == "none") {})
-
     (mkIf cfg.notifications.useDunst {environment.systemPackages = [pkgs.dunst];})
-
-    {
-      environment.systemPackages = cfg.terminals.packages;
-    }
+    {environment.systemPackages = cfg.terminals.packages;}
   ];
 }

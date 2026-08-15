@@ -1,12 +1,13 @@
-{ lib, pkgs, config, ... }:
-with lib;
-let
-  cfg = config.features.wms.sway;
-in
 {
-  options.features.wms.sway.enable = mkEnableOption "enable sway wm";
-
-  config = mkIf cfg.enable {
+  lib,
+  pkgs,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.features.wms;
+in {
+  config = mkIf (elem "sway" cfg.enabled) {
     programs.sway = {
       enable = true;
       wrapperFeatures.gtk = true;
@@ -14,7 +15,7 @@ in
     xdg.portal = {
       enable = true;
       wlr.enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+      extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
     environment.systemPackages = [
       pkgs.swaykbdd

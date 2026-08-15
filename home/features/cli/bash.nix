@@ -5,11 +5,18 @@
   lib,
   osConfig,
   ...
-}:
-let
+}: let
   cfg = config.features.cli.bash;
-  launchWindowManager = with lib.strings;
-    concatMapStringsSep "\n" (x: x) (config.features.wms.wayland.launchParams or []);
+  wmLaunchParams = config.features.wms.wayland.launchParams or {};
+  wmNames = builtins.attrNames wmLaunchParams;
+  launchFunctions = lib.concatStringsSep "\n" (
+    lib.mapAttrsToList (name: cmds: ''
+      launch_${name}() {
+        ${lib.concatStringsSep "\n  " cmds}
+      }
+    '')
+    wmLaunchParams
+  );
 in {
   options.features.cli.bash.enable = lib.mkEnableOption "enable bash";
   options.features.cli.bash.fzf.enable = lib.mkEnableOption "enable fzf for bash";
@@ -21,7 +28,7 @@ in {
     fileWidgetOptions = [
       "--preview 'bat --color=always --style=numbers --line-range=:500 {}'"
     ];
-    
+
     changeDirWidgetCommand = "fd --type d";
     changeDirWidgetOptions = [
       "--preview 'tree -C {} | head -200'"
@@ -101,13 +108,17 @@ in {
 
       set -o vi
       bind -m vi-command 'Control-l: clear-screen'
-      bind -m vi-insert 'Control-l: clear-screen' 
+      bind -m vi-insert 'Control-l: clear-screen'
     '';
     profileExtra = ''
       export TERMINAL=${osConfig.features.wms.terminals.defaultTerm}
-      ${lib.optionalString (launchWindowManager != "") ''
-        if [ "$(tty)" = "/dev/tty1" ];then
-          ${launchWindowManager}
+      ${launchFunctions}
+      ${lib.optionalString (wmNames != []) ''
+        if [ "$(tty)" = "/dev/tty1" ] || [ "$(tty)" = "/dev/tty2" ]; then
+          choice=$(printf '%s\n' ${lib.concatStringsSep " " wmNames} | fzf --prompt="Launch WM > ")
+          if [ -n "$choice" ]; then
+            "launch_$choice"
+          fi
         fi
       ''}
     '';

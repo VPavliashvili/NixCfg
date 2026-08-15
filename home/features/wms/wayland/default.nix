@@ -14,9 +14,9 @@ in {
 
   options.features.wms.wayland = {
     launchParams = mkOption {
-      type = types.listOf types.str;
-      default = ["exec Hyprland"];
-      description = "binary names to launch when starting the wm";
+      type = types.attrsOf (types.listOf types.str);
+      default = {};
+      description = "for each wm this will get filled with shell command sequence to launch its respective wm from the tty. As the type suggest this is map of sequence(list) of strings, which on their part will be bash commands"; # this a big ass description ik
     };
   };
 
