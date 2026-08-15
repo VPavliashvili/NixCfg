@@ -13,10 +13,16 @@
     (config.features.wms.wayland.launchParams or {})
     (config.features.wms.xorg.launchParams or {});
 
+  wmDefaultTerms =
+    lib.attrsets.unionOfDisjoint
+    (osConfig.features.wms.wayland.defaultTerms or {})
+    (osConfig.features.wms.xorg.defaultTerms or {});
+
   wmNames = builtins.attrNames wmLaunchParams;
   launchFunctions = lib.concatStringsSep "\n" (
     lib.mapAttrsToList (name: cmds: ''
       launch_${name}() {
+        ${lib.optionalString (wmDefaultTerms ? ${name}) "export TERMINAL=${wmDefaultTerms.${name}}"}
         ${lib.concatStringsSep "\n  " cmds}
       }
     '')
@@ -116,7 +122,6 @@ in {
       bind -m vi-insert 'Control-l: clear-screen'
     '';
     profileExtra = ''
-      export TERMINAL=${osConfig.features.wms.terminals.defaultTerm}
       ${launchFunctions}
       ${lib.optionalString (wmNames != []) ''
         if [ "$(tty)" = "/dev/tty1" ] || [ "$(tty)" = "/dev/tty2" ]; then

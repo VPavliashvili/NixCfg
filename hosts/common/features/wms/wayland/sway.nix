@@ -7,7 +7,17 @@
 with lib; let
   cfg = config.features.wms;
 in {
+  options.features.wms.wayland.sway = {
+    terminals.defaultTerm = mkOption {
+      type = types.enum ["foot" "wezterm" "kitty" "ghostty"];
+      default = "foot";
+      description = "default terminal emulator under sway";
+    };
+  };
+
   config = mkIf (elem "sway" cfg.enabled) {
+    features.wms.wayland.defaultTerms.sway = cfg.wayland.sway.terminals.defaultTerm;
+
     programs.sway = {
       enable = true;
       wrapperFeatures.gtk = true;

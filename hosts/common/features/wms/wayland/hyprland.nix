@@ -7,9 +7,18 @@
 with lib; let
   cfg = config.features.wms;
 in {
-  options.features.wms.hyprland.hy3.enable = mkEnableOption "use hy3 plugin for i3/sway like window management instead of builtin one";
+  options.features.wms.wayland.hyprland = {
+    hy3.enable = mkEnableOption "use hy3 plugin for i3/sway like window management instead of builtin one";
+    terminals.defaultTerm = mkOption {
+      type = types.enum ["foot" "wezterm" "kitty" "ghostty"];
+      default = "foot";
+      description = "default terminal emulator under Hyprland";
+    };
+  };
 
   config = mkIf (elem "hyprland" cfg.enabled) {
+    features.wms.wayland.defaultTerms.hyprland = cfg.wayland.hyprland.terminals.defaultTerm;
+
     programs.hyprland = {
       enable = true;
       package = pkgs.hyprland;

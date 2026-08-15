@@ -7,7 +7,17 @@
 with lib; let
   cfg = config.features.wms;
 in {
+  options.features.wms.xorg.awesome = {
+    terminals.defaultTerm = mkOption {
+      type = types.enum ["alacritty" "wezterm" "kitty" "ghostty"];
+      default = "alacritty";
+      description = "default terminal emulator under awesomewm";
+    };
+  };
+
   config = mkIf (elem "awesomewm" cfg.enabled) {
+    features.wms.xorg.defaultTerms.awesome = cfg.xorg.awesome.terminals.defaultTerm;
+
     services.xserver = {
       enable = true;
 
@@ -15,7 +25,7 @@ in {
         enable = true;
         luaModules = with pkgs.luaPackages; [
           # as nixos.wiki.org suggest
-          # add any lua packages required by your configuration here
+          # add any lua packages required by configuration here
         ];
       };
     };
@@ -37,6 +47,9 @@ in {
       pkgs.rofi
       pkgs.xev
       pkgs.polybar
+      pkgs.clipmenu
+      pkgs.xclip
+      pkgs.xsel
     ];
   };
 }
