@@ -7,7 +7,12 @@
   ...
 }: let
   cfg = config.features.cli.bash;
-  wmLaunchParams = config.features.wms.wayland.launchParams or {};
+  wmLaunchParams =
+    # unionOfDisjoint throws error if the same wmname encountered in both wayland and xorg attrsets
+    lib.attrsets.unionOfDisjoint
+    (config.features.wms.wayland.launchParams or {})
+    (config.features.wms.xorg.launchParams or {});
+
   wmNames = builtins.attrNames wmLaunchParams;
   launchFunctions = lib.concatStringsSep "\n" (
     lib.mapAttrsToList (name: cmds: ''

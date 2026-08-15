@@ -11,6 +11,7 @@
     ../../features/gui
     ../../features/misc
     ../../features/wms/wayland
+    ../../features/wms/xorg
     ./home.nix
   ];
 
