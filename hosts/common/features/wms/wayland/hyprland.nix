@@ -5,19 +5,23 @@
   ...
 }:
 with lib; let
-  cfg = config.features.wms;
+  cfg = config.features.wms.wayland.hyprland;
 in {
   options.features.wms.wayland.hyprland = {
     hy3.enable = mkEnableOption "use hy3 plugin for i3/sway like window management instead of builtin one";
-    terminals.defaultTerm = mkOption {
-      type = types.enum ["foot" "wezterm" "kitty" "ghostty"];
+    enable = mkEnableOption "hyprland";
+    useWallpapers = mkEnableOption "use wallapeprs for this environment/wm";
+    defaultTerm = mkOption {
+      type = types.str;
       default = "foot";
-      description = "default terminal emulator under Hyprland";
+      description = "default terminal emulator under hyprland";
     };
   };
 
-  config = mkIf (elem "hyprland" cfg.enabled) {
-    features.wms.wayland.defaultTerms.hyprland = cfg.wayland.hyprland.terminals.defaultTerm;
+  config = mkIf (cfg.enable) {
+    features.wms.wayland.defaultTerms.hyprland = cfg.defaultTerm;
+    features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
+    features.wms.wayland.enabled = true;
 
     programs.hyprland = {
       enable = true;
@@ -41,7 +45,7 @@ in {
         pkgs.hyprpaper
         pkgs.hyprpolkitagent
       ]
-      ++ (optionals cfg.hyprland.hy3.enable [
+      ++ (optionals cfg.hy3.enable [
         pkgs.hyprlandPlugins.hy3
       ]);
   };

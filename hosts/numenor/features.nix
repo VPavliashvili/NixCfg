@@ -8,8 +8,19 @@
     ../common/features
   ];
 
-  features.wms.xorg.enabled = ["awesomewm"];
-  features.wms.xorg.awesome.terminals.defaultTerm = "alacritty";
+  features.wms = {
+    xorg.awesome = {
+      enable = true;
+      defaultTerm = "alacritty";
+      video.drivers = ["amdgpu"];
+      hardware.graphics.enable = true;
+      useWallpapers = true;
+    };
+    wayland.hyprland = {
+      enable = true;
+      useWallpapers = true;
+    };
+  };
 
   features.wms.notifications.useDunst = true;
 

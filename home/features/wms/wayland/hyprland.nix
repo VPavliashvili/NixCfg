@@ -6,7 +6,7 @@
   ...
 }:
 with lib; {
-  config = mkIf (elem "hyprland" osConfig.features.wms.enabled) {
+  config = mkIf (osConfig.features.wms.wayland.hyprland.enable) {
     home.file.".config/hypr" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
@@ -40,7 +40,7 @@ with lib; {
         else ""
       )
       + (
-        if osConfig.features.wms.hyprland.hy3.enable
+        if osConfig.features.wms.wayland.hyprland.hy3.enable
         then ''
           plugin {
             plugin = ${pkgs.hyprlandPlugins.hy3}/lib/libhy3.so

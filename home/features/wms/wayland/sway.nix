@@ -5,7 +5,7 @@
   ...
 }:
 with lib; {
-  config = mkIf (elem "sway" osConfig.features.wms.enabled) {
+  config = mkIf (osConfig.features.wms.wayland.sway.enable) {
     home.file.".config/sway" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/sway/.config/sway";
       recursive = true;

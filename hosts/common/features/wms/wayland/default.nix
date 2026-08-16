@@ -13,13 +13,16 @@ in {
 
   options.features.wms.wayland = {
     enabled = mkOption {
-      # these enum values should be bash identifier friendly
-      # no hyphens or any other weird stuff here
-      # also, these are predefined options meaning they are only available
-      # wms to choose from(on the host config side), not the ones will get installed necessarily
-      type = types.listOf (types.enum ["none" "hyprland" "sway" "mangowm" "niri"]);
-      default = ["none"];
-      description = "wayland window managers to install and make available for selection at login";
+      type = types.bool;
+      default = false; # even if one wayland wm is enabled this value should be true and set from every wayland wm
+      internal = true;
+      description = "used to determine to active xorg related stuff";
+    };
+    defaultTerms = mkOption {
+      type = types.attrsOf types.str;
+      default = {};
+      internal = true;
+      description = "Per-WM default terminal, populated by each window manager submodule";
     };
     terminals = {
       packages = mkOption {
@@ -28,11 +31,6 @@ in {
         description = "terminal emulators available under wayland wms";
       };
     };
-    defaultTerms = mkOption {
-      type = types.attrsOf types.str;
-      default = {};
-      internal = true;
-      description = "Per-WM default terminal, populated by each window manager submodule";
-    };
+    useWallpapers = mkEnableOption "usage of wallpapers on this system(used in home manager)";
   };
 }

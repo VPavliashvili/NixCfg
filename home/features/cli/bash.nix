@@ -125,7 +125,7 @@ in {
       ${launchFunctions}
       ${lib.optionalString (wmNames != []) ''
         if [ "$(tty)" = "/dev/tty1" ] || [ "$(tty)" = "/dev/tty2" ]; then
-          choice=$(printf '%s\n' ${lib.concatStringsSep " " wmNames} | fzf --prompt="Launch WM > ")
+          choice=$(printf '%s\n' ${lib.concatStringsSep " " wmNames} | fzf --prompt="Launch WM > " --layout=reverse --height=40%)
           if [ -n "$choice" ]; then
             "launch_$choice"
           fi

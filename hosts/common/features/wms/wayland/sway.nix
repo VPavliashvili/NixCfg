@@ -5,18 +5,22 @@
   ...
 }:
 with lib; let
-  cfg = config.features.wms;
+  cfg = config.features.wms.wayland.sway;
 in {
   options.features.wms.wayland.sway = {
-    terminals.defaultTerm = mkOption {
-      type = types.enum ["foot" "wezterm" "kitty" "ghostty"];
+    enable = mkEnableOption "swaywm";
+    useWallpapers = mkEnableOption "use wallapeprs for this environment/wm";
+    defaultTerm = mkOption {
+      type = types.str;
       default = "foot";
       description = "default terminal emulator under sway";
     };
   };
 
-  config = mkIf (elem "sway" cfg.enabled) {
-    features.wms.wayland.defaultTerms.sway = cfg.wayland.sway.terminals.defaultTerm;
+  config = mkIf (cfg.enable) {
+    features.wms.wayland.defaultTerms.sway = cfg.defaultTerm;
+    features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
+    features.wms.wayland.enabled = true;
 
     programs.sway = {
       enable = true;

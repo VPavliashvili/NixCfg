@@ -5,18 +5,38 @@
   ...
 }:
 with lib; let
-  cfg = config.features.wms;
+  cfg = config.features.wms.xorg.awesome;
+  enableGraphics = cfg.hardware.graphics.enable;
+  gpuDrivers = cfg.video.drivers;
 in {
   options.features.wms.xorg.awesome = {
-    terminals.defaultTerm = mkOption {
-      type = types.enum ["alacritty" "wezterm" "kitty" "ghostty"];
+    enable = mkEnableOption "awesomewm";
+    useWallpapers = mkEnableOption "use wallapeprs for this environment/wm";
+    defaultTerm = mkOption {
+      type = types.str;
       default = "alacritty";
       description = "default terminal emulator under awesomewm";
     };
+    hardware.graphics.enable = mkOption {
+      type = types.nullOr types.bool;
+      default = null;
+      description = "enable hardware acceleration(only set when explicitly needed)";
+    };
+    video.drivers = mkOption {
+      type = types.nullOr (types.listOf types.str);
+      default = null;
+      description = "set gpu drivers explicitly(need arose when igpu was set as primary from bios)";
+    };
   };
 
-  config = mkIf (elem "awesomewm" cfg.enabled) {
-    features.wms.xorg.defaultTerms.awesome = cfg.xorg.awesome.terminals.defaultTerm;
+  config = mkIf cfg.enable {
+    # populating defaultTemrs
+    features.wms.xorg.defaultTerms.awesome = cfg.defaultTerm;
+
+    # if true then assign with high priority because if other wm says false its value should be ignored
+    features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
+
+    features.wms.xorg.enabled = true;
 
     services.xserver = {
       enable = true;
@@ -36,8 +56,8 @@ in {
 
     # and startx needs to be enabled explicitly
     services.xserver.displayManager.startx.enable = true;
-    services.xserver.videoDrivers = ["amdgpu"];
-    hardware.graphics.enable = true;
+    services.xserver.videoDrivers = mkIf (gpuDrivers != null) gpuDrivers;
+    hardware.graphics.enable = mkIf (enableGraphics != null) enableGraphics;
 
     environment.systemPackages = [
       pkgs.kbdd

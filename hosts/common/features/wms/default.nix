@@ -6,6 +6,8 @@
 }:
 with lib; let
   cfg = config.features.wms;
+  xorgActive = cfg.xorg.enabled;
+  waylandActive = cfg.wayland.enabled;
 in {
   imports = [
     ./xorg
@@ -13,11 +15,6 @@ in {
   ];
 
   options.features.wms = {
-    enabled = mkOption {
-      type = types.listOf types.str;
-      readOnly = true;
-      description = "Window managers to enable(from wayland + xorg)";
-    };
     notifications = {
       useDunst = mkEnableOption "install dunst";
     };
@@ -26,14 +23,9 @@ in {
   config = mkMerge [
     (mkIf cfg.notifications.useDunst {environment.systemPackages = [pkgs.dunst];})
     {
-      environment.systemPackages =
-        unique (cfg.wayland.terminals.packages ++ cfg.xorg.terminals.packages);
-    }
-
-    {
-      # using unique because default 'none' might duplicate in both xorg and wayland modules
-      features.wms.enabled = unique (
-        filter (wm: wm != "none") (cfg.wayland.enabled ++ cfg.xorg.enabled)
+      environment.systemPackages = unique (
+        optionals xorgActive cfg.xorg.terminals.packages
+        ++ optionals waylandActive cfg.wayland.terminals.packages
       );
     }
   ];

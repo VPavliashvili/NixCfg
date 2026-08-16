@@ -6,7 +6,7 @@
   ...
 }:
 with lib; {
-  config = mkIf (elem "awesomewm" osConfig.features.wms.enabled) {
+  config = mkIf (osConfig.features.wms.xorg.awesome.enable) {
     # home.file.".config/awesome" = {
     #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/awesome/.config/awesome";
     #   recursive = true;
