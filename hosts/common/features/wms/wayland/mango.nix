@@ -2,29 +2,29 @@
   lib,
   pkgs,
   config,
+  unstable,
   ...
 }:
 with lib; let
-  cfg = config.features.wms.wayland.sway;
+  cfg = config.features.wms.wayland.mango;
 in {
-  options.features.wms.wayland.sway = {
-    enable = mkEnableOption "swaywm";
+  options.features.wms.wayland.mango = {
+    enable = mkEnableOption "mangowm";
     useWallpapers = mkEnableOption "use wallapeprs for this environment/wm";
     defaultTerm = mkOption {
       type = types.str;
       default = "foot";
-      description = "default terminal emulator under sway";
+      description = "default terminal emulator under mangowm";
     };
   };
 
   config = mkIf (cfg.enable) {
-    features.wms.wayland.defaultTerms.sway = cfg.defaultTerm;
+    features.wms.wayland.defaultTerms.mango = cfg.defaultTerm;
     features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
     features.wms.wayland.enabled = true;
 
-    programs.sway = {
+    programs.mango = {
       enable = true;
-      wrapperFeatures.gtk = true;
     };
 
     xdg.portal = {
@@ -33,34 +33,19 @@ in {
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
     };
 
-    systemd.user.services.polkit-gnome-authentication-agent-1 = {
-      description = "polkit-gnome-authentication-agent-1";
-      wantedBy = ["graphical-session.target"];
-      after = ["graphical-session.target"];
-      serviceConfig = {
-        Type = "simple";
-        ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-        Restart = "on-failure";
-        RestartSec = 1;
-        TimeoutStopSec = 10;
-      };
-    };
-
     security.polkit.enable = true;
 
     environment.systemPackages = [
-      pkgs.swaykbdd
-      pkgs.swaybg
       pkgs.swappy
       pkgs.bemoji
       pkgs.yad
       pkgs.fuzzel
       pkgs.cliphist
       pkgs.wl-clipboard
+      pkgs.wl-clip-persist
       pkgs.grim
       pkgs.slurp
       pkgs.wev
-      pkgs.swaylock-effects
       pkgs.waybar
       pkgs.polkit_gnome
     ];

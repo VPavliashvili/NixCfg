@@ -31,6 +31,10 @@
       url = "github:VPavliashvili/midscroll-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    mango = {
+      url = "github:mangowm/mango";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -106,6 +110,7 @@
           inputs.agenix.nixosModules.default
           inputs.i915-sriov-dkms.nixosModules.default
           inputs.midscroll.nixosModules.default
+          inputs.mango.nixosModules.mango
 
           home-manager.nixosModules.home-manager
           {

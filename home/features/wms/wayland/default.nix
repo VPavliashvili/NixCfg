@@ -10,6 +10,7 @@ in {
   imports = [
     ./hyprland.nix
     ./sway.nix
+    ./mango.nix
   ];
 
   options.features.wms.wayland = {
