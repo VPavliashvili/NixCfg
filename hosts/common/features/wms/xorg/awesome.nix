@@ -55,9 +55,27 @@ in {
     services.xserver.displayManager.lightdm.enable = false;
 
     # and startx needs to be enabled explicitly
-    services.xserver.displayManager.startx.enable = true;
-    services.xserver.videoDrivers = mkIf (gpuDrivers != null) gpuDrivers;
+    services.xserver = {
+      displayManager.startx = {
+        enable = true;
+      };
+      videoDrivers = mkIf (gpuDrivers != null) gpuDrivers;
+    };
+
     hardware.graphics.enable = mkIf (enableGraphics != null) enableGraphics;
+
+    systemd.user.services.lxqt-policykit-agent = {
+      description = "lxqt-policykit-agent";
+      wantedBy = ["graphical-session.target"];
+      after = ["graphical-session.target"];
+      serviceConfig = {
+        Type = "simple";
+        ExecStart = "${pkgs.lxqt.lxqt-policykit}/bin/lxqt-policykit-agent";
+        Restart = "on-failure";
+        RestartSec = 1;
+        TimeoutStopSec = 10;
+      };
+    };
 
     environment.systemPackages = [
       pkgs.kbdd
@@ -67,9 +85,10 @@ in {
       pkgs.rofi
       pkgs.xev
       pkgs.polybar
-      pkgs.clipmenu
       pkgs.xclip
       pkgs.xsel
+      pkgs.dmenu
+      pkgs.lxqt.lxqt-policykit
     ];
   };
 }
