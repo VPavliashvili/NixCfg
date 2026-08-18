@@ -26,6 +26,9 @@
     wayland.sway = {
       enable = true;
     };
+    wayland.miracle = {
+      enable = true;
+    };
   };
 
   features.wms.notifications.useDunst = true;

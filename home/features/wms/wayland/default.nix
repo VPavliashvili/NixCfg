@@ -11,6 +11,7 @@ in {
     ./hyprland.nix
     ./sway.nix
     ./mango.nix
+    ./miracle.nix
   ];
 
   options.features.wms.wayland = {
