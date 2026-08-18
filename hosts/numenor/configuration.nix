@@ -27,14 +27,14 @@
   };
 
   networking.wg-quick.interfaces.wg0 = {
-    address = [ "10.0.0.4/24" ];
+    address = ["10.0.0.4/24"];
     privateKeyFile = config.age.secrets.wg-private.path;
     autostart = false;
-    
+
     peers = [
       {
         publicKey = "QQ3LpJXa3C0FhAIit1BH0vtfRs4QKJVzNQ+cQ9oCOHk=";
-        allowedIPs = [ "192.168.1.0/24" "10.0.0.0/24" ];
+        allowedIPs = ["192.168.1.0/24" "10.0.0.0/24"];
         endpoint = "vpn.esgalmar.net:51820";
         persistentKeepalive = 25;
       }

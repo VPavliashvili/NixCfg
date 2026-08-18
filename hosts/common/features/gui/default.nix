@@ -23,6 +23,10 @@ in {
         description = "use mangohud for fps overlay";
       };
     };
+    midscroll = {
+      enable = mkEnableOption "midscroll on the system";
+      enableOverlay = mkEnableOption "midscroll overlay(as of nowworks only on kwin)";
+    };
   };
 
   config = mkMerge [
@@ -48,6 +52,10 @@ in {
           MANGOHUD = "1";
         })
       ];
+    })
+    (mkIf cfg.midscroll.enable {
+      services.midscroll.enable = true;
+      services.midscroll.overlay.enable = cfg.midscroll.enableOverlay;
     })
     {
       # core

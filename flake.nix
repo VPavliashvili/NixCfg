@@ -123,11 +123,6 @@
               sshpub = sshKeys.users.stranger.numenor;
             };
           }
-
-          {
-            services.midscroll.enable = true;
-            services.midscroll.overlay.enable = false;
-          }
         ];
       };
       rivendell = nixpkgs.lib.nixosSystem {

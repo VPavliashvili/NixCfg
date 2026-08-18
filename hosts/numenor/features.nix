@@ -35,4 +35,5 @@
   features.cli.fancontrol = true;
 
   features.gui.gaming.enable = true;
+  features.gui.midscroll.enable = true;
 }
