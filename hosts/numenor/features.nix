@@ -9,25 +9,32 @@
   ];
 
   features.wms = {
-    # xorg.awesome = {
-    #   enable = true;
-    #   defaultTerm = "alacritty";
-    #   video.drivers = ["amdgpu"];
-    #   hardware.graphics.enable = true;
-    #   useWallpapers = true;
-    # };
-    wayland.hyprland = {
+    xorg.awesome = {
       enable = true;
+      defaultTerm = "alacritty";
+      video.drivers = ["amdgpu"]; # also explicitly setting for rx 6600
+      hardware.graphics.enable = true;
       useWallpapers = true;
     };
-    wayland.mango = {
-      enable = true;
-    };
-    wayland.sway = {
-      enable = true;
-    };
-    wayland.miracle = {
-      enable = true;
+    wayland = {
+      hyprland = {
+        enable = true;
+        useWallpapers = true;
+      };
+      mango = {
+        enable = true;
+      };
+      sway = {
+        enable = true;
+      };
+      miracle = {
+        enable = true;
+      };
+
+      devices.gpu = {
+        primary = "0000:03:00.0"; # rx 6600
+        secondary = "0000:00:02.0"; # integrated igpu set as primary inside bios(for sr-iov to work)
+      };
     };
   };
 

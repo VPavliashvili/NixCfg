@@ -5,16 +5,14 @@
   lib,
   ...
 }:
-with lib; {
+with lib; let
+  gpuDevices = config.features.wms.wayland.gpuDevices;
+in {
   config = mkIf (osConfig.features.wms.wayland.hyprland.enable) {
     home.file.".config/hypr" = {
       source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/hypr";
       recursive = true;
     };
-    # home.file.".config/hypr-waybar" = {
-    #   source = config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.dotfiles/hyprland/.config/waybar";
-    #   recursive = true;
-    # };
 
     # pick whether to use hy3 plugin layout or builtin dwindle
     home.file.".config/hypr-nix-additions.conf".text =
@@ -52,12 +50,16 @@ with lib; {
         ''
       );
 
-    features.wms.wayland.launchParams.hyprland = [
-      # to be able to share ~/bin/ or ~/scripts dir to run sessions script
-      "export PATH=\"$HOME/bin:$PATH\""
-      "export PATH=\"$HOME/scripts:$PATH\""
+    features.wms.wayland.launchParams.hyprland =
+      optionals (gpuDevices != null) [
+        "export AQ_DRM_DEVICES=${gpuDevices}"
+      ]
+      ++ [
+        # to be able to share ~/bin/ or ~/scripts dir to run sessions script
+        "export PATH=\"$HOME/bin:$PATH\""
+        "export PATH=\"$HOME/scripts:$PATH\""
 
-      "exec start-hyprland"
-    ];
+        "exec start-hyprland"
+      ];
   };
 }
