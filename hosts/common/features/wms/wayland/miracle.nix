@@ -1,21 +1,13 @@
 {
   lib,
-  pkgs, # stable channel
-  unstable, # unstable channel
+  pkgs,
+  unstable,
   config,
   ...
 }:
 with lib; let
   cfg = config.features.wms.wayland.miracle;
 in {
-  disabledModules = [
-    "programs/wayland/miracle-wm.nix"
-  ];
-
-  imports = [
-    "${unstable.path}/nixos/modules/programs/wayland/miracle-wm.nix"
-  ];
-
   options.features.wms.wayland.miracle = {
     enable = mkEnableOption "swaywm";
     useWallpapers = mkEnableOption "use wallapeprs for this environment/wm";
@@ -31,9 +23,30 @@ in {
     features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
     features.wms.wayland.enabled = true;
 
-    programs.wayland.miracle-wm.enable = true;
+    # To make the miracle-wm session available if a display manager like SDDM is enabled:
+    # i don't use any of display manager but copying from official nixos module
+    services.displayManager.sessionPackages = [pkgs.miracle-wm];
+
+    security = {
+      polkit.enable = true;
+      pam.services.swaylock = {};
+    };
+
+    programs = {
+      dconf.enable = lib.mkDefault true;
+      xwayland.enable = lib.mkDefault true;
+    };
+
+    services.graphical-desktop.enable = true;
 
     xdg.portal = {
+      config = {
+        "miracle-wm" = {
+          default = ["gtk"];
+          "org.freedesktop.impl.portal.ScreenCast" = ["wlr"];
+          "org.freedesktop.impl.portal.Screenshot" = ["wlr"];
+        };
+      };
       enable = true;
       wlr.enable = true;
       extraPortals = [pkgs.xdg-desktop-portal-gtk];
@@ -49,9 +62,10 @@ in {
       };
     };
 
-    security.polkit.enable = true;
+    services.xserver.desktopManager.runXdgAutostartIfNone = lib.mkDefault true;
 
     environment.systemPackages = [
+      unstable.miracle-wm
       pkgs.swaykbdd
       pkgs.swaybg
       pkgs.swappy
