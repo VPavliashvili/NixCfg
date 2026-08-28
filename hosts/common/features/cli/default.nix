@@ -48,6 +48,7 @@ in {
       environment.systemPackages = [
         pkgs.fd
         pkgs.ripgrep
+        pkgs.tree-sitter
       ];
       environment.variables = mkIf cfg.neovim.defaultEditor {
         EDITOR = "nvim";
