@@ -10,7 +10,7 @@
     ../../features/cli
     ../../features/gui
     ../../features/misc
-    ../../features/wms/wayland
+    ../../features/wms
     ./home.nix
   ];
 

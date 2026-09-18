@@ -20,7 +20,7 @@ in {
 
   config = mkIf (cfg.enable) {
     features.wms.wayland.defaultTerms.hyprland = cfg.defaultTerm;
-    features.wms.xorg.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
+    features.wms.wayland.useWallpapers = mkIf cfg.useWallpapers (mkForce cfg.useWallpapers);
     features.wms.wayland.enabled = true;
 
     programs.hyprland = {

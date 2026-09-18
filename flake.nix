@@ -85,6 +85,8 @@
           ./hosts/dorthonion
           inputs.agenix.nixosModules.default
           inputs.i915-sriov-dkms.nixosModules.default
+          inputs.midscroll.nixosModules.default
+          inputs.mango.nixosModules.mango
 
           home-manager.nixosModules.home-manager
           {

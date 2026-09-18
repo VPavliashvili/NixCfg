@@ -124,6 +124,8 @@
 
     furmark
     zrok
+    freecad
+    discord
   ];
 
   hardware.bluetooth.enable = true; # enables support for Bluetooth
