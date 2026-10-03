@@ -20,4 +20,5 @@ in {
   "authelia-jwt.age".publicKeys = [keys.hosts.rivendell];
   "authelia-session.age".publicKeys = [keys.hosts.rivendell];
   "authelia-storage.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-smtp.age".publicKeys = [keys.hosts.rivendell];
 }

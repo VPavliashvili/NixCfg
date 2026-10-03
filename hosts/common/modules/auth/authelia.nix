@@ -37,7 +37,12 @@ in {
         };
 
         storage.local.path = "/var/lib/authelia-main/db.sqlite3";
-        notifier.filesystem.filename = "/var/lib/authelia-main/notification.txt";
+
+        notifier.smtp = {
+          address = "submission://mail-eu.smtp2go.com:587";
+          username = "esgalmar-authelia";
+          sender = "esgalmar <auth@esgalmar.net>";
+        };
 
         authentication_backend.ldap = {
           implementation = "lldap";
@@ -51,6 +56,7 @@ in {
     systemd.services."authelia-main".serviceConfig.EnvironmentFile = [
       (pkgs.writeText "authelia-ldap-env" ''
         AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=${config.age.secrets.lldap-admin-pass.path}
+        AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE=${config.age.secrets.authelia-smtp.path}
       '')
     ];
 
@@ -67,6 +73,11 @@ in {
       };
       authelia-storage = {
         file = ../../../../secrets/authelia-storage.age;
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      authelia-smtp = {
+        file = ../../../../secrets/authelia-smtp.age;
         owner = "authelia-main";
         group = "authelia-main";
       };
