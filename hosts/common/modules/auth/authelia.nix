@@ -24,10 +24,30 @@ in {
         server.address = "tcp://127.0.0.1:9091";
         log.level = "info";
 
-        access_control.default_policy = "one_factor";
+        access_control = {
+          default_policy = "deny";
+          rules = [
+            {
+              domain = ["seerr.esgalmar.net"];
+              policy = "two_factor";
+            }
+          ];
+        };
+
+        # issuer is the string which appears
+        # inside auth app as a service name
+        totp.issuer = "esgalmar.net";
+        # only using totp so webauthn will be
+        # appeared and take space in webui when
+        # in reality it is not implemented
+        # for this reason setting it to disabled
+        webauthn.disable = true;
 
         session = {
           name = "authelia_session";
+          expiration = "30 minutes";
+          inactivity = "15 minutes";
+          remember_me = "1 year";
           cookies = [
             {
               domain = "esgalmar.net";
