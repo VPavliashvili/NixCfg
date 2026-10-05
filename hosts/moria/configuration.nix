@@ -105,12 +105,6 @@
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = ["nas"];
 
-  services.zfs.autoScrub = {
-    enable = true;
-    interval = "monthly";
-    pools = ["nas"]; # omit for all pools(rn only having nas)
-  };
-
   services.zfs.autoSnapshot = {
     enable = true;
     frequent = 0;
@@ -156,6 +150,45 @@
     exports = ''
       /nas/shares/media 192.168.1.240(rw,sync,no_subtree_check)
     '';
+  };
+
+  # nixos defaults to this epxression(with randomized hour)
+  # but having it pinned gives extra reliability
+  # just in case if nixos future updates break this time which
+  # might cause scrub and smartd selftest to overlap with each other
+  services.zfs.autoScrub = {
+    enable = true;
+    interval = "*-*-01 02:00:00";
+    randomizedDelaySec = "0";
+
+    pools = ["nas"]; # omit for all pools(rn only having nas)
+  };
+
+  systemd.services.disk-scterc = {
+    description = "Set SCT ERC on SATA pool drives";
+    wantedBy = ["multi-user.target"];
+    serviceConfig = {
+      Type = "oneshot";
+      RemainAfterExit = true;
+    };
+    # at this moment there are only two sata
+    # drives inside moria if i add another sata in the
+    # zfs pool in future the list below  should be expand
+    script = ''
+      for d in /dev/disk/by-id/ata-TOSHIBA_MG03ACA400_Y4BHK4L5F \
+               /dev/disk/by-id/ata-TOSHIBA_MG03ACA400_Y4BHK4L6F; do
+        ${pkgs.smartmontools}/bin/smartctl -l scterc,70,70 "$d"
+      done
+    '';
+  };
+
+  services.smartd = let
+    dailyShort = "S/../.././01"; # perform short self test every day at 01AM
+    monthlyLong = "L/../15/./02"; # perform long self test every 15th of each month at 02AM
+    tempWarn = "4,50,55"; # log when 4°C change happens after previous check, info at 50°C, critical at 55°C
+  in {
+    enable = true;
+    defaults.autodetected = "-a -s (${dailyShort}|${monthlyLong}) -W ${tempWarn}";
   };
 
   system.stateVersion = "25.05";
