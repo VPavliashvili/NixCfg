@@ -105,13 +105,35 @@
   boot.zfs.forceImportRoot = false;
   boot.zfs.extraPools = ["nas"];
 
-  services.zfs.autoSnapshot = {
+  services.zfs.autoSnapshot.enable = false;
+
+  services.sanoid = {
     enable = true;
-    frequent = 0;
-    hourly = 0;
-    daily = 7;
-    weekly = 4;
-    monthly = 3;
+    templates = {
+      media = {
+        hourly = 0;
+        daily = 7;
+        monthly = 3;
+        yearly = 0;
+        autosnap = true;
+        autoprune = true;
+      };
+      photos = {
+        hourly = 0;
+        daily = 30;
+        monthly = 12;
+        yearly = 0;
+        autosnap = true;
+        autoprune = true;
+      };
+    };
+    datasets = {
+      "nas/shares" = {
+        useTemplate = ["media"];
+        recursive = true;
+      };
+      "nas/immich" = {useTemplate = ["photos"];};
+    };
   };
   # zfs stuff end
 
@@ -139,6 +161,8 @@
     "d /nas/shares/media/media/books              2775 root media -"
     "d /nas/shares/media/media/Movies             2775 root media -"
     "d /nas/shares/media/media/Tv_Shows           2775 root media -"
+
+    "d /nas/immich 0750 2283 2283 -"
   ];
 
   # share media subdir for rivendell and its arr stack
@@ -149,6 +173,7 @@
     # this(and such cases) out into internal dns names
     exports = ''
       /nas/shares/media 192.168.1.240(rw,sync,no_subtree_check)
+      /nas/immich       192.168.1.240(rw,sync,no_subtree_check)
     '';
   };
 
@@ -189,6 +214,54 @@
   in {
     enable = true;
     defaults.autodetected = "-a -s (${dailyShort}|${monthlyLong}) -W ${tempWarn}";
+
+    notifications = {
+      test = false;
+      mail = {
+        enable = true;
+        sender = "moria@esgalmar.net";
+        recipient = "admin@esgalmar.net";
+      };
+    };
+  };
+
+  age.secrets.moria-smtp.file = ../../secrets/moria-smtp.age;
+
+  programs.msmtp = {
+    enable = true;
+    setSendmail = true; # provides /run/wrappers/bin/sendmail for smartd
+    defaults = {
+      aliases = "/etc/aliases";
+      port = 587;
+      tls = "on";
+      tls_starttls = "on";
+      tls_trust_file = "/etc/ssl/certs/ca-certificates.crt";
+      auth = "plain";
+      syslog = "on";
+    };
+    accounts.default = {
+      host = "mail-eu.smtp2go.com";
+      user = "esgalmar-moria";
+      from = "moria@esgalmar.net";
+      passwordeval = "${pkgs.coreutils}/bin/cat ${config.age.secrets.moria-smtp.path}";
+    };
+  };
+
+  environment.etc.aliases.text = ''
+    root: admin@esgalmar.net
+    default: admin@esgalmar.net
+  '';
+
+  services.zfs.zed = {
+    enableMail = false;
+    settings = {
+      ZED_EMAIL_ADDR = ["root"];
+      ZED_EMAIL_PROG = "${pkgs.msmtp}/bin/msmtp";
+      ZED_EMAIL_OPTS = "@ADDRESS@";
+      ZED_NOTIFY_INTERVAL_SECS = 3600;
+      ZED_NOTIFY_VERBOSE = true;
+      ZED_SCRUB_AFTER_RESILVER = true;
+    };
   };
 
   system.stateVersion = "25.05";
