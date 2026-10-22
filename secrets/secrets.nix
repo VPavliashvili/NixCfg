@@ -21,6 +21,9 @@ in {
   "authelia-session.age".publicKeys = [keys.hosts.rivendell];
   "authelia-storage.age".publicKeys = [keys.hosts.rivendell];
   "authelia-smtp.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-oidc-hmac.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-oidc-jwk.age".publicKeys = [keys.hosts.rivendell];
+  "authelia-oidc-immich.age".publicKeys = [keys.hosts.rivendell];
 
   "moria-smtp.age".publicKeys = [keys.hosts.moria];
 }

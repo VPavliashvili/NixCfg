@@ -17,6 +17,8 @@ in {
         jwtSecretFile = config.age.secrets.authelia-jwt.path;
         sessionSecretFile = config.age.secrets.authelia-session.path;
         storageEncryptionKeyFile = config.age.secrets.authelia-storage.path;
+        oidcHmacSecretFile = config.age.secrets.authelia-oidc-hmac.path;
+        oidcIssuerPrivateKeyFile = config.age.secrets.authelia-oidc-jwk.path;
       };
 
       settings = {
@@ -33,6 +35,28 @@ in {
             }
           ];
         };
+
+        identity_providers.oidc.clients = [
+          {
+            client_id = "immich";
+            client_name = "Immich";
+            client_secret = ''{{ secret "${config.age.secrets.authelia-oidc-immich.path}" }}'';
+            public = false;
+            authorization_policy = "two_factor";
+            # no "allow immich to access your profile?" screen after login
+            consent_mode = "implicit";
+            redirect_uris = [
+              "https://immich.esgalmar.net:10443/auth/login"
+              "https://immich.esgalmar.net:10443/user-settings"
+              "app.immich:///oauth-callback"
+            ];
+            scopes = ["openid" "profile" "email"];
+            response_types = ["code"];
+            grant_types = ["authorization_code"];
+            userinfo_signed_response_alg = "none";
+            token_endpoint_auth_method = "client_secret_post";
+          }
+        ];
 
         # issuer is the string which appears
         # inside auth app as a service name
@@ -77,6 +101,7 @@ in {
       (pkgs.writeText "authelia-ldap-env" ''
         AUTHELIA_AUTHENTICATION_BACKEND_LDAP_PASSWORD_FILE=${config.age.secrets.lldap-admin-pass.path}
         AUTHELIA_NOTIFIER_SMTP_PASSWORD_FILE=${config.age.secrets.authelia-smtp.path}
+        X_AUTHELIA_CONFIG_FILTERS=template
       '')
     ];
 
@@ -98,6 +123,21 @@ in {
       };
       authelia-smtp = {
         file = ../../../../secrets/authelia-smtp.age;
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      authelia-oidc-hmac = {
+        file = ../../../../secrets/authelia-oidc-hmac.age;
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      authelia-oidc-jwk = {
+        file = ../../../../secrets/authelia-oidc-jwk.age;
+        owner = "authelia-main";
+        group = "authelia-main";
+      };
+      authelia-oidc-immich = {
+        file = ../../../../secrets/authelia-oidc-immich.age;
         owner = "authelia-main";
         group = "authelia-main";
       };
