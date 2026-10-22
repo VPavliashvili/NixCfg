@@ -40,6 +40,7 @@ in {
     host = "0.0.0.0";
     port = 2283;
     openFirewall = true;
+    accelerationDevices = ["/dev/dri/renderD128"];
   };
 
   services.postgresql.package = pkgs.postgresql_18;
@@ -50,4 +51,8 @@ in {
   # module's tmpfiles rule chmods mediaLocation as root: fails under root_squash
   # and would trigger the NFS automount at boot before the network is up
   systemd.tmpfiles.settings.immich = lib.mkForce {};
+
+  # gpu access for transcoding
+  users.users.immich.extraGroups = ["render" "video"];
+  systemd.services.immich-server.environment.LIBVA_DRIVER_NAME = "iHD";
 }
