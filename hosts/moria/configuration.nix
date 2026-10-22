@@ -140,6 +140,14 @@
   # pin 'media' group gid to 992 same as rivendell
   users.groups.media.gid = 992;
 
+  # pin 'immich' group gid to 2283 same as rivendell
+  users.groups.immich.gid = 2283;
+  users.users.immich = {
+    uid = 2283;
+    group = "immich";
+    isSystemUser = true;
+  };
+
   # file sharing and zfs structure related
   # done declaratively instead of manually doing multiple mkdir -p
   # also this will run on every activation and boot but won't touch existing files inside
@@ -162,7 +170,7 @@
     "d /nas/shares/media/media/Movies             2775 root media -"
     "d /nas/shares/media/media/Tv_Shows           2775 root media -"
 
-    "d /nas/immich 0750 2283 2283 -"
+    "d /nas/immich 0750 immich immich -"
   ];
 
   # share media subdir for rivendell and its arr stack

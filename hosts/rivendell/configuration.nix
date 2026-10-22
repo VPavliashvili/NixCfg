@@ -14,6 +14,7 @@
     ../common/modules/calibre-web
     ../common/modules/networking
     ../common/modules/auth
+    ../common/modules/immich
   ];
 
   # Bootloader.

@@ -35,6 +35,7 @@
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs-immich.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = {
