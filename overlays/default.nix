@@ -50,6 +50,11 @@
     #     system = prev.stdenv.hostPlatform.system;
     #     config.allowUnfree = prev.config.allowUnfree or false;
     #   }).hyprlock;
+
+    # this is temporary overlay, after nixos
+    # 26.11 release i will updating the flake
+    # and this overlays will become obsolete
+    tinymist = final.callPackage ./mods/tinymist-bin {};
   };
 
   stable-packages = final: _prev: {

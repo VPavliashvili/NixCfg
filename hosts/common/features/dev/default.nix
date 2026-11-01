@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  unstable,
   ...
 }:
 with lib; let
@@ -57,6 +58,10 @@ in {
       [
         pkgs.git
         pkgs.gnumake
+
+        # this helps typst-preview.nvim to work
+        pkgs.websocat
+        pkgs.tinymist
       ]
       ++ (optionals cfg.go [
         pkgs.go
