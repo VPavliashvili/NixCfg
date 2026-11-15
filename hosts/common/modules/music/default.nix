@@ -2,10 +2,17 @@
   config,
   lib,
   mainUser,
+  pkgs,
+  inputs,
   ...
 }: let
   musicLocation = "/mnt/nas/music";
   libraryLocation = "${musicLocation}/library";
+  downloadsLocation = "${musicLocation}/downloads";
+
+  # lidarr from its own nixos-unstable input, nixos-26.05 ships 3.1.0 without
+  # plugin support, unstable has >= 3.1.6 which supports plugins (tubifarry)
+  lidarrPkgs = inputs.nixpkgs-lidarr.legacyPackages.${pkgs.stdenv.hostPlatform.system};
 in {
   # pinned to match /nas/music group ownership on moria
   users.groups.music.gid = 2300;
@@ -81,4 +88,42 @@ in {
                 ^.*level=warning msg="HTTP: POST [^"]*/auth/login"(?=.* httpStatus=401(?:\s|$)).* remoteAddr=<HOST>(?:\s|$)
     journalmatch = _SYSTEMD_UNIT=navidrome.service
   '';
+
+  # contains soulseek + web ui credentials and the api key lidarr uses
+  age.secrets.slskd-env.file = ../../../../secrets/slskd-env.age;
+
+  services.slskd = {
+    enable = true;
+    group = "music";
+    environmentFile = config.age.secrets.slskd-env.path;
+    # openFirewall stays false: no soulseek port forward for now, same model as qbittorrent
+    settings = {
+      directories = {
+        incomplete = "${downloadsLocation}/incomplete";
+        downloads = "${downloadsLocation}/complete";
+      };
+      # share the library read-only, never downloads or anything else
+      shares.directories = [libraryLocation];
+    };
+  };
+
+  services.lidarr = {
+    enable = true;
+    package = lidarrPkgs.lidarr;
+    group = "music";
+    openFirewall = true; # web ui 8686, lan only (not forwarded on opnsense)
+  };
+
+  # both write to the nas: never start without it mounted, and keep new files group-writable
+  systemd.services.slskd = {
+    unitConfig.RequiresMountsFor = [musicLocation];
+    serviceConfig.UMask = "0002";
+  };
+  systemd.services.lidarr = {
+    unitConfig.RequiresMountsFor = [musicLocation];
+    serviceConfig.UMask = "0002";
+  };
+
+  # slskd web ui, lan only (not forwarded on opnsense)
+  networking.firewall.allowedTCPPorts = [5030];
 }

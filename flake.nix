@@ -36,6 +36,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nixpkgs-immich.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-lidarr.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = {
