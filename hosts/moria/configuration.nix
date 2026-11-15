@@ -126,6 +126,14 @@
         autosnap = true;
         autoprune = true;
       };
+      music = {
+        hourly = 0;
+        daily = 14;
+        monthly = 3;
+        yearly = 0;
+        autosnap = true;
+        autoprune = true;
+      };
     };
     datasets = {
       "nas/shares" = {
@@ -133,12 +141,16 @@
         recursive = true;
       };
       "nas/immich" = {useTemplate = ["photos"];};
+      "nas/music" = {useTemplate = ["music"];};
     };
   };
   # zfs stuff end
 
   # pin 'media' group gid to 992 same as rivendell
   users.groups.media.gid = 992;
+
+  # pin 'music' group gid to 2300 same as rivendell
+  users.groups.music.gid = 2300;
 
   # pin 'immich' group gid to 2283 same as rivendell
   users.groups.immich.gid = 2283;
@@ -171,6 +183,12 @@
     "d /nas/shares/media/media/Tv_Shows           2775 root media -"
 
     "d /nas/immich 0750 immich immich -"
+
+    "d /nas/music                          2775 root music -"
+    "d /nas/music/library                  2775 root music -"
+    "d /nas/music/downloads                2775 root music -"
+    "d /nas/music/downloads/complete       2775 root music -"
+    "d /nas/music/downloads/incomplete     2775 root music -"
   ];
 
   # share media subdir for rivendell and its arr stack
@@ -182,6 +200,7 @@
     exports = ''
       /nas/shares/media 192.168.1.240(rw,sync,no_subtree_check)
       /nas/immich       192.168.1.240(rw,sync,no_subtree_check)
+      /nas/music        192.168.1.240(rw,sync,no_subtree_check)
     '';
   };
 

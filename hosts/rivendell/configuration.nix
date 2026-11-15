@@ -15,6 +15,7 @@
     ../common/modules/networking
     ../common/modules/auth
     ../common/modules/immich
+    ../common/modules/music
   ];
 
   # Bootloader.
