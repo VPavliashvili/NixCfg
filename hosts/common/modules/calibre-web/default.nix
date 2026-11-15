@@ -25,7 +25,10 @@
       serviceConfig = {
         Type = "oneshot";
         User = "calibre-web";
-        ExecStart = "${pkgs.calibre}/bin/calibredb add /storage/media/books/ --recurse --with-library /srv/calibre-library";
+
+        # commenting this for now, because /storage physical hdd is removed
+        # and books/data need to be migrated on moria zfs dataset(which does not exist yet)
+        # ExecStart = "${pkgs.calibre}/bin/calibredb add /storage/media/books/ --recurse --with-library /srv/calibre-library";
       };
     };
 

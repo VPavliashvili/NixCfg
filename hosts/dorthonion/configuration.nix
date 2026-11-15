@@ -176,6 +176,41 @@
     openssh.authorizedKeys.keys = allowedHosts;
   };
 
+  # smb stuff to share directory to windows host
+  # this should be refactored under virtualization stuff
+  services.samba = {
+    enable = true;
+    nmbd.enable = false;
+    winbindd.enable = false;
+
+    settings = {
+      global = {
+        "server min protocol" = "SMB3";
+        "hosts allow" = "192.168.122. 127.0.0.1";
+        "hosts deny" = "0.0.0.0/0";
+        "map to guest" = "Bad User";
+        "load printers" = "no";
+        "disable spoolss" = "yes";
+      };
+
+      vmshare = {
+        path = "${config.users.users.${mainUser}.home}/virtShare";
+        "read only" = "no";
+        "force user" = mainUser;
+        "force group" = "users";
+        "create mask" = "0644";
+        "directory mask" = "0755";
+        "guest ok" = "yes";
+        "guest only" = "yes";
+      };
+    };
+  };
+
+# SMB reachable only from the libvirt NAT bridge
+  networking.firewall.interfaces.virbr0.allowedTCPPorts = [ 445 ];
+
+  systemd.tmpfiles.rules = [ "d ${config.users.users.${mainUser}.home}/virtShare 0755 ${mainUser} users -" ];
+
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
   # accidentally delete configuration.nix.

@@ -11,7 +11,7 @@
     ../common/modules/jellyfin
     ../common/modules/arr
     ../common/modules/homepage
-    ../common/modules/calibre-web
+    # ../common/modules/calibre-web # commenting temporarily due to removal of /storage on rivendell
     ../common/modules/networking
     ../common/modules/auth
     ../common/modules/immich

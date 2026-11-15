@@ -19,11 +19,6 @@
     fsType = "ext4";
   };
 
-  fileSystems."/storage" = {
-    device = "/dev/disk/by-uuid/f61866f7-c242-47f5-995c-2521be58e7dd";
-    fsType = "ext4";
-  };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/8C7C-14DB";
     fsType = "vfat";
@@ -32,10 +27,6 @@
 
   swapDevices = [
     {device = "/dev/disk/by-uuid/fbaed35c-c0b1-449a-8981-274264575cc6";}
-  ];
-
-  systemd.tmpfiles.rules = [
-    "d /storage 0777 stranger root -"
   ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
