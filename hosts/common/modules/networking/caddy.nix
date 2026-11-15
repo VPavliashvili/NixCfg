@@ -87,6 +87,42 @@ in {
           reverse_proxy localhost:2283
         '';
       };
+      # navidrome: no authelia (subsonic apps can't do sso), protected by navidrome
+      # passwords + rate limits here + fail2ban on navidrome's failed logins
+      virtualHosts."music.esgalmar.net:11443" = {
+        extraConfig = ''
+          tls {
+            dns cloudflare {env.CLOUDFLARE_API_TOKEN}
+          }
+
+          rate_limit {
+            # web ui login
+            zone music_login {
+              match {
+                path /auth/login
+              }
+              key {remote_host}
+              events 10
+              window 1m
+            }
+            # everything else incl. subsonic api (apps send credentials with every request),
+            # generous because app library syncs fetch lots of covers at once
+            zone music_all {
+              key {remote_host}
+              events 3000
+              window 1m
+            }
+          }
+
+          reverse_proxy localhost:4533 {
+            # navidrome reads the client ip from these headers (True-Client-IP first),
+            # overwrite/strip them so clients can't spoof it, fail2ban and
+            # navidrome's own login limiter rely on it
+            header_up X-Real-IP {remote_host}
+            header_up -True-Client-IP
+          }
+        '';
+      };
     };
 
     age.secrets.cloudflare = {
@@ -98,6 +134,6 @@ in {
       config.age.secrets.cloudflare.path
     ];
 
-    networking.firewall.allowedTCPPorts = [80 443 10443];
+    networking.firewall.allowedTCPPorts = [80 443 10443 11443];
   };
 }

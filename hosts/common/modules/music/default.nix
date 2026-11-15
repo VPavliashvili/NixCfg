@@ -52,4 +52,33 @@ in {
   # module's tmpfiles rule on MusicFolder would trigger the nfs automount at boot
   # before network is up (same issue as immich), data dirs come from StateDirectory anyway
   systemd.tmpfiles.settings.navidromeDirs = lib.mkForce {};
+
+  # fail2ban stuff below
+
+  # bans ips with repeated failed navidrome logins (apps and web ui), on the music port only
+  services.fail2ban = {
+    enable = true;
+    # lan never gets banned, incl. nat-reflected traffic that arrives from the router's ip
+    ignoreIP = ["127.0.0.1/8" "::1" "192.168.1.0/24"];
+    jails.navidrome.settings = {
+      enabled = true;
+      filter = "navidrome";
+      backend = "systemd";
+      port = "11443";
+      maxretry = 5;
+      findtime = "10m";
+      bantime = "1h";
+    };
+  };
+
+  # matches navidrome's own warnings, which carry the real client ip
+  # because caddy sets X-Real-IP (see caddy.nix)
+  environment.etc."fail2ban/filter.d/navidrome.conf".text = ''
+    [Definition]
+    # subsonic api (all apps): wrong password or unknown user
+    # web ui: failed POST /auth/login (other 401s, e.g. expired ui sessions, are ignored)
+    failregex = ^.*level=warning msg="API: Invalid login".* remoteAddr=<HOST>(?:\s|$)
+                ^.*level=warning msg="HTTP: POST [^"]*/auth/login"(?=.* httpStatus=401(?:\s|$)).* remoteAddr=<HOST>(?:\s|$)
+    journalmatch = _SYSTEMD_UNIT=navidrome.service
+  '';
 }
