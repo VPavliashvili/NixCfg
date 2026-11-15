@@ -26,4 +26,6 @@ in {
   "authelia-oidc-immich.age".publicKeys = [keys.hosts.rivendell];
 
   "moria-smtp.age".publicKeys = [keys.hosts.moria];
+
+  "navidrome-env.age".publicKeys = [keys.hosts.rivendell];
 }
