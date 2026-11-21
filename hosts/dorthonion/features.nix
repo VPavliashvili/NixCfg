@@ -23,6 +23,7 @@
   features.cli.qmk.enable = true;
   features.cli.fancontrol = true;
 
+  features.dev.claude-jailed.enable = true;
   features.dev.database.dbms.dbeaver.enable = true;
 
   features.gui.gaming.enable = true;

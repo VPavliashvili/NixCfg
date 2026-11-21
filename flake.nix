@@ -35,8 +35,13 @@
       url = "github:mangowm/mango";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # those three are temporary until i upgrade my whole system
+    # by these new inputs i avoid necessity of nix flake update
+    # which might break some packages and cost me some time
     nixpkgs-immich.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-lidarr.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-claude.url = "github:nixos/nixpkgs/nixos-unstable";
   };
 
   outputs = {
